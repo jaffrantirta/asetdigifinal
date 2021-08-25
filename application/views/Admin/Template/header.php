@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aset Digital | <?php echo $page ?></title>
+  <title>Admin | <?php echo $page ?></title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -77,7 +77,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <!-- <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-      <h4 class="brand-text font-weight-light">Aset Digital</h4>
+      <h4 class="brand-text font-weight-light">Aset Digital - Admin</h4>
     </a>
 
     
@@ -131,7 +131,7 @@
 
 
           <li class="nav-item">
-        <?php if($page == 'Buy PIN Register' || $page == 'Balance PIN Register' || $page == 'Kelurahan'){ ?>
+        <?php if($page == 'Request PIN Register' || $page == 'Request Lisensi'){ ?>
           <li class="nav-item menu-is-opening menu-open">
         <?php }else{ ?>
           <li class="nav-item">
@@ -139,66 +139,29 @@
             <a id="nav-daerah" href="#" class="nav-link"> 
               <i class="nav-icon fas fa-key"></i>
               <p>
-                PIN Register
+                Request
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <?php if($page == 'Balance PIN Register'){ ?>
-                <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link active">
+              <?php if($page == 'Request PIN Register'){ ?>
+                <a href="<?php echo base_url('admin/request?action=pin') ?>" class="nav-link active">
               <?php }else{ ?>
-                <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/request?action=pin') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Balance</p>
+                  <p>PIN Register</p>
                 </a>
               </li>
               <li class="nav-item">
-              <?php if($page == 'Buy PIN Register'){ ?>
+              <?php if($page == 'Request Lisensi'){ ?>
                 <a href="<?php echo base_url('customer/pin?action=buy') ?>" class="nav-link active">
               <?php }else{ ?>
                 <a href="<?php echo base_url('customer/pin?action=buy') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Buy PIN Register</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="nav-item">
-        <?php if($page == 'Buy Lisensi' || $page == 'Balance Lisensi'){ ?>
-          <li class="nav-item menu-is-opening menu-open">
-        <?php }else{ ?>
-          <li class="nav-item">
-        <?php } ?>
-            <a id="nav-daerah" href="#" class="nav-link"> 
-              <i class="nav-icon fas fa-key"></i>
-              <p>
-                Lisensi
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-              <?php if($page == 'Balance Lisensi'){ ?>
-                <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link">
-              <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Balance</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <?php if($page == 'Buy Lisensi'){ ?>
-                <a href="<?php echo base_url('customer/lisensi?action=buy') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('customer/lisensi?action=buy') ?>" class="nav-link">
-              <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buy Lisensi</p>
+                  <p>Lisensi</p>
                 </a>
               </li>
             </ul>
@@ -206,7 +169,7 @@
 
          
           <li class="nav-item">
-                <a href="<?php echo base_url('customer/logout') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Logout
