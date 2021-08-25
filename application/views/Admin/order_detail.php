@@ -1,4 +1,3 @@
-<p hidden id="order_number"><?php echo $order->order_number ?></p>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -26,10 +25,14 @@
                 </div>
                 
                 <h3 class="profile-username text-center"><?php echo $order->order_number ?></h3>
+                <p hidden id="order_id"><?php echo $order->id ?></p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>Date</b> <a class="float-right"><?php echo $order->date ?></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Requested By</b> <a class="float-right"><?php echo $order->user_register ?></a>
                   </li>
                   <li class="list-group-item">
                     <b>Amount</b> <a class="float-right"><?php echo $order->amount  ?></a>
@@ -43,25 +46,26 @@
                     if(!$order->is_pending){
                         if(!$order->is_finish){
                             if(!$order->is_reject){
-                                echo '<button class="btn btn-danger btn-block"><b>Status Unknown</b></button>';
+                                echo '<strong style="color: red"><b>Status Unknown</b></strong>';
                             }else{
-                                echo '<button class="btn btn-danger btn-block"><b>Status REJECTED</b></button>';
+                                echo '<strong style="color: red"><b>Status REJECTED</b></strong>';
                             }
                         }else{
-                            echo '<button class="btn btn-success btn-block"><b>Status FINISH</b></button>';
+                            echo '<strong style="color: green"><b>Status FINISH</b></strong>';
                         }
                     }else{
-                        echo '<button class="btn btn-warning btn-block"><b>Status PENDING</b></button>';
-                        echo '  <div class="m-1 input-group">
-                                <div class="custom-file">
-                                <input type="file" id="file" class="custom-file-input">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
-                                </div>
-                            </div>
-                            <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button>';
+                        $act = "'pending'";
+                        $act1 = "'reject'";
+                        echo '<strong style="color: yellow"><b>Status PENDING</b></strong>';
+                        echo '<button onclick="update_status_order('.$act.')" class="btn btn-warning btn-block"><b>Update Status</b></button>';
+                        echo '<button onclick="update_status_order('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
                     }
                 }else{
-                    echo '<button class="m-1 btn btn-primary btn-block"><b>Status OPEN</b></button>';
+                    $act = "'open'";
+                    $act1 = "'reject'";
+                    echo '<strong style="color: blue"><b>Status OPEN</b></strong>';
+                    echo '<button onclick="update_status_order('.$act.')" class="btn btn-warning btn-block"><b>Update Status</b></button>';
+                    echo '<button onclick="update_status_order('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
                 }
                 ?>
               </div>
@@ -74,19 +78,20 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">PIN Register</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="#pin" data-toggle="tab">PIN Register</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#receipt" data-toggle="tab">Receipt of Payment</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
                   
-                  <div class="active tab-pane" id="settings">
+                  <div class="active tab-pane" id="pin">
                       <div class="form-group row">
                     <?php if($pin['status']){ ?>
                     <?php $i = 0; ?>
                     <?php foreach($pin['data'] as $data){ ?>
 
-                        <label for="inputName" class="col-sm-2 col-form-label">PIN <?php echo $i + 1 ?></label>
+                        <label for="inputName" class="col-sm-2 col-form-label" style="color: red;">PIN <?php echo $i + 1 ?></label>
                         <div class="col-sm-10">
                           <strong><?php echo $data->pin ?></strong>
                           <?php if($data->is_active){$status='ACTIVE';}else{$status='NOT ACTIVE';} ?>
@@ -96,7 +101,20 @@
                     <?php $i++; 
                         } ?>
                     <?php }else{ ?>
-                        <strong>PIN not registered by admin</strong>
+                        <button onclick="generate_pin()" class="col-12 btn btn-danger">Generate PIN</button>
+                    <?php } ?>
+
+                      </div>
+                  </div>
+
+                  <div class="tab-pane" id="receipt">
+                      <div class="form-group row">
+                    <?php if($order->receipt_of_payment != null){ ?>
+
+                    <img src="<?php echo base_url('upload/receipt/pin/'.$order->receipt_of_payment) ?>" class="col-12">
+
+                    <?php }else{ ?>
+                        <strong>Receipt of payment not upload yet</strong>
                     <?php } ?>
 
                       </div>
@@ -116,25 +134,26 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <script src="<?php echo base_url() ?>assets/build/js/customer/Jquery3Offline.js"></script>
-  <script src="<?php echo base_url() ?>assets/build/js/customer/SweetAlertOffline.js"></script>
+  <script src="<?php echo base_url() ?>assets/build/js/admin/Jquery3Offline.js"></script>
+  <script src="<?php echo base_url() ?>assets/build/js/admin/SweetAlertOffline.js"></script>
+  <script src="<?php echo base_url() ?>assets/build/js/admin/GeneratePIN.js"></script>
   <script>
       $(document).ready(function(){
         $("#but_upload").click(function(){
 
             var fd = new FormData();
             var files = $('#file')[0].files;
-            var order_number = document.getElementById('order_number').innerHTML;
             
             // Check file selected or not
             if(files.length > 0 ){
             fd.append('file',files[0]);
+                console.log(document.getElementById('base_url').innerHTML + 'api/upload_receipt/PR');
             $.ajax({
-                url: document.getElementById('base_url').innerHTML + 'api/upload_receipt/' + order_number,
+                url: document.getElementById('base_url').innerHTML + 'api/upload_receipt/PR',
                 type: 'post',
                 data: fd,
                 contentType: false,
-                processData: false,
+                processData: true,
                 success: function(response){
                     if(response != 0){
                         Swal.fire(

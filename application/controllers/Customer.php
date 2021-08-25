@@ -14,14 +14,14 @@ class Customer extends CI_Controller {
 		$this->load->library('pdf2');
 	}
 	public function index(){
-        if($this->session->userdata('authenticated_admin')){
+        if($this->session->userdata('authenticated_customer')){
 			$this->dashboard();
 		}else{
 			$this->login();
 		}
 	}
 	public function dashboard(){
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$data['page'] = 'Dashboard';
@@ -50,7 +50,7 @@ class Customer extends CI_Controller {
 	}
 	public function pin()
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$action = $this->input->get('action');
@@ -81,9 +81,41 @@ class Customer extends CI_Controller {
 			}
 		}
 	}
+	public function lisensi()
+	{
+		if(!$this->session->userdata('authenticated_customer')){
+			$this->login();
+		}else{
+			$action = $this->input->get('action');
+			$data['session'] = $this->session->all_userdata();
+			switch($action){
+				case "buy":
+					$data['page'] = 'Buy Lisensi';
+					$data['lisensi_currency'] = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+					$data['lisensies'] = $this->api_model->get_data_by_where('lisensies', array('is_active'=>true))->result();
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/buy_lisensi', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "balance":
+					$data['page'] = 'Balance PIN Register';
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/balance_pin_register', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "order_detail":
+					$order_id = $this->input->get('id');
+					$this->get_order_detail($order_id);
+					break;
+				default :
+					echo "404";
+					break;
+			}
+		}
+	}
 	public function get_order_detail($order_id)
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$data['session'] = $this->session->all_userdata();
@@ -103,7 +135,7 @@ class Customer extends CI_Controller {
 	}
 	public function upload_receipt($act)
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 
@@ -111,7 +143,7 @@ class Customer extends CI_Controller {
 	}
 	public function register_process()
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$name = $this->input->post('name');

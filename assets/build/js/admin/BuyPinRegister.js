@@ -15,7 +15,7 @@ function create_order(){
             $.ajax({
                 url: base_url+"api/create_order",
                 type: "post",
-                data: {'type':'pin', 'secure_pin':secure_pin, 'id':id, 'amount':amount, 'currency':currency},
+                data: {'secure_pin':secure_pin, 'id':id, 'amount':amount, 'currency':currency},
                 success: function(result){
                     $('.loader').attr('hidden', true);
                     console.log('data : '+result);
