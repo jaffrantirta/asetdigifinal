@@ -205,27 +205,70 @@ class Api extends CI_Controller {
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 			$secure_pin = $this->input->post('secure_pin');
+      $sponsor_code = $this->input->post('sponsor_code');
+      $pin_register = $this->input->post('pin_register');
 
-      $auth = $this->db->query("SELECT * FROM users WHERE users.email = '$email' OR users.username = '$username'")->result();
-      if(count($auth) == 0){
-        $insert = array(
-          'name' => $name,
-          'email' => $email,
-          'username' => $username,
-          'password' => md5($password),
-          'role' => "customer",
-          'secure_pin' => md5($secure_pin)
-        );
-        if($this->api_model->insert_data('users', $insert)){
-          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
+      $this->db->trans_start();
+      $check_sponsor = $this->api_model->get_data_by_where('sponsor_codes', array('code'=>$sponsor_code, 'is_active'=>true))->result();
+      if(count($check_sponsor) == 1){
+        $check_pin_register = $this->api_model->get_data_by_where('pin_register', array('pin'=>$pin_register, 'is_active'=>true))->result();
+        if(count($check_pin_register) == 1){
+          $auth = $this->db->query("SELECT * FROM users WHERE users.email = '$email' OR users.username = '$username'")->result();
+          if(count($auth) == 0){
+            $insert = array(
+              'name' => $name,
+              'email' => $email,
+              'username' => $username,
+              'password' => md5($password),
+              'role' => "customer",
+              'secure_pin' => md5($secure_pin)
+            );
+            if($this->api_model->insert_data('users', $insert)){
+              $last_id = $this->db->insert_id();
+              if($this->api_model->update_data(array('pin'=>$pin_register), 'pin_register', array('is_active'=>false, 'used_by'=>$last_id))){
+                $generate_sponsor = strtoupper(preg_replace("/[^a-zA-Z]/", "", substr($name,0,5).random_string('alnum', 3)));
+                $sponsor_code = $generate_sponsor.rand(1,1000);
+                $sponsor_insert = array(
+                  'code' => $sponsor_code,
+                  'owner' => $last_id
+                );
+                if($this->api_model->insert_data('sponsor_codes', $sponsor_insert)){
+                  $last_id_sponsor = $this->db->insert_id();
+                  $aponsor_use_insert = array(
+                    'sponsor_id' => $check_sponsor[0]->id,
+                    'used_by' => $last_id
+                  );
+                  if($this->api_model->insert_data('sponsor_code_uses', $aponsor_use_insert)){
+                    $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
+                  }else{
+                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+                    $this->output->set_status_header(501);
+                  }
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+                  $this->output->set_status_header(501);
+                }
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+                $this->output->set_status_header(501);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+              $this->output->set_status_header(501);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Email atau Username sudah terdaftar', 'english'=>'Email of Username has been registered'));
+            $this->output->set_status_header(501);
+          }
         }else{
-          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN Register tidak tersedia atau salah', 'english'=>'PIN Register unavailable or wrong'));
           $this->output->set_status_header(501);
         }
       }else{
-        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Email atau Username sudah terdaftar', 'english'=>'Email of Username has been registered'));
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Kode Sponsor tidak tersedia atau salah', 'english'=>'Sponsor code unavailable or wrong'));
         $this->output->set_status_header(501);
       }
+      $this->db->trans_complete();
       echo json_encode($result);
 		}
     public function upload_receipt($order_number)

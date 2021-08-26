@@ -181,5 +181,59 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_all_order_lisensi()
+    {
+        $columns = array(
+            array(
+                'db' => 'order_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'amount',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'total_payment',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'currency',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/request?action=order_detail_lisensi&id='.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
+          );
+          $ssptable='orders';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='orders.order_number LIKE "%L%"';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
 }
 

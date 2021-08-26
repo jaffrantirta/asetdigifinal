@@ -156,9 +156,9 @@
               </li>
               <li class="nav-item">
               <?php if($page == 'Request Lisensi'){ ?>
-                <a href="<?php echo base_url('customer/pin?action=buy') ?>" class="nav-link active">
+                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link active">
               <?php }else{ ?>
-                <a href="<?php echo base_url('customer/pin?action=buy') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lisensi</p>
