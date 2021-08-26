@@ -74,7 +74,7 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">PIN Register</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Lisensi</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -82,21 +82,20 @@
                   
                   <div class="active tab-pane" id="settings">
                       <div class="form-group row">
-                    <?php if($pin['status']){ ?>
+                    <?php if($lisensi['status']){ ?>
                     <?php $i = 0; ?>
-                    <?php foreach($pin['data'] as $data){ ?>
+                    <?php foreach($lisensi['data'] as $data){ ?>
 
-                        <label for="inputName" class="col-sm-2 col-form-label">PIN <?php echo $i + 1 ?></label>
+                        <label for="inputName" class="col-sm-2 col-form-label">Lisensi <?php echo $i + 1 ?></label>
                         <div class="col-sm-10">
-                          <strong><?php echo $data->pin ?></strong>
-                          <?php if($data->is_active){$status='ACTIVE';}else{$status='NOT ACTIVE';} ?>
-                          <p>Status : <?php echo $status ?></p>
+                          <strong><?php echo $data->lisensi_name ?></strong><br>
+                          <small><?php echo $data->lisensi_price ?> <?php echo $data->currency ?></small>
                         </div>
 
                     <?php $i++; 
                         } ?>
                     <?php }else{ ?>
-                        <strong>PIN not registered by admin</strong>
+                        <strong>Lisensi unkown</strong>
                     <?php } ?>
 
                       </div>

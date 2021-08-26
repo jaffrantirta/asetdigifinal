@@ -14,14 +14,14 @@ class Customer extends CI_Controller {
 		$this->load->library('pdf2');
 	}
 	public function index(){
-        if($this->session->userdata('authenticated_admin')){
+        if($this->session->userdata('authenticated_customer')){
 			$this->dashboard();
 		}else{
 			$this->login();
 		}
 	}
 	public function dashboard(){
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$data['page'] = 'Dashboard';
@@ -50,7 +50,7 @@ class Customer extends CI_Controller {
 	}
 	public function pin()
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$action = $this->input->get('action');
@@ -73,7 +73,7 @@ class Customer extends CI_Controller {
 					break;
 				case "order_detail":
 					$order_id = $this->input->get('id');
-					$this->get_order_detail($order_id);
+					$this->get_order_detail_pin($order_id);
 					break;
 				default :
 					echo "404";
@@ -81,9 +81,41 @@ class Customer extends CI_Controller {
 			}
 		}
 	}
-	public function get_order_detail($order_id)
+	public function lisensi()
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
+			$this->login();
+		}else{
+			$action = $this->input->get('action');
+			$data['session'] = $this->session->all_userdata();
+			switch($action){
+				case "buy":
+					$data['page'] = 'Buy Lisensi';
+					$data['lisensi_currency'] = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+					$data['lisensies'] = $this->api_model->get_data_by_where('lisensies', array('is_active'=>true))->result();
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/buy_lisensi', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "balance":
+					$data['page'] = 'Balance Lisensi';
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/balance_lisensi', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "order_detail":
+					$order_id = $this->input->get('id');
+					$this->get_order_detail_lisensi($order_id);
+					break;
+				default :
+					echo "404";
+					break;
+			}
+		}
+	}
+	public function get_order_detail_pin($order_id)
+	{
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$data['session'] = $this->session->all_userdata();
@@ -101,9 +133,30 @@ class Customer extends CI_Controller {
 			
 		}
 	}
+	public function get_order_detail_lisensi($order_id)
+	{
+		if(!$this->session->userdata('authenticated_customer')){
+			$this->login();
+		}else{
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Balance Lisensi';
+			$data['order'] = $this->api_model->get_data_by_where('orders', array('id'=>$order_id))->result()[0];
+			$data['lisensi']['data'] = $this->db->query("SELECT a.*, b.name as lisensi_name, b.id as lisensi_id, b.price as lisensi_price, b.is_active as lisensi_is_active, u.id as userid, u.name as username FROM orders a INNER JOIN order_detail_lisensies l ON l.order_id = a.id INNER JOIN lisensies b ON b.id = l.lisensi_id INNER JOIN users u ON u.id = a.requested_by WHERE a.id = $order_id")->result();
+			if(count($data['lisensi']['data']) != 0){
+				$data['lisensi']['status'] = true;
+			}else{
+				$data['lisensi']['status'] = false;
+			}
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/order_detail_lisensi', $data);
+			$this->load->view('Customer/Template/footer', $data);
+			// echo json_encode($data);
+			
+		}
+	}
 	public function upload_receipt($act)
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 
@@ -111,7 +164,7 @@ class Customer extends CI_Controller {
 	}
 	public function register_process()
 	{
-		if(!$this->session->userdata('authenticated_admin')){
+		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
 			$name = $this->input->post('name');
