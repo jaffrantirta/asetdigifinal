@@ -183,9 +183,9 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
               <?php if($page == 'Balance Lisensi'){ ?>
-                <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link active">
+                <a href="<?php echo base_url('customer/lisensi?action=balance') ?>" class="nav-link active">
               <?php }else{ ?>
-                <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link">
+                <a href="<?php echo base_url('customer/lisensi?action=balance') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Balance</p>

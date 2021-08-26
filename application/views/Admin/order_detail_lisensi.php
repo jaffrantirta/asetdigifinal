@@ -26,10 +26,14 @@
                 </div>
                 
                 <h3 class="profile-username text-center"><?php echo $order->order_number ?></h3>
+                <p hidden id="order_id"><?php echo $order->id ?></p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>Date</b> <a class="float-right"><?php echo $order->date ?></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Requested By</b> <a class="float-right"><?php echo $order->user_register ?></a>
                   </li>
                   <li class="list-group-item">
                     <b>Amount</b> <a class="float-right"><?php echo $order->amount  ?></a>
@@ -43,25 +47,26 @@
                     if(!$order->is_pending){
                         if(!$order->is_finish){
                             if(!$order->is_reject){
-                                echo '<button class="btn btn-danger btn-block"><b>Status Unknown</b></button>';
+                                echo '<strong style="color: red"><b>Status Unknown</b></strong>';
                             }else{
-                                echo '<button class="btn btn-danger btn-block"><b>Status REJECTED</b></button>';
+                                echo '<strong style="color: red"><b>Status REJECTED</b></strong>';
                             }
                         }else{
-                            echo '<button class="btn btn-success btn-block"><b>Status FINISH</b></button>';
+                            echo '<strong style="color: green"><b>Status FINISH</b></strong>';
                         }
                     }else{
-                        echo '<button class="btn btn-warning btn-block"><b>Status PENDING</b></button>';
-                        echo '  <div class="m-1 input-group">
-                                <div class="custom-file">
-                                <input type="file" id="file" class="custom-file-input">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
-                                </div>
-                            </div>
-                            <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button>';
+                        $act = "'pending'";
+                        $act1 = "'reject'";
+                        echo '<strong style="color: yellow"><b>Status PENDING</b></strong>';
+                        echo '<button onclick="update_status_order('.$act.')" class="btn btn-warning btn-block"><b>Update Status</b></button>';
+                        echo '<button onclick="update_status_order('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
                     }
                 }else{
-                    echo '<button class="m-1 btn btn-primary btn-block"><b>Status OPEN</b></button>';
+                    $act = "'open'";
+                    $act1 = "'reject'";
+                    echo '<strong style="color: blue"><b>Status OPEN</b></strong>';
+                    echo '<button onclick="update_status_order('.$act.')" class="btn btn-warning btn-block"><b>Update Status</b></button>';
+                    echo '<button onclick="update_status_order('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
                 }
                 ?>
               </div>
@@ -74,7 +79,8 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">PIN Register</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Lisensi</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#receipt" data-toggle="tab">Receipt of Payment</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -82,26 +88,40 @@
                   
                   <div class="active tab-pane" id="settings">
                       <div class="form-group row">
-                    <?php if($pin['status']){ ?>
+                    <?php if($lisensi['status']){ ?>
                     <?php $i = 0; ?>
-                    <?php foreach($pin['data'] as $data){ ?>
+                    <?php foreach($lisensi['data'] as $data){ ?>
 
-                        <label for="inputName" class="col-sm-2 col-form-label">PIN <?php echo $i + 1 ?></label>
+                        <label for="inputName" class="col-sm-2 col-form-label">Lisensi <?php echo $i + 1 ?></label>
                         <div class="col-sm-10">
-                          <strong><?php echo $data->pin ?></strong>
-                          <?php if($data->is_active){$status='<strong style="color:green;">ACTIVE</strong>';}else{$status='<strong style="color: red;">NOT ACTIVE</strong>';} ?>
-                          <p>Status : <?php echo $status ?></p>
+                          <strong><?php echo $data->lisensi_name ?></strong><br>
+                          <small><?php echo $data->lisensi_price ?> <?php echo $data->currency ?></small>
                         </div>
 
                     <?php $i++; 
                         } ?>
                     <?php }else{ ?>
-                        <strong>PIN not registered by admin</strong>
+                        <strong>Lisensi unkown</strong>
                     <?php } ?>
 
                       </div>
                   </div>
                   <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="receipt">
+                      <div class="form-group row">
+                    <?php if($order->receipt_of_payment != null){ ?>
+
+                    <img src="<?php echo base_url('upload/receipt/pin/'.$order->receipt_of_payment) ?>" class="col-12">
+
+                    <?php }else{ ?>
+                        <strong>Receipt of payment not upload yet</strong>
+                    <?php } ?>
+
+                      </div>
+                  </div>
+
+
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
