@@ -235,5 +235,160 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_pin($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'pin',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'registered_date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'user_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == null){
+                        $result = 'UNUSED';
+                    }else{
+                        $result = $d;
+
+                    }
+                    return $result;
+                }
+            ),
+            array(
+                'db' => 'is_active',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    if($d){
+                        $result = '<strong style="color:green">ACTIVE</strong>';
+                    }else{
+                        $result = '<strong style="color:red">NOT ACTIVE</strong>';
+                    }
+                    return $result;
+                }
+            )
+          );
+          $ssptable='pin_register_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='registered_by = '.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_lisensi($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'lisensi_name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'user_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == null){
+                        $result = 'UNUSED';
+                    }else{
+                        $result = $d;
+
+                    }
+                    return $result;
+                }
+            )
+          );
+          $ssptable='order_detail_lisensies_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='owner = '.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_transfer_history($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'transfer_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'receiver_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == null){
+                        $result = 'UNUSED';
+                    }else{
+                        $result = $d;
+
+                    }
+                    return $result;
+                }
+            )
+          );
+          $ssptable='transfer_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='send_by = '.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_receive_history($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'transfer_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'sender_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == null){
+                        $result = 'UNUSED';
+                    }else{
+                        $result = $d;
+
+                    }
+                    return $result;
+                }
+            )
+          );
+          $ssptable='transfer_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='receive_by = '.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
 }
 

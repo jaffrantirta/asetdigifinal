@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Balance PIN Register</h1>
+            <h1 class="m-0">History Lisensi</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div><!-- /.col -->
@@ -13,21 +13,22 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <p hidden id='link'>datatable/get_pin/<?php echo $session['data']->id ?></p>
+    <p hidden id='link'>datatable/get_order_lisensi_register/<?php echo $session['data']->id ?></p>
     <div class="card">
               <div class="card-header">
                 <h3 class="card-title">PIN Register Request</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive">
-              <h4>You have <b><?php echo $get_pins ?></b> active PINs</h4>
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>PIN</th>
-                    <th>Register at</th>
-                    <th>Used by</th>
-                    <th>Status</th>
+                    <th>Order Number</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Total Payment</th>
+                    <th>Currency</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>

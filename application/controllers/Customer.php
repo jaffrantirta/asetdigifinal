@@ -65,11 +65,26 @@ class Customer extends CI_Controller {
 					$this->load->view('Customer/buy_pin_register', $data);
 					$this->load->view('Customer/Template/footer', $data);
 					break;
+				case "history":
+					$data['page'] = 'History PIN Register';
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/history_pin_register', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
 				case "balance":
 					$data['page'] = 'Balance PIN Register';
+					$data['get_pins'] = count($this->api_model->get_data_by_where('pin_register', array('registered_by'=>$this->session->userdata('data')->id, 'is_active'=>true))->result());
 					$this->load->view('Customer/Template/header', $data);
 					$this->load->view('Customer/balance_pin_register', $data);
 					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "transfer":
+					$data['page'] = 'Transfer PIN Register';
+					$data['get_pins'] = count($this->api_model->get_data_by_where('pin_register', array('registered_by'=>$this->session->userdata('data')->id, 'is_active'=>true))->result());
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/transfer_pin_register', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					// echo json_encode($data);
 					break;
 				case "order_detail":
 					$order_id = $this->input->get('id');
@@ -97,7 +112,14 @@ class Customer extends CI_Controller {
 					$this->load->view('Customer/buy_lisensi', $data);
 					$this->load->view('Customer/Template/footer', $data);
 					break;
+				case "history":
+					$data['page'] = 'History Lisensi';
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/history_lisensi', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
 				case "balance":
+					$data['get_lisensies'] = count($this->api_model->get_data_by_where('order_detail_lisensies_complate_data', array('owner'=>$this->session->userdata('data')->id))->result());
 					$data['page'] = 'Balance Lisensi';
 					$this->load->view('Customer/Template/header', $data);
 					$this->load->view('Customer/balance_lisensi', $data);
@@ -106,6 +128,20 @@ class Customer extends CI_Controller {
 				case "order_detail":
 					$order_id = $this->input->get('id');
 					$this->get_order_detail_lisensi($order_id);
+					break;
+				case "transfer":
+					$data['page'] = 'Transfer Lisensi';
+					$data['get_lisensies'] = $this->api_model->get_data_by_where('order_detail_lisensies_complate_data', array('owner'=>$this->session->userdata('data')->id))->result();
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/transfer_lisensi', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "transfer_history":
+					$data['page'] = 'Transfer Lisensi History';
+					$data['get_lisensies'] = $this->api_model->get_data_by_where('order_detail_lisensies_complate_data', array('owner'=>$this->session->userdata('data')->id))->result();
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/transfer_lisensi_history', $data);
+					$this->load->view('Customer/Template/footer', $data);
 					break;
 				default :
 					echo "404";
