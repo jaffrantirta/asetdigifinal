@@ -88,7 +88,7 @@
           <script src="<?php echo base_url() ?>assets/build/js/customer/BuyPinRegister.js"></script>
           <script>
           $(document).ready(function(){
-        $("#but_upload").click(function(){
+          $("#but_upload").click(function(){
 
             var fd = new FormData();
             var files = $('#file')[0].files;

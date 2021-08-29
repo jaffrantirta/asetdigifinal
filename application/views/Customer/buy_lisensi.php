@@ -64,6 +64,19 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <div>
+                    <div class="m-1 input-group">
+                      <div class="custom-file">
+                        <input type="file" id="file" class="custom-file-input">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
+                      </div>
+                    </div> 
+                    <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button>
+                  </div>
+                </div>
+               
+                 
 
                 <div class="form-group">
                   <label>Secure PIN</label><br>
@@ -84,6 +97,49 @@
           </div>
 
           <script src="<?php echo base_url() ?>assets/build/js/customer/BuyLisensi.js"></script>
+          <script>
+      $(document).ready(function(){
+        $("#but_upload").click(function(){
+
+            var fd = new FormData();
+            var files = $('#file')[0].files;
+            var order_number = document.getElementById('order_number').innerHTML;
+            
+            // Check file selected or not
+            if(files.length > 0 ){
+            fd.append('file',files[0]);
+            $.ajax({
+                url: document.getElementById('base_url').innerHTML + 'api/upload_receipt/' + order_number,
+                type: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response != 0){
+                        Swal.fire(
+                            'File uploaded',
+                            'Your file has been uploaded',
+                            'success'
+                        )
+                    }else{
+                        Swal.fire(
+                            'File not upload',
+                            'Your file failed to upload',
+                            'error'
+                        )
+                    }
+                },
+            });
+            }else{
+                Swal.fire(
+                    'Choose file before',
+                    '',
+                    'warning'
+                )
+            }
+        });
+        });
+  </script>
   
                       
     
