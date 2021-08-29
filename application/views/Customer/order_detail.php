@@ -52,13 +52,6 @@
                         }
                     }else{
                         echo '<button class="btn btn-warning btn-block"><b>Status PENDING</b></button>';
-                        echo '  <div class="m-1 input-group">
-                                <div class="custom-file">
-                                <input type="file" id="file" class="custom-file-input">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
-                                </div>
-                            </div>
-                            <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button>';
                     }
                 }else{
                     echo '<button class="m-1 btn btn-primary btn-block"><b>Status OPEN</b></button>';
