@@ -2,4 +2,4 @@
 deployment:
 tasks:
 - export DEPLOYPATH=/home/ramc8919/public_html/git
-- /bin/cp -R * $DEPLOYPATH
+- /usr/local/cpanel/3rdparty/bin/git -R * $DEPLOYPATH
