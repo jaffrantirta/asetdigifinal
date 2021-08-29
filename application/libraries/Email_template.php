@@ -113,26 +113,12 @@ class Email_template {
 		                                            <table width="100%" cellpadding="10" cellspacing="0" border="0">
 		                                                <tr>
 		                                                    <td>
-		                                                        <h1 style="color:#666666; font-size:26px; line-height:1.2; font-weight:normal; margin-top:0; margin-bottom:0.5em;">Pesan anda :</h1>
-		                                                        <p style="margin-top:0; margin-bottom:0;">Nama : '.$data['name'].'  </p></br>
-		                                                        <p style="margin-top:0; margin-bottom:0;">Email : '.$data['email'].'  </p></br>
-                                                                <p style="margin-top:0; margin-bottom:0;">Pesan : '.$data['comment'].'  </p></br>
+		                                                        <h1 style="color:#666666; font-size:26px; line-height:1.2; font-weight:normal; margin-top:0; margin-bottom:0.5em;">'.$data['opening'].'</h1>
+		                                                        <p style="margin-top:0; margin-bottom:0;">'.$data['message'].'</p></br>
 		                                                    </td>
 		                                                </tr>
 		                                            </table>
 		                                        </td>
-		                                    </tr>
-		                                    <tr>
-                                                <td>
-                                                    <table width="100%" cellpadding="10" cellspacing="0" border="0">
-                                                            <tr>
-                                                                <td>
-                                                                    <h1 style="color:#666666; font-size:26px; line-height:1.2; font-weight:normal; margin-top:0; margin-bottom:0.5em;">Balasan :</h1>
-                                                                    <p style="margin-top:0; margin-bottom:0;">'.$data['message'].'</p></br>
-                                                                </td>
-                                                            </tr>
-                                                    </table>
-                                                </td>
 		                                    </tr>
 		                                    <tr>
 		                                        <td>
@@ -167,7 +153,7 @@ class Email_template {
 		                                <table width="100%" cellpadding="10" cellspacing="0" border="0">
 		                                    <tr>
 		                                        <td valign="top" style="font-size:11px;">
-		                                            &copy;2020 Sudana Bejo. All rights reserved. This email was sent to '.$data['email'].', by drivebali2016@gmail.com
+		                                            &copy;2021. All rights reserved. This email was sent to '.$data['email'].', by drivebali2016@gmail.com
 		                                        </td>
 		                                    </tr>
 		                                        <tr>

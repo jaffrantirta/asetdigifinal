@@ -131,7 +131,7 @@
 
 
           <li class="nav-item">
-        <?php if($page == 'Buy PIN Register' || $page == 'Balance PIN Register' || $page == 'Kelurahan'){ ?>
+        <?php if($page == 'Buy PIN Register' || $page == 'Balance PIN Register' || $page == 'Transfer PIN Register' || $page == 'History PIN Register' || $page == 'Transfer PIN Register History'){ ?>
           <li class="nav-item menu-is-opening menu-open">
         <?php }else{ ?>
           <li class="nav-item">
@@ -144,7 +144,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+            <li class="nav-item">
               <?php if($page == 'Balance PIN Register'){ ?>
                 <a href="<?php echo base_url('customer/pin?action=balance') ?>" class="nav-link active">
               <?php }else{ ?>
@@ -152,6 +152,16 @@
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Balance</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'History PIN Register'){ ?>
+                <a href="<?php echo base_url('customer/pin?action=history') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/pin?action=history') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>History</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -164,17 +174,37 @@
                   <p>Buy PIN Register</p>
                 </a>
               </li>
+              <li class="nav-item">
+              <?php if($page == 'Transfer PIN Register'){ ?>
+                <a href="<?php echo base_url('customer/pin?action=transfer') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/pin?action=transfer') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer PIN Register</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'Transfer PIN Register History'){ ?>
+                <a href="<?php echo base_url('customer/pin?action=transfer_history') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/pin?action=transfer_history') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer PIN History</p>
+                </a>
+              </li>
             </ul>
           </li>
 
           <li class="nav-item">
-        <?php if($page == 'Buy Lisensi' || $page == 'Balance Lisensi'){ ?>
+        <?php if($page == 'Buy Lisensi' || $page == 'Balance Lisensi' || $page == 'History Lisensi' || $page == 'Transfer Lisensi History' || $page = 'Transfer Lisensi'){ ?>
           <li class="nav-item menu-is-opening menu-open">
         <?php }else{ ?>
           <li class="nav-item">
         <?php } ?>
             <a id="nav-daerah" href="#" class="nav-link"> 
-              <i class="nav-icon fas fa-key"></i>
+              <i class="nav-icon fas fa-sticky-note"></i>
               <p>
                 Lisensi
                 <i class="fas fa-angle-left right"></i>
@@ -192,6 +222,16 @@
                 </a>
               </li>
               <li class="nav-item">
+              <?php if($page == 'History Lisensi'){ ?>
+                <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>History</p>
+                </a>
+              </li>
+              <li class="nav-item">
               <?php if($page == 'Buy Lisensi'){ ?>
                 <a href="<?php echo base_url('customer/lisensi?action=buy') ?>" class="nav-link active">
               <?php }else{ ?>
@@ -199,6 +239,26 @@
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Buy Lisensi</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'Transfer Lisensi'){ ?>
+                <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer Lisensi</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'Transfer Lisensi History'){ ?>
+                <a href="<?php echo base_url('customer/lisensi?action=transfer_history') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/lisensi?action=transfer_history') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer History</p>
                 </a>
               </li>
             </ul>

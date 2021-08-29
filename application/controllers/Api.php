@@ -172,12 +172,8 @@ class Api extends CI_Controller {
         $this->db->trans_start();
         if($this->api_model->insert_data('orders', $insert)){
           if($type == 'lisensi'){
-            $insert_detail_lisensi = array(
-              'order_id' => $this->db->insert_id(),
-              'lisensi_id' => $lisensi,
-              'registered_by' => $id
-            );
-            if($this->api_model->insert_data('order_detail_lisensies', $insert_detail_lisensi)){
+            $id_order_lisensi = $this->db->insert_id();
+            if($this->insert_detail_lisensi($id_order_lisensi, $amount, $lisensi, $id)){
               $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permitaan Berhasil', 'english'=>'Request Successful'));
             }else{
               $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan Gagal', 'english'=>'Request Failed'));
@@ -198,6 +194,137 @@ class Api extends CI_Controller {
       echo json_encode($result);
     }
   }
+  public function insert_detail_lisensi($id_order_lisensi, $amount, $lisensi, $id)
+  {
+    for($i=0;$i<$amount;$i++){
+      $insert_detail_lisensi = array(
+        'order_id' => $id_order_lisensi,
+        'lisensi_id' => $lisensi,
+        'owner' => $id
+      );
+      if($this->api_model->insert_data('order_detail_lisensies', $insert_detail_lisensi)){
+        $result['success'][] = $i; 
+      }else{
+        $result['failed'][] = $i;
+      }
+    }
+    if(count($result['success']) == $amount){
+      return true;
+    }else{
+      $this->insert_detail_lisensi($id_order_lisensi, count($result['failed']), $lisensi, $id);
+    }
+  }
+  public function create_transfer()
+  {
+    if(!$this->session->userdata('authenticated_customer')){
+			$this->login();
+		}else{
+      $secure_pin = $this->input->post('secure_pin');
+      $id = $this->input->post('id');
+      $recipient_username = $this->input->post('recipient_username');
+      $type = $this->input->post('type');
+      $auth = $this->db->query("SELECT * FROM users WHERE users.id = $id")->result()[0]->secure_pin;
+      if($auth == md5($secure_pin)){
+        $get_receive = $this->api_model->get_data_by_where('users', array('username'=>$recipient_username))->result();
+        if(count($get_receive) != 0){
+          if($type == 'pin'){
+            $amount_transfer = $this->input->post('amount_transfer');
+            $active_pin = $this->api_model->get_data_by_where('pin_register', array('registered_by'=>$id, 'is_active'=>true))->result();
+            if(count($active_pin) >= $amount_transfer){
+              if($this->process_transfer($recipient_username, 'PT', $id, $amount_transfer, $type, $get_receive, 'x')){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Transfer Berhasil', 'english'=>'Transfer Success'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Transfer Gagal', 'english'=>'Transfer Failed'));
+                $this->output->set_status_header(501);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Jumlah PIN aktif anda kurang', 'english'=>'Your active PIN not enough'));
+              $this->output->set_status_header(501);
+            }
+          }else if($type == 'lisensi'){
+            $lisensi_id = $this->input->post('lisensi_id');
+            if($this->process_transfer($recipient_username, 'LT', $id, '1', $type, $get_receive, $lisensi_id)){
+              $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Transfer Berhasil', 'english'=>'Transfer Success'));
+            }
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Username penerima salah', 'english'=>'Recipient username is wrong'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN anda salah', 'english'=>'Your Secure PIN is Wrong'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+  }
+  public function process_transfer($recipient_username, $code, $id, $amount_transfer, $type, $get_receive, $lisensi_id)
+  {
+              $transfer_number = $code.time().strtoupper(random_string('alnum', 4));
+              $receive_by = $get_receive[0]->id;
+              $insert = array(
+                'transfer_number' => $transfer_number,
+                'send_by' => $id,
+                'receive_by' => $receive_by,
+                'amount' => $amount_transfer
+              );
+              // $this->db->trans_start();
+              if($this->api_model->insert_data('transfers', $insert)){
+                $last_id = $this->db->insert_id();
+                if($type == 'pin'){
+                  $get_pin = $this->db->query("SELECT * FROM pin_register WHERE registered_by = $id AND is_active = true LIMIT $amount_transfer")->result();
+                  if($this->transfer_pin_process($get_pin, $receive_by, $last_id, $id)){
+                    return true;
+                  }else{
+                    return false;
+                  }
+                }else if($type == 'lisensi'){
+                  if($this->transfer_lisensi($lisensi_id, $receive_by, $last_id, $id)){
+                    return true;
+                  }else{
+                    return false;
+                  }
+                }
+              }else{
+                return false;
+              }
+              // $this->db->trans_complete();
+  }
+  public function transfer_lisensi($lisensi_id, $receive_by, $last_id, $id)
+  {
+    $insert = array(
+      'transfer_id' => $last_id,
+      'user_lisensi_id' => $lisensi_id
+    );
+    if($this->api_model->insert_data('transfer_details', $insert)){
+      if($this->api_model->update_data(array('id'=>$lisensi_id), 'order_detail_lisensies', array('owner'=>$receive_by))){
+        return true;
+      }
+    }
+  }
+  public function transfer_pin_process($get_pin, $recipient_id, $last_id, $id)
+  {
+    $pin = count($get_pin);
+    foreach($get_pin as $data){
+      $insert = array(
+        'transfer_id' => $last_id,
+        'pin_id' => $data->id
+      );
+      if($this->api_model->insert_data('transfer_details', $insert)){
+        if($this->api_model->update_data(array('id'=>$data->id), 'pin_register', array('registered_by'=>$recipient_id))){
+          $result['success'][] = $data->id;
+        }
+      }else{
+        $result['failed'][] = $data->id;
+      }
+    }
+    if(count($result['success']) == count($get_pin)){
+      return true;
+    }else{
+      $this->transfer_pin_process($result['failed'], $recipient_id, $last_id, $id);
+    }
+    
+  }
   public function register_process()
 	{
 			$name = $this->input->post('name');
@@ -207,6 +334,7 @@ class Api extends CI_Controller {
 			$secure_pin = $this->input->post('secure_pin');
       $sponsor_code = $this->input->post('sponsor_code');
       $pin_register = $this->input->post('pin_register');
+      $position = $this->input->post('position');
 
       $this->db->trans_start();
       $check_sponsor = $this->api_model->get_data_by_where('sponsor_codes', array('code'=>$sponsor_code, 'is_active'=>true))->result();
@@ -239,7 +367,31 @@ class Api extends CI_Controller {
                     'used_by' => $last_id
                   );
                   if($this->api_model->insert_data('sponsor_code_uses', $aponsor_use_insert)){
-                    $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
+                    $insert_position = array(
+                      'position' => $position,
+                      'top' => $check_sponsor[0]->owner,
+                      'bottom' => $last_id
+                    );
+                    if($this->api_model->insert_data('positions', $insert_position)){
+                      $data_template = array(
+                        'opening'=> 'Hi '.$name.', thank you for your registration',
+                        'email'=>$email,
+                        'message'=>'Your registration has been successful. You are a member right now. Good luck!'
+                      );
+                      $content = $this->email_template->template($data_template);
+                      $send_mail = array(
+                        'email_penerima'=>$email,
+                        'subjek'=>'Registration',
+                        'content'=>$content,
+                      );
+                      $send = $this->mailer->send($send_mail);
+                      if($send['status']=="Sukses"){
+                        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
+                      }else{
+                        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+                        $this->output->set_status_header(501);
+                      }
+                    }
                   }else{
                     $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
                     $this->output->set_status_header(501);
@@ -271,6 +423,36 @@ class Api extends CI_Controller {
       $this->db->trans_complete();
       echo json_encode($result);
 		}
+    public function send_email(){
+      $name = $this->input->post('name');
+      $email = $this->input->post('email');
+      $comment = $this->input->post('comment');
+      $subject = $this->input->post('subject');
+      $message = $this->input->post('message');
+  
+      $data_template = array(
+        'name'=>$name,
+        'email'=>$email,
+        'comment'=>$comment,
+        'subject'=>$subject,
+        'message'=>$message
+      );
+      $content = $this->email_template->template($data_template);
+      $send_mail = array(
+        'email_penerima'=>$email,
+        'subjek'=>$subject,
+        'content'=>$content,
+      );
+      $send = $this->mailer->send($send_mail);
+      if($send['status']=="Sukses"){
+        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terkirim', 'english'=>'Sent'));
+        $this->output->set_status_header(200);
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal mengirim', 'english'=>'failed to send'));
+        $this->output->set_status_header(501);
+      }
+      echo json_encode($result);
+    }
     public function upload_receipt($order_number)
     {
       if(!$this->session->userdata('authenticated_customer')){
