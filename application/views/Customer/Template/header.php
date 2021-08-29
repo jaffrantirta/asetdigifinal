@@ -196,6 +196,7 @@
               </li>
             </ul>
           </li>
+         
 
           <li class="nav-item">
         <?php if($page == 'Buy Lisensi' || $page == 'Balance Lisensi' || $page == 'History Lisensi' || $page == 'Transfer Lisensi History' || $page = 'Transfer Lisensi'){ ?>
@@ -262,6 +263,52 @@
                 </a>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+          <a id="nav-daerah" href="#" class="nav-link"> 
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Widraw Bonus
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+          <a id="nav-daerah" href="#" class="nav-link"> 
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Auto save Property
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+          <a id="nav-daerah" href="#" class="nav-link"> 
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Reward
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+          <a id="nav-daerah" href="#" class="nav-link"> 
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Network
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            
+          </li>
+          <li class="nav-item">
+          <a id="nav-daerah" href="#" class="nav-link"> 
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Vidio Tutorial
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
           </li>
 
          
