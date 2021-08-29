@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'asetdigital',
+	'hostname' => 'kuypenida.com',
+	'username' => 'kuyc8958_assetdigi',
+	'password' => 'jaffran@2020',
+	'database' => 'kuyc8958_assetdigi',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
