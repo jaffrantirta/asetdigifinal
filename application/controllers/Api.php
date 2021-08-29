@@ -154,7 +154,7 @@ class Api extends CI_Controller {
         if($type == 'pin'){
           $setting = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'pin_register_price'))->result()[0]->content);
           $price = $setting->price;
-          $total_payment = $amount * $price;
+          $total_payment = 1 * $price;
           $order_number = 'PR'.time().strtoupper(random_string('alnum', 4));
         }else if($type == 'lisensi'){
           $lisensi = $this->input->post('lisensi');

@@ -40,7 +40,7 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label>Amount LISENSI</label><br>
                   <small id="msg_title" hidden style="color: red">amount can't empty or 0</small>
                   <div class="input-group">
@@ -49,7 +49,8 @@
                     </div>
                     <input autocomplete="off" oninput="count()" id="amount" type="number" class="form-control" placeholder="enter amount LISENSI ..">
                   </div>
-                </div>
+                </div> -->
+                <!-- <input type="hidden" autocomplete="off" oninput="count()" id="amount" type="number" class="form-control" placeholder="enter amount LISENSI .."> -->
 
                 <div class="form-group">
                   <label>Total payment</label><br>
