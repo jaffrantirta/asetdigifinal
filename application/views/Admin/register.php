@@ -45,31 +45,6 @@
             </div>
           </div>
         </div>
-
-        <div class="input-group mb-3">
-          <input required id="sponsor_code" type="text" class="form-control" placeholder="Sponsor Code">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="input-group mb-3">
-          <input required id="pin_register" type="password" pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="PIN Register">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="input-group mb-3">
-          <select required name="position" id="position" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
-            <option value="1">LEFT</option>
-            <option value="2">RIGHT</option>
-          </select>
-        </div>
         
         <div class="input-group mb-3">
           <input required id="username" type="text" class="form-control" placeholder="Username">
@@ -99,7 +74,7 @@
         </div>
 
         <div class="input-group mb-3">
-          <input required id="secure_pin" type="password" pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="Secure PIN">
+          <input required id="secure_pin" type="password" class="form-control" placeholder="Secure PIN">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -108,7 +83,7 @@
         </div>
         
         <div class="input-group mb-3">
-          <input required id="re_secure_pin" type="password" pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="Re - input Secure PIN">
+          <input required id="re_secure_pin" type="password" class="form-control" placeholder="Re - input Secure PIN">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
