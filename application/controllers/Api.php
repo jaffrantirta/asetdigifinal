@@ -334,6 +334,7 @@ class Api extends CI_Controller {
 			$secure_pin = $this->input->post('secure_pin');
       $sponsor_code = $this->input->post('sponsor_code');
       $pin_register = $this->input->post('pin_register');
+      $position = $this->input->post('position');
 
       $this->db->trans_start();
       $check_sponsor = $this->api_model->get_data_by_where('sponsor_codes', array('code'=>$sponsor_code, 'is_active'=>true))->result();
@@ -366,7 +367,31 @@ class Api extends CI_Controller {
                     'used_by' => $last_id
                   );
                   if($this->api_model->insert_data('sponsor_code_uses', $aponsor_use_insert)){
-                    $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
+                    $insert_position = array(
+                      'position' => $position,
+                      'top' => $check_sponsor[0]->owner,
+                      'bottom' => $last_id
+                    );
+                    if($this->api_model->insert_data('positions', $insert_position)){
+                      $data_template = array(
+                        'opening'=> 'Hi '.$name.', thank you for your registration',
+                        'email'=>$email,
+                        'message'=>'Your registration has been successful. You are a member right now. Good luck!'
+                      );
+                      $content = $this->email_template->template($data_template);
+                      $send_mail = array(
+                        'email_penerima'=>$email,
+                        'subjek'=>'Registration',
+                        'content'=>$content,
+                      );
+                      $send = $this->mailer->send($send_mail);
+                      if($send['status']=="Sukses"){
+                        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
+                      }else{
+                        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
+                        $this->output->set_status_header(501);
+                      }
+                    }
                   }else{
                     $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
                     $this->output->set_status_header(501);
@@ -398,6 +423,36 @@ class Api extends CI_Controller {
       $this->db->trans_complete();
       echo json_encode($result);
 		}
+    public function send_email(){
+      $name = $this->input->post('name');
+      $email = $this->input->post('email');
+      $comment = $this->input->post('comment');
+      $subject = $this->input->post('subject');
+      $message = $this->input->post('message');
+  
+      $data_template = array(
+        'name'=>$name,
+        'email'=>$email,
+        'comment'=>$comment,
+        'subject'=>$subject,
+        'message'=>$message
+      );
+      $content = $this->email_template->template($data_template);
+      $send_mail = array(
+        'email_penerima'=>$email,
+        'subjek'=>$subject,
+        'content'=>$content,
+      );
+      $send = $this->mailer->send($send_mail);
+      if($send['status']=="Sukses"){
+        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terkirim', 'english'=>'Sent'));
+        $this->output->set_status_header(200);
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal mengirim', 'english'=>'failed to send'));
+        $this->output->set_status_header(501);
+      }
+      echo json_encode($result);
+    }
     public function upload_receipt($order_number)
     {
       if(!$this->session->userdata('authenticated_customer')){

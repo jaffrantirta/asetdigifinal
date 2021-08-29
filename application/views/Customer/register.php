@@ -63,6 +63,13 @@
             </div>
           </div>
         </div>
+
+        <div class="input-group mb-3">
+          <select required name="position" id="position" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
+            <option value="1">LEFT</option>
+            <option value="2">RIGHT</option>
+          </select>
+        </div>
         
         <div class="input-group mb-3">
           <input required id="username" type="text" class="form-control" placeholder="Username">

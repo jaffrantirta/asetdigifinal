@@ -131,7 +131,7 @@
 
 
           <li class="nav-item">
-        <?php if($page == 'Buy PIN Register' || $page == 'Balance PIN Register' || $page == 'Transfer PIN Register' || $page == 'History PIN Register'){ ?>
+        <?php if($page == 'Buy PIN Register' || $page == 'Balance PIN Register' || $page == 'Transfer PIN Register' || $page == 'History PIN Register' || $page == 'Transfer PIN Register History'){ ?>
           <li class="nav-item menu-is-opening menu-open">
         <?php }else{ ?>
           <li class="nav-item">
@@ -184,17 +184,27 @@
                   <p>Transfer PIN Register</p>
                 </a>
               </li>
+              <li class="nav-item">
+              <?php if($page == 'Transfer PIN Register History'){ ?>
+                <a href="<?php echo base_url('customer/pin?action=transfer_history') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('customer/pin?action=transfer_history') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer PIN History</p>
+                </a>
+              </li>
             </ul>
           </li>
 
           <li class="nav-item">
-        <?php if($page == 'Buy Lisensi' || $page == 'Balance Lisensi' || $page == 'History Lisensi' || $page == 'Transfer Lisensi History'){ ?>
+        <?php if($page == 'Buy Lisensi' || $page == 'Balance Lisensi' || $page == 'History Lisensi' || $page == 'Transfer Lisensi History' || $page = 'Transfer Lisensi'){ ?>
           <li class="nav-item menu-is-opening menu-open">
         <?php }else{ ?>
           <li class="nav-item">
         <?php } ?>
             <a id="nav-daerah" href="#" class="nav-link"> 
-              <i class="nav-icon fas fa-key"></i>
+              <i class="nav-icon fas fa-sticky-note"></i>
               <p>
                 Lisensi
                 <i class="fas fa-angle-left right"></i>

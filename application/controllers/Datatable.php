@@ -350,7 +350,7 @@ class Datatable extends CI_Controller {
           $ssptable='transfer_complate_data';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='send_by = '.$id;
+          $sspwhere='transfer_number LIKE "LT%" AND send_by = '.$id;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
@@ -386,7 +386,79 @@ class Datatable extends CI_Controller {
           $ssptable='transfer_complate_data';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='receive_by = '.$id;
+          $sspwhere='transfer_number LIKE "LT%" AND receive_by = '.$id ;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_transfer_pin_history($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'transfer_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'receiver_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == null){
+                        $result = 'UNUSED';
+                    }else{
+                        $result = $d;
+
+                    }
+                    return $result;
+                }
+            )
+          );
+          $ssptable='transfer_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='transfer_number LIKE "PT%" AND send_by = '.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_receive_pin_history($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'transfer_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'sender_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == null){
+                        $result = 'UNUSED';
+                    }else{
+                        $result = $d;
+
+                    }
+                    return $result;
+                }
+            )
+          );
+          $ssptable='transfer_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='transfer_number LIKE "PT%" AND receive_by = '.$id ;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }

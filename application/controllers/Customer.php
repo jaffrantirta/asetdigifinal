@@ -90,6 +90,13 @@ class Customer extends CI_Controller {
 					$order_id = $this->input->get('id');
 					$this->get_order_detail_pin($order_id);
 					break;
+				case "transfer_history":
+					$data['page'] = 'Transfer PIN Register History';
+					$data['get_lisensies'] = $this->api_model->get_data_by_where('order_detail_lisensies_complate_data', array('owner'=>$this->session->userdata('data')->id))->result();
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/transfer_pin_register_history', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					break;
 				default :
 					echo "404";
 					break;

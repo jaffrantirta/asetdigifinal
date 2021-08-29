@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Transfer Lisensi History</h1>
+            <h1>Transfer PIN Register History</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -29,10 +29,10 @@
                   
                   <!-- <div class="active tab-pane" id="transfered">
                       <div class="form-group row"> -->
-                        <p hidden id='link_transfer'>datatable/get_transfer_history/<?php echo $session['data']->id ?></p>
+                        <p hidden id='link_transfer'>datatable/get_transfer_pin_history/<?php echo $session['data']->id ?></p>
                         <div class="card active tab-pane" id="transfered">
                             <div class="card-header">
-                                <h3 class="card-title">Lisensi Transfered</h3>
+                                <h3 class="card-title">PIN Register Transfered</h3>
                             </div>
                             <div class="card-body table-responsive">
                                 <table id="table_transfer" class="table_transfer table-bordered table-striped">
@@ -51,12 +51,12 @@
                       <!-- </div>
                   </div> -->
 
-                  <!-- <div class="tab-pane" id="received">
+                  <!-- <div class="" >
                       <div class="form-group row"> -->
-                        <p hidden id='link_receive'>datatable/get_receive_history/<?php echo $session['data']->id ?></p>
+                        <p hidden id='link_receive'>datatable/get_receive_pin_history/<?php echo $session['data']->id ?></p>
                         <div class="card tab-pane" id="received">
                             <div class="card-header">
-                                <h3 class="card-title">Lisensi Received</h3>
+                                <h3 class="card-title">PIN Register Received</h3>
                             </div>
                             <div class="card-body table-responsive">
                                 <table id="table_receive" class="table_receive table-bordered table-striped">
