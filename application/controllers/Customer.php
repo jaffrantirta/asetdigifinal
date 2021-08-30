@@ -103,6 +103,35 @@ class Customer extends CI_Controller {
 			}
 		}
 	}
+	public function test()
+	{
+		$left[] = 12;
+		$right[] = 0;
+		$status = 'left';
+		$i = 0;
+		do{
+			if($status == 'left'){
+				$id = $left[$i];
+				$status = 'right';
+			}else{
+				$id = $right[$i];
+				$status = 'left';
+			}
+			$bottom = $this->api_model->get_data_by_where('positions', array('top'=>$id))->result();
+			if(count($bottom) == 2){
+				if($bottom[0]->position == 1){
+					$left[] = $bottom[0]->id;
+					$right[] = $bottom[1]->id;
+				}else{
+					$left[] = $bottom[1]->id;
+					$right[] = $bottom[0]->id;
+				}
+			}else{
+
+			}
+			$i++;
+		}while(count($bottom) == 2);
+	}
 	public function lisensi()
 	{
 		if(!$this->session->userdata('authenticated_customer')){
