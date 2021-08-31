@@ -9,6 +9,7 @@ function register_customer(){
     var sponsor_code = document.getElementById('sponsor_code').value;
     var pin_register = document.getElementById('pin_register').value;
     var position = document.getElementById('position').value;
+    var top_id = document.getElementById('top_id').value;
     if(password == re_password){
         if(secure_pin == re_secure_pin){
             if(name != ''){
@@ -20,7 +21,7 @@ function register_customer(){
                                 $.ajax({
                                     url: base_url+"api/register_process",
                                     type: "post",
-                                    data: {'position':position, 'name':name, 'email':email, 'username':username, 'password':password, 'secure_pin':secure_pin, 'pin_register':pin_register, 'sponsor_code':sponsor_code},
+                                    data: {'top_id':top_id, 'position':position, 'name':name, 'email':email, 'username':username, 'password':password, 'secure_pin':secure_pin, 'pin_register':pin_register, 'sponsor_code':sponsor_code},
                                     success: function(result){
                                         $('.loader').attr('hidden', true);
                                         // console.log('data : '+result);

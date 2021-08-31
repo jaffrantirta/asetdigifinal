@@ -47,7 +47,7 @@
         </div>
         <p class="col-12 row">
           <a class="col-6 text-center" href="#">Forgot Password</a>
-          <a class="col-6 text-center" href="<?php echo base_url('register') ?>">Register</a>
+          <!-- <a class="col-6 text-center" href="<?php echo base_url('register') ?>">Register</a> -->
         </p>
     </div>
     <!-- /.card-body -->

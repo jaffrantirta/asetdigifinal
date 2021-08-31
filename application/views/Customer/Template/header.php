@@ -383,7 +383,7 @@
           </li>
 
           <li class="nav-item">
-                <a href="<?php echo base_url('customer/structur') ?>" class="nav-link">
+                <a href="<?php echo base_url('customer/structur/'.$session['data']->id) ?>" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Structur
