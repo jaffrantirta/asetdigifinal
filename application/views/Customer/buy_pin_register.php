@@ -70,7 +70,18 @@
                 </div>
 
                 <div class="form-group">
-                  <button class="col-12 col-md-6 btn btn-primary"onclick="create_order()">Submit</button>
+                  <label>Upload Receipt of Payment</label><br>
+                    <div class="m-1 input-group">
+                      <div class="custom-file">
+                        <input type="file" id="file" class="custom-file-input">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
+                      </div>
+                    </div>
+                            <!-- <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button> -->
+                </div>
+
+                <div class="form-group">
+                  <button class="col-12 col-md-4 btn btn-primary"onclick="create_order()">Submit</button>
                 </div>
               </div>
             </div>

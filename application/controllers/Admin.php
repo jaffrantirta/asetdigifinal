@@ -111,7 +111,7 @@ class Admin extends CI_Controller {
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Request Lisensi';
 			$data['order'] = $this->db->query("SELECT a.*, b.name as user_register, b.id as user_id FROM orders a INNER JOIN users b ON b.id = a.requested_by WHERE a.id = $order_id")->result()[0];
-			$data['lisensi']['data'] = $this->db->query("SELECT a.*, b.name as lisensi_name, b.id as lisensi_id, b.price as lisensi_price, b.is_active as lisensi_is_active, u.id as userid, u.name as username FROM orders a INNER JOIN order_detail_lisensies l ON l.order_id = a.id INNER JOIN lisensies b ON b.id = l.lisensi_id INNER JOIN users u ON u.id = a.requested_by WHERE a.id = $order_id")->result();
+			$data['lisensi']['data'] = $this->db->query("SELECT a.*, b.name as lisensi_name, b.id as lisensi_id, b.price as lisensi_price, b.is_active as lisensi_is_active, u.id as userid, u.name as username FROM orders a INNER JOIN user_lisensies l ON l.order_id = a.id INNER JOIN lisensies b ON b.id = l.lisensi_id INNER JOIN users u ON u.id = a.requested_by WHERE a.id = $order_id")->result();
 			if(count($data['lisensi']['data']) != 0){
 				$data['lisensi']['status'] = true;
 			}else{

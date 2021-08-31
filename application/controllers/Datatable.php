@@ -123,7 +123,7 @@ class Datatable extends CI_Controller {
           $ssptable='orders';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='orders.order_number LIKE "%L%" AND orders.requested_by = '.$id;
+          $sspwhere='orders.order_number LIKE "L%" AND orders.requested_by = '.$id;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
@@ -299,19 +299,19 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'user_name',  'dt' => 2,
+                'db' => 'is_active',  'dt' => 2,
                 'formatter' => function($d, $row){
-                    if($d == null){
-                        $result = 'UNUSED';
+                    if($d == 0){
+                        $result = 'NOT ACTIVE';
                     }else{
-                        $result = $d;
+                        $result = 'ACTIVE';
 
                     }
                     return $result;
                 }
             )
           );
-          $ssptable='order_detail_lisensies_complate_data';
+          $ssptable='user_lisensies_complate_data';
           $sspprimary='id';
           $sspjoin='';
           $sspwhere='owner = '.$id;

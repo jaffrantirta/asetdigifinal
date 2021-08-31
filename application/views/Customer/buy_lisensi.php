@@ -41,17 +41,6 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Amount LISENSI</label><br>
-                  <small id="msg_title" hidden style="color: red">amount can't empty or 0</small>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
-                    </div>
-                    <input autocomplete="off" oninput="count()" id="amount" type="number" class="form-control" placeholder="enter amount LISENSI ..">
-                  </div>
-                </div>
-
-                <div class="form-group">
                   <label>Total payment</label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -74,6 +63,17 @@
                     </div>
                     <input id="secure_pin" type="password" class="form-control" placeholder="enter your secure PIN ..">
                   </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Upload Receipt of Payment</label><br>
+                    <div class="m-1 input-group">
+                      <div class="custom-file">
+                        <input type="file" id="file" class="custom-file-input">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
+                      </div>
+                    </div>
+                            <!-- <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button> -->
                 </div>
 
                 <div class="form-group">
