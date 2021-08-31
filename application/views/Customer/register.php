@@ -64,12 +64,8 @@
           </div>
         </div>
 
-        <div class="input-group mb-3">
-          <select required name="position" id="position" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
-            <option value="1">LEFT</option>
-            <option value="2">RIGHT</option>
-          </select>
-        </div>
+        <input type="hidden" value="<?php echo $position ?>" id="position" name="position">
+        <input type="hidden" value="<?php echo $top_id ?>" id="top_id" name="top_id">
         
         <div class="input-group mb-3">
           <input required id="username" type="text" class="form-control" placeholder="Username">

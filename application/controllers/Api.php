@@ -405,6 +405,7 @@ class Api extends CI_Controller {
       $sponsor_code = $this->input->post('sponsor_code');
       $pin_register = $this->input->post('pin_register');
       $position = $this->input->post('position');
+      $top_id = $this->input->post('top_id');
 
       $this->db->trans_start();
       $check_sponsor = $this->api_model->get_data_by_where('sponsor_codes', array('code'=>$sponsor_code, 'is_active'=>true))->result();
@@ -439,7 +440,7 @@ class Api extends CI_Controller {
                   if($this->api_model->insert_data('sponsor_code_uses', $aponsor_use_insert)){
                     $insert_position = array(
                       'position' => $position,
-                      'top' => $check_sponsor[0]->owner,
+                      'top' => $top_id,
                       'bottom' => $last_id
                     );
                     if($this->api_model->insert_data('positions', $insert_position)){

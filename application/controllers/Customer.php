@@ -46,7 +46,9 @@ class Customer extends CI_Controller {
     }
 	public function register()
 	{
-		$this->load->view('Customer/register');
+		$data['top_id'] = $this->input->get('top');
+		$data['position'] = $this->input->get('position');
+		$this->load->view('Customer/register', $data);
 	}
 	public function structur($hash)
 	{
