@@ -146,7 +146,11 @@ class Api extends CI_Controller {
 		}else{
       $secure_pin = $this->input->post('secure_pin');
       $id = $this->input->post('id');
-      $auth = $this->db->query("SELECT * FROM users WHERE users.id = $id")->result()[0]->secure_pin;
+      if($id != null){
+        $auth = $this->db->query("SELECT * FROM users WHERE users.id = $id")->result()[0]->secure_pin;
+      }else{
+        $auth = 'empty';
+      }
       if($auth == md5($secure_pin)){
         $amount = $this->input->post('amount');
         $currency = $this->input->post('currency');
@@ -155,43 +159,109 @@ class Api extends CI_Controller {
           $setting = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'pin_register_price'))->result()[0]->content);
           $price = $setting->price;
           $total_payment = $amount * $price;
-          $order_number = 'PR'.time().strtoupper(random_string('alnum', 4));
+          $order_number = 'PR'.time().strtoupper(random_string('alnum`', 4));
+          $this->db->trans_start();
+          $insert = array(
+            'order_number' => $order_number,
+            'requested_by' => $id,
+            'amount' => $amount,
+            'total_payment' => $total_payment,
+            'currency' => $currency
+          );
+          $this->api_model->insert_data('orders', $insert);
+          $this->db->trans_complete();
+          if($this->db->trans_status()){
+            $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permitaan Berhasil', 'english'=>'Request Successful'));
+            $result['data']['order_number'] = $order_number; 
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan Gagal', 'english'=>'Request Failed'));
+            $this->output->set_status_header(502);
+          }
         }else if($type == 'lisensi'){
-          $lisensi = $this->input->post('lisensi');
-          $price = $this->api_model->get_data_by_where('lisensies', array('id'=>$lisensi))->result()[0]->price;
-          $total_payment = $amount * $price;
-          $order_number = 'L'.time().strtoupper(random_string('alnum', 5));
-        }
-        $insert = array(
-          'order_number' => $order_number,
-          'requested_by' => $id,
-          'amount' => $amount,
-          'total_payment' => $total_payment,
-          'currency' => $currency
-        );
-        $this->db->trans_start();
-        if($this->api_model->insert_data('orders', $insert)){
-          if($type == 'lisensi'){
+          $check_lisensi = $this->api_model->get_data_by_where('user_lisensies', array('owner'=>$id))->result();
+          if(count($check_lisensi) > 0){
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Anda telah memiliki Lisensi', 'english'=>'You already have a Lisensi'));
+            $this->output->set_status_header(401);
+          }else{
+            $lisensi = $this->input->post('lisensi');
+            $price = $this->api_model->get_data_by_where('lisensies', array('id'=>$lisensi))->result()[0]->price;
+            $total_payment = $amount * $price;
+            $order_number = 'L'.time().strtoupper(random_string('alnum', 5));
+            $this->db->trans_start();
+            $insert = array(
+              'order_number' => $order_number,
+              'requested_by' => $id,
+              'amount' => $amount,
+              'total_payment' => $total_payment,
+              'currency' => $currency
+            );
+            $this->api_model->insert_data('orders', $insert);
             $id_order_lisensi = $this->db->insert_id();
-            if($this->insert_detail_lisensi($id_order_lisensi, $amount, $lisensi, $id)){
+            for($i=0;$i<$amount;$i++){
+              $insert_detail_lisensi = array(
+                'order_id' => $id_order_lisensi,
+                'lisensi_id' => $lisensi,
+                'owner' => $id
+              );
+              $this->api_model->insert_data('user_lisensies', $insert_detail_lisensi);
+            }
+            $this->db->trans_complete();
+            if($this->db->trans_status()){
               $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permitaan Berhasil', 'english'=>'Request Successful'));
+              $result['data']['order_number'] = $order_number; 
             }else{
               $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan Gagal', 'english'=>'Request Failed'));
               $this->output->set_status_header(502);
             }
-          }else{
-            $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permitaan Berhasil', 'english'=>'Request Successful'));
           }
-        }else{
-          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan Gagal', 'english'=>'Request Failed'));
-          $this->output->set_status_header(501);
         }
-        $this->db->trans_complete();
       }else{
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN anda salah', 'english'=>'Your Secure PIN is Wrong'));
         $this->output->set_status_header(401);
       }
       echo json_encode($result);
+    }
+  }
+  public function insert_turnover($user_id, $lisensi_price, $lisensi_id, $currency)
+  {
+    $this->db->trans_start();
+    $child_id = $this->api_model->get_data_by_where('positions', array('bottom'=>$user_id))->result();;
+    while(count($child_id) > 0) {
+      $parent = $this->api_model->get_data_by_where('positions', array('bottom'=>$child_id[0]->id))->result();
+      if(count($parent) > 0){
+        $turnover = $this->api_model->get_data_by_where('turnovers', array('owner'=>$parent[0]->id))->result();
+        if(count($turnover) > 0){
+          if($parent[0]->position == 2){
+            $position = 'right_belance';
+            $bonus = $turnover[0]->right_belance + $lisensi_price;
+          }else{
+            $position = 'left_belance';
+            $bonus = $turnover[0]->left_belance + $lisensi_price;
+          }
+          $this->api_model->update_data(array('id'=>$turnover[0]->id), 'turnovers', array($position => $bonus));
+          $this->api_model->insert_data('turnover_details', array('turnover_id'=>$turnover[0]->id, 'position'=>$parent[0]->position, 'user_id'=>$child_id, 'lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi_price, 'currency_at_the_time'=>$currency));
+        }else{
+          if($parent[0]->position == 2){
+            $position = 'right_belance';
+            $bonus = $lisensi_price;
+          }else{
+            $position = 'left_belance';
+            $bonus = $lisensi_price;
+          }
+          $this->api_model->insert_data('turnovers', array('owner'=>$parent[0]->id, $position=>$lisensi_price));
+          $last_turnover_id = $this->db->insert_id();
+          $this->api_model->insert_data('turnover_details', array('turnover_id'=>$last_turnover_id, 'position'=>$parent[0]->position, 'user_id'=>$child_id, 'lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi_price, 'currency_at_the_time'=>$currency));
+        }
+      }else{
+
+      }
+      $child_id = $this->api_model->get_data_by_where('positions', array('bottom'=>12))->result();
+    }
+    $this->db->trans_complete();
+    if($this->db->trans_status()){
+      return true;
+    }else{
+      return false;
     }
   }
   public function insert_detail_lisensi($id_order_lisensi, $amount, $lisensi, $id)
@@ -202,7 +272,7 @@ class Api extends CI_Controller {
         'lisensi_id' => $lisensi,
         'owner' => $id
       );
-      if($this->api_model->insert_data('order_detail_lisensies', $insert_detail_lisensi)){
+      if($this->api_model->insert_data('user_lisensies', $insert_detail_lisensi)){
         $result['success'][] = $i; 
       }else{
         $result['failed'][] = $i;
@@ -297,7 +367,7 @@ class Api extends CI_Controller {
       'user_lisensi_id' => $lisensi_id
     );
     if($this->api_model->insert_data('transfer_details', $insert)){
-      if($this->api_model->update_data(array('id'=>$lisensi_id), 'order_detail_lisensies', array('owner'=>$receive_by))){
+      if($this->api_model->update_data(array('id'=>$lisensi_id), 'user_lisensies', array('owner'=>$receive_by))){
         return true;
       }
     }
@@ -526,7 +596,7 @@ class Api extends CI_Controller {
   public function generate_process($get_amount, $user_register, $id)
   {
     for($i=0;$i<$get_amount;$i++){
-      $random_number = rand(1000,9999);
+      $random_number = rand(10000000,99999999);
       if($this->api_model->insert_data('pin_register', array('pin'=>$random_number, 'registered_by'=>$user_register, 'order_id'=>$id))){
         $result['success'][] = $i;
       }else{
