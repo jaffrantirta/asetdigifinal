@@ -570,7 +570,113 @@ class Api extends CI_Controller {
           $update = $this->db->query("UPDATE `orders` SET `is_open` = '0', `is_pending` = '1' WHERE `orders`.`id` = $id");
           break;
         case "pending":
-          $update = $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+          $order = $this->api_model->get_data_by_where('orders', array('id'=>$id))->result()[0];
+          $lisensi = $this->db->query("SELECT a.*, b.price AS lisensi_price, b.id AS lisensi_id FROM user_lisensies a INNER JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $order->requested_by")->result();
+          $lisensi_id = $lisensi[0]->lisensi_id;
+          $lisensi_price = $lisensi[0]->lisensi_price;
+          $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+          $owner_id = $this->db->query("SELECT a.*, c.id AS owner_id FROM sponsor_code_uses a INNER JOIN sponsor_codes b ON b.id=a.sponsor_id INNER JOIN users c ON c.id=b.owner WHERE a.used_by = $order->requested_by")->result()[0]->owner_id;
+          if(count($sponsor_code_bonuses = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$owner_id))->result()) == 0){
+            $insert_sponsor_bonus = array(
+              'owner_id'=>$owner_id,
+              'balance'=>$lisensi_price
+            );
+            if($this->api_model->insert_data('sponsor_code_bonuses', $insert_sponsor_bonus)){
+              $sponsor_code_bonus_id = $this->db->insert_id();
+              $insert_sponsor_bonus_detail = array(
+                'sponsor_code_bonus_id' => $sponsor_code_bonus_id,
+                'register_bonus_by' => $order->requested_by,
+                'lisensies_id' => $lisensi_id,
+                'currency_at_the_time' => $currency,
+                'belance' => $lisensi_price
+              );
+              if($this->api_model->insert_data('sponsor_code_bonus_details', $insert_sponsor_bonus_detail)){
+                $user_id_req  = $order->requested_by;
+                $user_id = $order->requested_by;
+                while(count($top = $this->api_model->get_data_by_where('positions', array('bottom'=>$user_id))->result()) == 1){
+                  $top_id = $top[0]->top;
+                  $position = $top[0]->position;
+                  if(count($turnover = $this->api_model->get_data_by_where('turnovers', array('owner'=>$top_id))->result()) == 1){
+                    $turnover_id = $turnover[0]->id;
+                    if($position == 1){
+                      $new_belance = $turnover[0]->left_belance + $lisensi_price;
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('left_belance'=>$new_belance));
+                    }else{
+                      $new_belance = $turnover[0]->right_belance + $lisensi_price;
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('right_belance'=>$new_belance));
+                    }
+                  }else{
+                    if($position == 1){
+                      $this->api_model->insert_data('turnovers', array('owner'=>$top_id, 'left_belance'=>$lisensi_price));
+                      $turnover_id = $this->db->insert_id();
+                    }else{
+                      $this->api_model->insert_data('turnovers', array('owner'=>$top_id, 'right_belance'=>$lisensi_price));
+                      $turnover_id = $this->db->insert_id();
+                    }
+                  }
+                  $this->api_model->insert_data('turnover_details', array('turnover_id'=>$turnover_id, 'position'=>$position, 'user_id'=>$user_id_req, 'lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi_price, 'currency_at_the_time'=>$currency));
+                  $user_id = $top_id;
+                }
+                if($this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true))){
+                  $update = $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+                }else{
+                  $update = false;
+                }
+              }else{
+                $update = false;
+              }
+            }else{
+              $update = false;
+            }
+          }else{
+            if($this->db->query("UPDATE `sponsor_code_bonuses` SET `balance` = balance+$lisensi_price WHERE `sponsor_code_bonuses`.`id` = ".$sponsor_code_bonuses[0]->id)){
+              $sponsor_code_bonus_id = $sponsor_code_bonuses[0]->id;
+              $update_sponsor_bonus_detail = array(
+                'sponsor_code_bonus_id' => $sponsor_code_bonus_id,
+                'register_bonus_by' => $order->requested_by,
+                'lisensies_id' => $lisensi_id,
+                'currency_at_the_time' => $currency,
+                'belance' => $lisensi_price
+              );
+              if($this->api_model->insert_data('sponsor_code_bonus_details', $update_sponsor_bonus_detail)){
+                $user_id_req  = $order->requested_by;
+                $user_id = $order->requested_by;
+                while(count($top = $this->api_model->get_data_by_where('positions', array('bottom'=>$user_id))->result()) == 1){
+                  $top_id = $top[0]->top;
+                  $position = $top[0]->position;
+                  if(count($turnover = $this->api_model->get_data_by_where('turnovers', array('owner'=>$top_id))->result()) == 1){
+                    $turnover_id = $turnover[0]->id;
+                    if($position == 1){
+                      $new_belance = $turnover[0]->left_belance + $lisensi_price;
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('left_belance'=>$new_belance));
+                    }else{
+                      $new_belance = $turnover[0]->right_belance + $lisensi_price;
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('right_belance'=>$new_belance));
+                    }
+                  }else{
+                    if($position == 1){
+                      $this->api_model->insert_data('turnovers', array('owner'=>$top_id, 'left_belance'=>$lisensi_price));
+                      $turnover_id = $this->db->insert_id();
+                    }else{
+                      $this->api_model->insert_data('turnovers', array('owner'=>$top_id, 'right_belance'=>$lisensi_price));
+                      $turnover_id = $this->db->insert_id();
+                    }
+                  }
+                  $this->api_model->insert_data('turnover_details', array('turnover_id'=>$turnover_id, 'position'=>$position, 'user_id'=>$user_id_req, 'lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi_price, 'currency_at_the_time'=>$currency));
+                  $user_id = $top_id;
+                }
+                if($this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true))){
+                  $update = $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+                }else{
+                  $update = false;
+                }
+              }else{
+                $update = false;
+              }
+            }else{
+              $update = false;
+            }
+          }
           break;
         case "finish":
           break;
