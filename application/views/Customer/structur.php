@@ -24,30 +24,30 @@
 
               <div class="tree">
                 <ul>
-                    <li><a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php echo $parent_1['data']->name ?></a>
+                    <li><a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['data']!=null){echo $parent_1['data']->name;}else{echo 'empty';} ?></a>
                         <ul>
                             <li>
-                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['left']!=null){echo $parent_1['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                <a class='link' href='<?php if($parent_1['left']!=null){echo base_url('customer/structur/'.$parent_1['left']->bottom);}else{echo base_url('customer/register/'.$parent_1['data']->id.'/1');} ?>'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['left']!=null){echo $parent_1['left']->bottom_name;}else{echo 'empty';} ?></a>
                                 <ul>
                                     <li>
-                                        <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_2['left']!=null){echo $parent_2['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                        <a class='link' href="<?php if($parent_2['left']!=null){echo base_url('customer/structur/'.$parent_2['left']->bottom);}else{if($parent_2['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_2['data']->id.'/1');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_2['left']!=null){echo $parent_2['left']->bottom_name;}else{echo 'empty';} ?></a>
                                         <ul>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_4['left']!=null){echo $parent_4['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_4['left']!=null){echo base_url('customer/structur/'.$parent_4['left']->bottom);}else{if($parent_4['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_4['data']->id.'/1');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_4['left']!=null){echo $parent_4['left']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_4['right']!=null){echo $parent_4['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_4['right']!=null){echo base_url('customer/structur/'.$parent_4['right']->bottom);}else{if($parent_4['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_4['data']->id.'/2');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_4['right']!=null){echo $parent_4['right']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_2['right']!=null){echo $parent_2['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                        <a class='link' href="<?php if($parent_2['right']!=null){echo base_url('customer/structur/'.$parent_2['right']->bottom);}else{if($parent_2['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_2['data']->id.'/2');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_2['right']!=null){echo $parent_2['right']->bottom_name;}else{echo 'empty';} ?></a>
                                         <ul>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_5['left']!=null){echo $parent_5['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_5['left']!=null){echo base_url('customer/structur/'.$parent_5['left']->bottom);}else{if($parent_5['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_5['data']->id.'/1');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_5['left']!=null){echo $parent_5['left']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_5['right']!=null){echo $parent_5['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_5['right']!=null){echo base_url('customer/structur/'.$parent_5['right']->bottom);}else{if($parent_5['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_5['data']->id.'/2');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_5['right']!=null){echo $parent_5['right']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                         </ul>
                                     </li>
@@ -55,27 +55,27 @@
                             </li>
                             
                             <li>
-                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['right']!=null){echo $parent_1['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                <a class='link' href='<?php if($parent_1['right']!=null){echo base_url('customer/structur/'.$parent_1['right']->bottom);}else{echo base_url('customer/register/'.$parent_1['data']->id.'/2');} ?>'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['right']!=null){echo $parent_1['right']->bottom_name;}else{echo 'empty';} ?></a>
                                 <ul>
                                     <li>
-                                        <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_3['left']!=null){echo $parent_3['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                        <a class='link' href="<?php if($parent_3['left']!=null){echo base_url('customer/structur/'.$parent_3['left']->bottom);}else{if($parent_3['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_3['data']->id.'/1');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_3['left']!=null){echo $parent_3['left']->bottom_name;}else{echo 'empty';} ?></a>
                                         <ul>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_6['left']!=null){echo $parent_6['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_6['left']!=null){echo base_url('customer/structur/'.$parent_6['left']->bottom);}else{if($parent_6['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_6['data']->id.'/1');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_6['left']!=null){echo $parent_6['left']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_6['right']!=null){echo $parent_6['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_6['right']!=null){echo base_url('customer/structur/'.$parent_6['right']->bottom);}else{if($parent_6['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_6['data']->id.'/2');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_6['right']!=null){echo $parent_6['right']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_3['right']!=null){echo $parent_3['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                        <a class='link' href="<?php if($parent_3['right']!=null){echo base_url('customer/structur/'.$parent_3['right']->bottom);}else{if($parent_3['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_3['data']->id.'/2');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_3['right']!=null){echo $parent_3['right']->bottom_name;}else{echo 'empty';} ?></a>
                                         <ul>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_7['left']!=null){echo $parent_7['left']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_7['left']!=null){echo base_url('customer/structur/'.$parent_7['left']->bottom);}else{if($parent_7['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_7['data']->id.'/1');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_7['left']!=null){echo $parent_7['left']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                             <li>
-                                                <a class='link' href='#'><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_7['right']!=null){echo $parent_7['right']->bottom_name;}else{echo 'empty';} ?></a>
+                                                <a class='link' href="<?php if($parent_7['right']!=null){echo base_url('customer/structur/'.$parent_7['right']->bottom);}else{if($parent_7['data']==null){echo '#';}else{echo base_url('customer/register/'.$parent_7['data']->id.'/2');}} ?>"><br> <img style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_7['right']!=null){echo $parent_7['right']->bottom_name;}else{echo 'empty';} ?></a>
                                             </li>
                                         </ul>
                                     </li>
