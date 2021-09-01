@@ -67,7 +67,7 @@
                                       <div class="form-group row">
                                           <label for="inputName" class="col-sm-2 col-form-label">sponsor code</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="inputName" name="name" value="<?php echo set_value('name', $session['data']->code); ?>" required>
+                                              <input type="text" class="form-control" id="inputName" name="name" value="" required>
                                           </div>
                                           <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>

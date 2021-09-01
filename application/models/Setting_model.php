@@ -13,8 +13,8 @@ class Setting_model extends CI_Model
     public function get_profile()
     {
         $id = $this->user_id;
-        $user = $this->db->where('id', $id)->get('users');
-
+        $user = $this->db->where('id', $id)->get('customer_complate_data');
+        
         return $user->row();
     }
 
