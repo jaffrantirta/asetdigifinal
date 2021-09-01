@@ -57,15 +57,15 @@
                         $act = "'pending'";
                         $act1 = "'reject'";
                         echo '<strong style="color: yellow"><b>Status PENDING</b></strong>';
-                        echo '<button onclick="update_status_order('.$act.')" class="btn btn-warning btn-block"><b>Update Status to Finish</b></button>';
-                        echo '<button onclick="update_status_order('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
+                        echo '<button onclick="update_status_order_pin('.$act.')" class="btn btn-warning btn-block"><b>Update Status to Finish</b></button>';
+                        echo '<button onclick="update_status_order_pin('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
                     }
                 }else{
                     $act = "'open'";
                     $act1 = "'reject'";
                     echo '<strong style="color: blue"><b>Status OPEN</b></strong>';
-                    echo '<button onclick="update_status_order('.$act.')" class="btn btn-warning btn-block"><b>Update Status</b></button>';
-                    echo '<button onclick="update_status_order('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
+                    echo '<button onclick="update_status_order_pin('.$act.')" class="btn btn-warning btn-block"><b>Update Status</b></button>';
+                    echo '<button onclick="update_status_order_pin('.$act1.')" class="btn btn-danger btn-block"><b>Reject</b></button>';
                 }
                 ?>
               </div>

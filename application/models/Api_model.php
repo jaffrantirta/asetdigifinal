@@ -10,6 +10,10 @@ class Api_model extends CI_Model {
         $this->db->where('password', md5($password));
         return $this->db->get();
     }
+    public function sistem_name()
+    {
+        return $this->db->query("SELECT * FROM settings s WHERE s.key = 'sistem_name'")->result()[0]->content;
+    }
     function get_data($table){
         $this->db->select('*');
         $this->db->from($table);

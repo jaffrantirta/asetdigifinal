@@ -17,20 +17,25 @@ function register_customer(){
                     if(username != ''){
                         if(sponsor_code != ''){
                             if(pin_register != ''){
-                                $('.loader').attr('hidden', false);
+                                Swal.fire({
+                                    title: 'Loading...',
+                                    text: 'May take a while',
+                                    allowOutsideClick: false,
+                                    showConfirmButton: false
+                                })
                                 $.ajax({
                                     url: base_url+"api/register_process",
                                     type: "post",
                                     data: {'top_id':top_id, 'position':position, 'name':name, 'email':email, 'username':username, 'password':password, 'secure_pin':secure_pin, 'pin_register':pin_register, 'sponsor_code':sponsor_code},
                                     success: function(result){
-                                        $('.loader').attr('hidden', true);
+                                        Swal.close();
                                         // console.log('data : '+result);
                                         var data = JSON.parse(result);
                                         show_message('success', data.response['message']['english'], '');
                                         window.location.href = document.getElementById('base_url').innerHTML;
                                     },
                                     error: function (result, ajaxOptions, thrownError) {
-                                        $('.loader').attr('hidden', true);
+                                        Swal.close();
                                         // console.log('data : '+xhr.responseText);
                                         show_message('error', 'Oops! something went wrong', 'kesalahan tidak diketahui');
                                         var msg = JSON.parse(result.responseText);
