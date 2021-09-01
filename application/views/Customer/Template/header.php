@@ -203,10 +203,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-light elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <!-- <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+    <!-- /<a href="index3.html" class="brand-link">
+      <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <h4 class="brand-text font-weight-light"><?php echo $sistem_name ?></h4>
-    </a>
+    </a> -->
 
 
 
@@ -383,10 +383,10 @@
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Buy Lisensi</p>
-                </a>
-              </li>
-              <!-- <li class="nav-item">
-              <?php if($page == 'Transfer Lisensi'){ ?>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Transfer Lisensi') { ?>
                 <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
                 <?php } else { ?>
                   <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link">
