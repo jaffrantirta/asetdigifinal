@@ -13,7 +13,7 @@ class Setting_model extends CI_Model
     public function get_profile()
     {
         $id = $this->user_id;
-        $user = $this->db->where('id', $id)->get('customer_complate_data');
+        $user = $this->db->where('id', $id)->get('users');
         
         return $user->row();
     }
@@ -24,4 +24,22 @@ class Setting_model extends CI_Model
 
         return $this->db->where('id', $id)->update('users', $data);
     }
+    function join2table()
+    {
+        $this->db->select('*');
+        $this->db->from('sponsor_codes');
+        $this->db->join('users', 'users.id = sponsor_codes.owner');
+        $query = $this->db->get();
+        return $query;
+    }
+    public function update($data)
+    {
+        return $this->db->where('id', $this->user_id)->update('users', $data);
+    }
+
+    public function update_account($data)
+    {
+        return $this->db->where('id', $this->user_id)->update('users', $data);
+    }
+    
 }

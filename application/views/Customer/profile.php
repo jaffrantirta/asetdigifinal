@@ -49,7 +49,7 @@
                           <div class="card-body">
                               <div class="tab-content">
                                   <div class="active tab-pane" id="profile">
-                                      <?php echo form_open_multipart('customer/profile/edit_name'); ?>
+                                      <?php echo form_open_multipart('profile/edit_name'); ?>
                                       <div class="form-group row">
                                           <label for="inputName" class="col-sm-2 col-form-label">Nama:</label>
                                           <div class="col-sm-10">
@@ -57,20 +57,8 @@
                                           </div>
                                           <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
-                                      <div class="form-group row">
-                                          <label for="inputName" class="col-sm-2 col-form-label">username</label>
-                                          <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="inputName" name="name" value="<?php echo set_value('name', $session['data']->username); ?>" required>
-                                          </div>
-                                          <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
-                                      </div>
-                                      <div class="form-group row">
-                                          <label for="inputName" class="col-sm-2 col-form-label">sponsor code</label>
-                                          <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="inputName" name="name" value="" required>
-                                          </div>
-                                          <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
-                                      </div>
+                                      
+
                                       <div class="form-group row">
                                           <label for="inputFoto" class="col-sm-2 col-form-label">Foto profil:</label>
                                           <div class="col-sm-10">
@@ -87,7 +75,7 @@
                                   </div>
                                   <!-- /.tab-pane -->
                                   <div class="tab-pane" id="akun">
-                                      <?php echo form_open('customer/profile/edit_account', array('autocomplete' => 'off')); ?>
+                                      <?php echo form_open('profile/edit_account', array('autocomplete' => 'off')); ?>
                                       <div class="form-group row">
                                           <label for="inputUserName" class="col-sm-2 col-form-label">Username:</label>
                                           <div class="col-sm-10">
@@ -103,6 +91,13 @@
                                           <?php echo form_error('password', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
                                       <div class="form-group row">
+                                          <label for="inputPassword" class="col-sm-2 col-form-label">Secure pin:</label>
+                                          <div class="col-sm-10">
+                                              <input type="password" class="form-control" id="inputPassword" name="pin" placeholder="Masukkan pin baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
+                                          </div>
+                                          <?php echo form_error('password', '<div class="text-danger font-weight-bold">', '</div>'); ?>
+                                      </div>
+                                      <div class="form-group row">
                                           <div class="offset-sm-2 col-sm-10">
                                               <button type="submit" class="btn btn-danger">Perbarui</button>
                                           </div>
@@ -112,7 +107,7 @@
                                   <!-- /.tab-pane -->
 
                                   <div class="tab-pane" id="email">
-                                      <?php echo form_open('customer/profile/edit_email'); ?>
+                                      <?php echo form_open('profile/edit_email'); ?>
                                       <div class="form-group row">
                                           <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
                                           <div class="col-sm-10">
