@@ -24,8 +24,24 @@ class Customer extends CI_Controller {
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['page'] = 'Dashboard';
 			$data['session'] = $this->session->all_userdata();
+			$id = $this->session->userdata('data')->id;
+			if(count($bonus_sponsor = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$id))->result()) > 0){
+				$data['bonus_sponsor_code'] = $bonus_sponsor[0]->balance;
+			}else{
+				$data['bonus_sponsor_code'] = 0;
+			}
+			if(count($turnover = $this->api_model->get_data_by_where('turnovers', array('owner'=>$id))->result()) > 0){
+				$data['turnovers_left'] = $turnover[0]->left_belance;
+				$data['turnovers_right'] = $turnover[0]->right_belance;
+			}else{
+				$data['turnovers_left'] = 0;
+				$data['turnovers_right'] = 0;
+			}
+			$data['sponsor_code_use'] = count($this->db->query("SELECT * FROM sponsor_code_uses a LEFT JOIN sponsor_codes b On b.id=a.sponsor_id WHERE b.owner = $id")->result());
+			$data['sponsor_code'] = $this->api_model->get_data_by_where('sponsor_codes', array('owner'=>$id))->result()[0]->code;
 			// echo json_encode($data);
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/dashboard', $data);
@@ -34,7 +50,8 @@ class Customer extends CI_Controller {
 	}
 	
 	public function login(){
-		$this->load->view('Customer/login');
+		$data['sistem_name'] = $this->api_model->sistem_name();
+		$this->load->view('Customer/login', $data);
 	}
 	public function show_session(){
 		$session = $this->session->all_userdata();
@@ -46,36 +63,38 @@ class Customer extends CI_Controller {
     }
 	public function register()
 	{
+		$data['sistem_name'] = $this->api_model->sistem_name();
 		$data['top_id'] = $this->input->get('top');
 		$data['position'] = $this->input->get('position');
 		$this->load->view('Customer/register', $data);
 	}
-	public function structur($hash)
+	public function structure($hash)
 	{
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
-			$data['page'] = 'Structur';
+			$data['page'] = 'Structure';
 			$id = $hash;//base64_decode($hash);
 
 			//parent1-start
 			$data['parent_1']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$id))->result()[0];
-			if(count($_1_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = $id AND p.position = 1")->result()) == 1){
+			if(count($_1_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = $id AND p.position = 1")->result()) >= 1){
 				$data['parent_1']['left'] = $_1_left[0];
 				//parent2-start
 				$data['parent_2']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_1_left[0]->bottom))->result()[0];
-				if(count($_2_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 1")->result()) == 1){
+				if(count($_2_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 1")->result()) >= 1){
 					$data['parent_2']['left'] = $_2_left[0];
 					//parent4-start
 					$data['parent_4']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_2_left[0]->bottom))->result()[0];
-					if(count($_4_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 1")->result()) == 1){
+					if(count($_4_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_4']['left'] = $_4_left[0];
 					}else{
 						$data['parent_4']['left'] = null;
 					}
 					
-					if(count($_4_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 2")->result()) == 1){
+					if(count($_4_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_4']['right'] = $_4_right[0];
 					}else{
 						$data['parent_4']['right'] = null;
@@ -88,17 +107,17 @@ class Customer extends CI_Controller {
 					$data['parent_4']['data'] = null;
 				}
 				
-				if(count($_2_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 0")->result()) == 1){
+				if(count($_2_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 2")->result()) >= 1){
 					$data['parent_2']['right'] = $_2_right[0];
 					//parent5-start
 					$data['parent_5']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_2_right[0]->bottom))->result()[0];
-					if(count($_5_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 1")->result()) == 1){
+					if(count($_5_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_5']['left'] = $_5_left[0];
 					}else{
 						$data['parent_5']['left'] = null;
 					}
 					
-					if(count($_5_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 0")->result()) == 1){
+					if(count($_5_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_5']['right'] = $_5_right[0];
 					}else{
 						$data['parent_5']['right'] = null;
@@ -125,21 +144,21 @@ class Customer extends CI_Controller {
 			}
 
 			
-			if(count($_1_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = $id AND p.position = 2")->result()) == 1){
+			if(count($_1_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = $id AND p.position = 2")->result()) >= 1){
 				$data['parent_1']['right'] = $_1_right[0];
 				//parent3-start
 				$data['parent_3']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_1_right[0]->bottom))->result()[0];
-				if(count($_3_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 1")->result()) == 1){
+				if(count($_3_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 1")->result()) >= 1){
 					$data['parent_3']['left'] = $_3_left[0];
 					//parent6-start
 					$data['parent_6']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_3_left[0]->bottom))->result()[0];
-					if(count($_6_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 1")->result()) == 1){
+					if(count($_6_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_6']['left'] = $_6_left[0];
 					}else{
 						$data['parent_6']['left'] = null;
 					}
 					
-					if(count($_6_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 2")->result()) == 1){
+					if(count($_6_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_6']['right'] = $_6_right[0];
 					}else{
 						$data['parent_6']['right'] = null;
@@ -152,17 +171,17 @@ class Customer extends CI_Controller {
 					$data['parent_6']['data'] = null;
 				}
 				
-				if(count($_3_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 2")->result()) == 1){
+				if(count($_3_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 2")->result()) >= 1){
 					$data['parent_3']['right'] = $_3_right[0];
 					//parent7-start
 					$data['parent_7']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_3_right[0]->bottom))->result()[0];
-					if(count($_7_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 1")->result()) == 1){
+					if(count($_7_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_7']['left'] = $_7_left[0];
 					}else{
 						$data['parent_7']['left'] = null;
 					}
 					
-					if(count($_7_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 2")->result()) == 1){
+					if(count($_7_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_7']['right'] = $_7_right[0];
 					}else{
 						$data['parent_7']['right'] = null;
@@ -190,7 +209,7 @@ class Customer extends CI_Controller {
 			//parent1-end
 
 			$this->load->view('Customer/Template/header', $data);
-			$this->load->view('Customer/structur', $data);
+			$this->load->view('Customer/structure', $data);
 			$this->load->view('Customer/Template/footer', $data);
 
 			// echo json_encode($data);
@@ -201,12 +220,14 @@ class Customer extends CI_Controller {
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$action = $this->input->get('action');
 			$data['session'] = $this->session->all_userdata();
 			switch($action){
 				case "buy":
 					$data['page'] = 'Buy PIN Register';
 					$setting = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'pin_register_price'))->result()[0]->content);
+					$data['how_to_buy'] = $this->api_model->get_data_by_where('settings', array('key'=>'payment_tutorial'))->result()[0]->content;
 					$data['price'] = $setting->price;
 					$data['currency'] = $setting->currency;
 					$this->load->view('Customer/Template/header', $data);
@@ -251,45 +272,18 @@ class Customer extends CI_Controller {
 			}
 		}
 	}
-	public function test()
-	{
-		$left[] = 12;
-		$right[] = 0;
-		$status = 'left';
-		$i = 0;
-		do{
-			if($status == 'left'){
-				$id = $left[$i];
-				$status = 'right';
-			}else{
-				$id = $right[$i];
-				$status = 'left';
-			}
-			$bottom = $this->api_model->get_data_by_where('positions', array('top'=>$id))->result();
-			if(count($bottom) == 2){
-				if($bottom[0]->position == 1){
-					$left[] = $bottom[0]->id;
-					$right[] = $bottom[1]->id;
-				}else{
-					$left[] = $bottom[1]->id;
-					$right[] = $bottom[0]->id;
-				}
-			}else{
-
-			}
-			$i++;
-		}while(count($bottom) == 2);
-	}
 	public function lisensi()
 	{
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$action = $this->input->get('action');
 			$data['session'] = $this->session->all_userdata();
 			switch($action){
 				case "buy":
 					$data['page'] = 'Buy Lisensi';
+					$data['how_to_buy'] = $this->api_model->get_data_by_where('settings', array('key'=>'payment_tutorial'))->result()[0]->content;
 					$data['lisensi_currency'] = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
 					$data['lisensies'] = $this->api_model->get_data_by_where('lisensies', array('is_active'=>true))->result();
 					$this->load->view('Customer/Template/header', $data);
@@ -338,6 +332,7 @@ class Customer extends CI_Controller {
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Balance PIN Register';
 			$data['order'] = $this->api_model->get_data_by_where('orders', array('id'=>$order_id))->result()[0];
@@ -358,6 +353,7 @@ class Customer extends CI_Controller {
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Balance Lisensi';
 			$data['order'] = $this->api_model->get_data_by_where('orders', array('id'=>$order_id))->result()[0];
@@ -387,6 +383,7 @@ class Customer extends CI_Controller {
 		if(!$this->session->userdata('authenticated_customer')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$name = $this->input->post('name');
 			$email = $this->input->post('email');
 			$username = $this->input->post('username');

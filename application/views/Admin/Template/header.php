@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | <?php echo $page ?></title>
+  <title><?php echo $sistem_name ?> Admin | <?php echo $page ?></title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -32,7 +32,7 @@
   <!-- lottie player -->
   <script src="<?php echo base_url('assets/build/js/lottie/LottiePlayer.js') ?>"></script>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm dark-mode"></body>
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm"></body>
 <div hidden class="loader"></div>
 <p hidden id="base_url"><?php echo base_url() ?></p>
 
@@ -49,7 +49,7 @@
   
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -73,11 +73,11 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <!-- <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-      <h4 class="brand-text font-weight-light">Aset Digital - Admin</h4>
+      <h4 class="brand-text font-weight-light"><?php echo $sistem_name ?> - Admin</h4>
     </a>
 
     
@@ -165,6 +165,19 @@
                 </a>
               </li>
             </ul>
+          </li>
+
+          <li class="nav-item">
+          <?php if($page == 'Members'){ ?>
+            <a href="<?php echo base_url('admin/members') ?>" class="nav-link active">
+          <?php }else{ ?>
+            <a href="<?php echo base_url('admin/members') ?>" class="nav-link">
+          <?php } ?>
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Members
+              </p>
+            </a>
           </li>
 
          

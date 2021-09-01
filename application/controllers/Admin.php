@@ -24,6 +24,7 @@ class Admin extends CI_Controller {
 		if(!$this->session->userdata('authenticated_admin')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['page'] = 'Dashboard';
 			$data['session'] = $this->session->all_userdata();
 			// echo json_encode($data);
@@ -34,7 +35,8 @@ class Admin extends CI_Controller {
 	}
 	
 	public function login(){
-		$this->load->view('Admin/login');
+		$data['sistem_name'] = $this->api_model->sistem_name();
+		$this->load->view('Admin/login', $data);
 	}
 	public function show_session(){
 		$session = $this->session->all_userdata();
@@ -46,6 +48,7 @@ class Admin extends CI_Controller {
     }
 	public function register()
 	{
+		$data['sistem_name'] = $this->api_model->sistem_name();
 		$this->load->view('Admin/register');
 	}
 	public function request()
@@ -53,6 +56,7 @@ class Admin extends CI_Controller {
 		if(!$this->session->userdata('authenticated_admin')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$action = $this->input->get('action');
 			$data['session'] = $this->session->all_userdata();
 			switch($action){
@@ -82,11 +86,43 @@ class Admin extends CI_Controller {
 			}
 		}
 	}
+	public function members()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$action = $this->input->get('action');
+			$data['session'] = $this->session->all_userdata();
+			if(isset($action)){
+				switch($action){
+					case "detail":
+						$data['page'] = 'Detail member';
+						$this->load->view('Admin/Template/header', $data);
+						$this->load->view('Admin/balance_pin_register', $data);
+						$this->load->view('Admin/Template/footer', $data);
+						break;
+					default :
+						echo "404";
+						break;
+				}
+			}else{
+				$data['page'] = 'Members';
+				$data['members_count'] = count($this->api_model->get_data_by_where('users', array('role'=>'customer'))->result()); 
+				$this->load->view('Admin/Template/header', $data);
+				$this->load->view('Admin/members', $data);
+				$this->load->view('Admin/Template/footer', $data);
+				// echo json_encode($data);
+			}
+			
+		}
+	}
 	public function get_order_detail($order_id)
 	{
 		if(!$this->session->userdata('authenticated_admin')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Request PIN Register';
 			$data['order'] = $this->db->query("SELECT a.*, b.name as user_register, b.id as user_id FROM orders a INNER JOIN users b ON b.id = a.requested_by WHERE a.id = $order_id")->result()[0];
@@ -108,6 +144,7 @@ class Admin extends CI_Controller {
 		if(!$this->session->userdata('authenticated_admin')){
 			$this->login();
 		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Request Lisensi';
 			$data['order'] = $this->db->query("SELECT a.*, b.name as user_register, b.id as user_id FROM orders a INNER JOIN users b ON b.id = a.requested_by WHERE a.id = $order_id")->result()[0];
@@ -122,28 +159,6 @@ class Admin extends CI_Controller {
 			$this->load->view('Admin/Template/footer', $data);
 			// echo json_encode($data);
 			
-		}
-	}
-	public function upload_receipt($act)
-	{
-		if(!$this->session->userdata('authenticated_admin')){
-			$this->login();
-		}else{
-
-		}
-	}
-	public function register_process()
-	{
-		if(!$this->session->userdata('authenticated_admin')){
-			$this->login();
-		}else{
-			$name = $this->input->post('name');
-			$email = $this->input->post('email');
-			$username = $this->input->post('username');
-			$password = $this->input->post('password');
-			$re_password = $this->input->post('re_password');
-			$secure_pin = $this->input->post('secure_pin');
-			$re_secure_pin = $this->input->post('re_secure_pin');
 		}
 	}
 }

@@ -19,6 +19,14 @@
     </div>
     <!-- /.content-header -->
     <div class="container">
+    <div class="card card-warning">
+      <div class="card-header">
+        <h3 class="card-title">How to buy ?</h3>
+      </div>
+      <div class="card-body">
+        <p><?php echo $how_to_buy ?></p>
+      </div>
+    </div>
     <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">LISENSI</h3>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Log in</title>
+  <title><?php echo $sistem_name ?> Admin | Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,13 +14,13 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm dark-mode login-page">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page">
 <p hidden id="base_url"><?php echo base_url() ?></p>
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="<?php echo base_url() ?>" class="h1"><b>Aset Digital</b> Admin</a>
+      <a href="<?php echo base_url() ?>" class="h1"><b><?php echo $sistem_name ?></b> Admin</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">masuk dengan username dan password</p>
