@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aset Digital | Registrasi</title>
+  <title><?php echo $sistem_name ?> | Registrasi</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,7 +14,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm dark-mode login-page">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page">
 <p hidden id="base_url"><?php echo base_url() ?></p>
 
 
@@ -25,7 +25,7 @@
       <a href="<?php echo base_url(); ?>" class="h1"><b>⠀ ⠀ ⠀ ⠀ ⠀ ⠀⠀ ⠀</b></a>
     </div>
     <div class="card-header text-center">
-      <a href="<?php echo base_url(); ?>" class="h1"><b>Aset Digital</b> Registrasi</a>
+      <a href="<?php echo base_url(); ?>" class="h1"><b><?php echo $sistem_name ?></b> Registrasi</a>
     </div>
     <div class="card-body">
         <div class="input-group mb-3">

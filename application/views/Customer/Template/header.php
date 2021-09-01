@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aset Digital | <?php echo $page ?></title>
+  <title><?php echo $sistem_name ?> | <?php echo $page ?></title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -134,7 +134,7 @@
     }
     </style>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm dark-mode"></body>
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm"></body>
 <div hidden class="loader"></div>
 <p hidden id="base_url"><?php echo base_url() ?></p>
 
@@ -145,13 +145,13 @@
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
     <lottie-player class="animation__shake" src="https://assets9.lottiefiles.com/packages/lf20_x62chJ.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-    <h3 class="text-center">Memuat ...</h3> 
+    <h3 class="text-center">Loading ...</h3> 
   </div>
 
   
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -175,11 +175,11 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-light elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <!-- <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-      <h4 class="brand-text font-weight-light">Aset Digital</h4>
+      <h4 class="brand-text font-weight-light"><?php echo $sistem_name ?></h4>
     </a>
 
     
@@ -359,7 +359,7 @@
                   <p>Buy Lisensi</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
               <?php if($page == 'Transfer Lisensi'){ ?>
                 <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
               <?php }else{ ?>
@@ -378,18 +378,23 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Transfer History</p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </li>
 
           <li class="nav-item">
-                <a href="<?php echo base_url('customer/structur/'.$session['data']->id) ?>" class="nav-link">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
+          <?php if($page == 'Structure'){ ?>
+            <a href="<?php echo base_url('customer/structure/'.$session['data']->id) ?>" class="nav-link active">
+          <?php }else{ ?>
+            <a href="<?php echo base_url('customer/structure/'.$session['data']->id) ?>" class="nav-link">
+          <?php } ?>
+              <i class="nav-icon fas fa-tree"></i>
               <p>
-                Structur
+              Structure
               </p>
             </a>
           </li>
+
           <li class="nav-item">
                 <a href="<?php echo base_url('customer/logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
