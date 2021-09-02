@@ -36,6 +36,67 @@ class Profile extends CI_Controller
     {
         $this->load->view('Customer/login');
     }
+    public function profile_update()
+    {
+        $this->form_validation->set_error_delimiters('<div class="font-weight-bold text-danger">', '</div>');
+
+        $this->form_validation->set_rules('name', 'Nama lengkap', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('username', 'required');
+
+        if ($this->form_validation->run() === FALSE) {
+            $this->setting();
+        } else {
+            $data = $this->setting->get_profile();
+            // $current_profile_picture = $data->profile_picture;
+            // $current_password = $data->password;
+
+            $name = $this->input->post('name');
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            // if (empty($password))
+            //     $password = $current_password;
+            // else
+            //     $password = password_hash($password, PASSWORD_BCRYPT);
+
+            $config['upload_path'] = './assets/uploads/users/';
+            $config['allowed_types'] = 'jpg|png|jpeg';
+            $config['max_size'] = 2048;
+
+            $this->load->library('upload', $config);
+
+            // if (isset($_FILES['picture']) && @$_FILES['picture']['error'] == '0') {
+            //     if ($this->upload->do_upload('picture')) {
+            //         $upload_data = $this->upload->data();
+            //         $new_file_name = $upload_data['file_name'];
+
+            //         $profile_picture = $new_file_name;
+
+            //         if (file_exists('assets/uploads/users/' . $current_profile_picture))
+            //             unlink('./assets/uploads/users/' . $current_profile_picture);
+            //     }
+            // } else {
+            //     // $profile_picture = $current_profile_picture;
+            // }
+
+            $data = array(
+                'name' => $name,
+                'email' => $email,
+                'username' => $username,
+                'password' => $password,
+                // 'profile_picture' => $profile_picture
+            );
+
+            $this->setting->update_profile($data);
+
+            $this->session->set_flashdata('settings_flash', 'Profil berhasil diperbarui');
+            $this->load->view('Customer/Template/header', $data);
+            $this->load->view('Customer/profile', $data);
+            $this->load->view('Customer/Template/footer', $data);
+        }
+    }
     public function edit_name()
     {
         $this->form_validation->set_rules('name', 'Nama lengkap', 'required|max_length[32]|min_length[4]');
