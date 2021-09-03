@@ -28,6 +28,8 @@
                     <th>Amount</th>
                     <th>Total Payment</th>
                     <th>Currency</th>
+                    <th>Reject</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -59,5 +61,6 @@
                 $('#table_filter :input').addClass('form-control').css({'width':'10em'});
             }
         });
+        table.column( 5 ).visible( false );
     });
 </script>

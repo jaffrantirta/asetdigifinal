@@ -28,6 +28,7 @@ class Customer extends CI_Controller {
 			$data['page'] = 'Dashboard';
 			$data['session'] = $this->session->all_userdata();
 			$id = $this->session->userdata('data')->id;
+			$turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
 			if(count($bonus_sponsor = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$id))->result()) > 0){
 				$data['bonus_sponsor_code'] = $bonus_sponsor[0]->balance;
 			}else{
@@ -36,9 +37,18 @@ class Customer extends CI_Controller {
 			if(count($turnover = $this->api_model->get_data_by_where('turnovers', array('owner'=>$id))->result()) > 0){
 				$data['turnovers_left'] = $turnover[0]->left_belance;
 				$data['turnovers_right'] = $turnover[0]->right_belance;
+				$data['turnover_left_bonus'] = ($turnover[0]->left_belance / 100) * $turnover_percentage;
+				$data['turnover_right_bonus'] = ($turnover[0]->right_belance / 100) * $turnover_percentage;
 			}else{
 				$data['turnovers_left'] = 0;
 				$data['turnovers_right'] = 0;
+			}
+			if(count($lisensi = $this->db->query("SELECT a.*, b.name AS lisensi_name FROM user_lisensies a LEFT JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $id")->result()) > 0){
+				$data['your_licence'] = $lisensi[0]->lisensi_name;
+				$data['licence_status'] = $lisensi[0]->is_active;
+			}else{
+				$data['your_licence'] = 'Not have Licence';
+				$data['licence_status'] = false;
 			}
 			$data['sponsor_code_use'] = count($this->db->query("SELECT * FROM sponsor_code_uses a LEFT JOIN sponsor_codes b On b.id=a.sponsor_id WHERE b.owner = $id")->result());
 			$data['sponsor_code'] = $this->api_model->get_data_by_where('sponsor_codes', array('owner'=>$id))->result()[0]->code;
@@ -76,25 +86,25 @@ class Customer extends CI_Controller {
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Structure';
-			$id = $hash;//base64_decode($hash);
+			$id = $hash;//base64_decode($hash); 
 
 			//parent1-start
-			$data['parent_1']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$id))->result()[0];
-			if(count($_1_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = $id AND p.position = 1")->result()) >= 1){
+			$data['parent_1']['data'] = $this->db->query("SELECT a.*, c.name AS lisensi_name FROM users a LEFT JOIN user_lisensies b ON b.owner=a.id LEFT JOIN lisensies c ON c.id=b.lisensi_id WHERE a.id = $id")->result()[0];
+			if(count($_1_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = $id AND p.position = 1")->result()) >= 1){
 				$data['parent_1']['left'] = $_1_left[0];
 				//parent2-start
 				$data['parent_2']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_1_left[0]->bottom))->result()[0];
-				if(count($_2_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 1")->result()) >= 1){
+				if(count($_2_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 1")->result()) >= 1){
 					$data['parent_2']['left'] = $_2_left[0];
 					//parent4-start
 					$data['parent_4']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_2_left[0]->bottom))->result()[0];
-					if(count($_4_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 1")->result()) >= 1){
+					if(count($_4_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_4']['left'] = $_4_left[0];
 					}else{
 						$data['parent_4']['left'] = null;
 					}
 					
-					if(count($_4_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 2")->result()) >= 1){
+					if(count($_4_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_2_left[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_4']['right'] = $_4_right[0];
 					}else{
 						$data['parent_4']['right'] = null;
@@ -107,17 +117,17 @@ class Customer extends CI_Controller {
 					$data['parent_4']['data'] = null;
 				}
 				
-				if(count($_2_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 2")->result()) >= 1){
+				if(count($_2_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_1_left[0]->bottom." AND p.position = 2")->result()) >= 1){
 					$data['parent_2']['right'] = $_2_right[0];
 					//parent5-start
 					$data['parent_5']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_2_right[0]->bottom))->result()[0];
-					if(count($_5_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 1")->result()) >= 1){
+					if(count($_5_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_5']['left'] = $_5_left[0];
 					}else{
 						$data['parent_5']['left'] = null;
 					}
 					
-					if(count($_5_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 2")->result()) >= 1){
+					if(count($_5_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_2_right[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_5']['right'] = $_5_right[0];
 					}else{
 						$data['parent_5']['right'] = null;
@@ -144,21 +154,21 @@ class Customer extends CI_Controller {
 			}
 
 			
-			if(count($_1_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = $id AND p.position = 2")->result()) >= 1){
+			if(count($_1_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = $id AND p.position = 2")->result()) >= 1){
 				$data['parent_1']['right'] = $_1_right[0];
 				//parent3-start
 				$data['parent_3']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_1_right[0]->bottom))->result()[0];
-				if(count($_3_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 1")->result()) >= 1){
+				if(count($_3_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 1")->result()) >= 1){
 					$data['parent_3']['left'] = $_3_left[0];
 					//parent6-start
 					$data['parent_6']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_3_left[0]->bottom))->result()[0];
-					if(count($_6_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 1")->result()) >= 1){
+					if(count($_6_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_6']['left'] = $_6_left[0];
 					}else{
 						$data['parent_6']['left'] = null;
 					}
 					
-					if(count($_6_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 2")->result()) >= 1){
+					if(count($_6_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_3_left[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_6']['right'] = $_6_right[0];
 					}else{
 						$data['parent_6']['right'] = null;
@@ -171,17 +181,17 @@ class Customer extends CI_Controller {
 					$data['parent_6']['data'] = null;
 				}
 				
-				if(count($_3_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 2")->result()) >= 1){
+				if(count($_3_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_1_right[0]->bottom." AND p.position = 2")->result()) >= 1){
 					$data['parent_3']['right'] = $_3_right[0];
 					//parent7-start
 					$data['parent_7']['data'] = $this->api_model->get_data_by_where('users', array('id'=>$_3_right[0]->bottom))->result()[0];
-					if(count($_7_left = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 1")->result()) >= 1){
+					if(count($_7_left = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 1")->result()) >= 1){
 						$data['parent_7']['left'] = $_7_left[0];
 					}else{
 						$data['parent_7']['left'] = null;
 					}
 					
-					if(count($_7_right = $this->db->query("SELECT p.*, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 2")->result()) >= 1){
+					if(count($_7_right = $this->db->query("SELECT p.*, d.name AS lisensi_name, u.name as top_name, u2.name as bottom_name FROM positions p INNER JOIN users u ON u.id=p.top INNER JOIN users u2 ON u2.id=p.bottom  LEFT JOIN user_lisensies c ON c.owner=u.id LEFT JOIN lisensies d ON d.id=c.lisensi_id WHERE p.top = ".$_3_right[0]->bottom." AND p.position = 2")->result()) >= 1){
 						$data['parent_7']['right'] = $_7_right[0];
 					}else{
 						$data['parent_7']['right'] = null;
