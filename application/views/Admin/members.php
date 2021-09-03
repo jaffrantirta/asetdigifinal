@@ -26,6 +26,9 @@
                     <th>Name</th>
                     <th>Register Date</th>
                     <th>Sponsor Code</th>
+                    <th>Sponsor Code Bonus</th>
+                    <th>Left Turnover Bonus</th>
+                    <th>Right Turnover Bomus</th>
                     <th>Licence</th>
                     <!-- <th>Action</th> -->
                   </tr>

@@ -379,7 +379,49 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'lisensi_name',  'dt' => 3,
+                'db' => 'balance',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+                    if($d!=null){
+                        $y = $d;
+                    }else{
+                        $y = 0;
+                    }
+                    return $y.' '.$currency;
+                }
+            ),
+            array(
+                'db' => 'left_belance',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    $turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+                    $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+                    if($d!=null){
+                        $y = ($d / 100) * $turnover_percentage;
+                        $x = $d;
+                    }else{
+                        $y = 0;
+                        $x = 0;
+                    }
+                    return $y.' '.$currency.' ('.$x.' '.$currency.')';
+                }
+            ),
+            array(
+                'db' => 'right_belance',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+                    $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+                    if($d!=null){
+                        $y = ($d / 100) * $turnover_percentage;
+                        $x = $d;
+                    }else{
+                        $y = 0;
+                        $x = 0;
+                    }
+                    return $y.' '.$currency.' ('.$x.' '.$currency.')';
+                }
+            ),
+            array(
+                'db' => 'lisensi_name',  'dt' => 6,
                 'formatter' => function($d, $row){
                     if($d == null){
                         $result = '<a style="color: red">not have licence</a>';
