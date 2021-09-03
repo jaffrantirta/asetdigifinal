@@ -42,6 +42,8 @@ class Customer extends CI_Controller {
 			}else{
 				$data['turnovers_left'] = 0;
 				$data['turnovers_right'] = 0;
+				$data['turnover_left_bonus'] = 0;
+				$data['turnover_right_bonus'] = 0;
 			}
 			if(count($lisensi = $this->db->query("SELECT a.*, b.name AS lisensi_name FROM user_lisensies a LEFT JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $id")->result()) > 0){
 				$data['your_licence'] = $lisensi[0]->lisensi_name;
