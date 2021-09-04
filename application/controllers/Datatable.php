@@ -161,7 +161,26 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'id',  'dt' => 5,
+                'db' => 'is_reject',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'is_finish',  'dt' => 6,
+                'formatter' => function($d, $row){
+                    if($d){
+                        $y = '<p style="color:green">FINISH</p>';
+                    }else if($row[5]){
+                        $y = '<p style="color:red">REJECTED</p>';
+                    }else{
+                        $y = '<p style="color:yellow">PENDING</p>';
+                    }
+                    return $y;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 7,
                 'formatter' => function($d, $row){
                     $link = base_url('admin/request?action=order_detail&id='.$d);
                     return '
@@ -215,7 +234,26 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'id',  'dt' => 5,
+                'db' => 'is_reject',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'is_finish',  'dt' => 6,
+                'formatter' => function($d, $row){
+                    if($d){
+                        $y = '<p style="color:green">FINISH</p>';
+                    }else if($row[5]){
+                        $y = '<p style="color:red">REJECTED</p>';
+                    }else{
+                        $y = '<p style="color:yellow">PENDING</p>';
+                    }
+                    return $y;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 7,
                 'formatter' => function($d, $row){
                     $link = base_url('admin/request?action=order_detail_lisensi&id='.$d);
                     return '

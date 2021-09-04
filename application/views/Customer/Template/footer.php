@@ -20,6 +20,7 @@
 <script src="<?php echo base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url() ?>assets/build/js/customer/DataTableOffline.js"></script>
 <script src="<?php echo base_url() ?>assets/build/js/customer/CustomerAjax.js"></script>
+<script src="<?php echo base_url() ?>assets/build/js/customer/ShowFileName.js"></script>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script> -->
 <!-- jQuery UI 1.11.4 -->
