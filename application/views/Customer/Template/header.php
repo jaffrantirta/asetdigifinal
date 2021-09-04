@@ -218,8 +218,10 @@
           <img src="<?php echo base_url() ?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="<?php echo base_url('profile/setting') ?>" class="d-block"><?php echo $session['data']->name ?></a>
           <p id="id" hidden><?php echo $session['data']->id ?></p>
+          <?php $id=$session['data']->id ?>
+          <a href="<?php echo base_url('profile/setting/'.$id) ?>" class="d-block"><?php echo $session['data']->name ?></a>
+          
         </div>
       </div>
 

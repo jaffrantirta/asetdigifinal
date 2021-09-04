@@ -9,10 +9,13 @@ class Setting_model extends CI_Model
     {
         parent::__construct();
     }
-
-    public function get_profile()
+    public function is_profile_exist($id)
     {
-        $id = $this->user_id;
+        return ($this->db->where('id', $id)->get('users')->num_rows() > 0) ? TRUE : FALSE;
+    }
+    public function get_profile($id)
+    {
+        // $id = $this->id;
         $user = $this->db->where('id', $id)->get('users');
         
         return $user->row();
