@@ -59,7 +59,7 @@
                                       <div class="form-group row">
                                           <label for="inputUserName" class="col-sm-2 col-form-label">Username:</label>
                                           <div class="col-sm-10">
-                                              <input type="text" disabled class="form-control" id="inputUserName" name="username" value="<?php echo set_value('username', $users->username); ?>" >
+                                              <input type="text" class="form-control" disabled id="inputUserName" name="username" value="<?php echo set_value('username', $session['data']->username); ?>" required>
                                           </div>
                                           <?php echo form_error('username', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
