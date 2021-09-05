@@ -24,7 +24,7 @@ function login(){
             $.ajax({
                 url: base_url+"api/login_process_admin",
                 type: "post",
-                data: {'username':username, 'password':password},
+                data: {'username':username, 'password':btoa(password)},
                 success: function(result){
                     $('.loader').attr('hidden', true);
                     // console.log('data : '+result);

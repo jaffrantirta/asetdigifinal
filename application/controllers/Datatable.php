@@ -387,7 +387,11 @@ class Datatable extends CI_Controller {
                     }else{
                         $y = 0;
                     }
-                    return $y.' '.$currency;
+                    $admin = base64_encode('admin');
+                    $hash = base64_encode($row[7].'/'.$row[2]);
+                    $route = "bonus/sponsor_code/$admin?token=$hash";
+                    $url = base_url($route);
+                    return '<a href="'.$url.'">'.$y.' '.$currency.'</a>';
                 }
             ),
             array(
@@ -402,7 +406,12 @@ class Datatable extends CI_Controller {
                         $y = 0;
                         $x = 0;
                     }
-                    return $y.' '.$currency.' ('.$x.' '.$currency.')';
+                    $admin = base64_encode('admin');
+                    $id_and_position = base64_encode($row[7].'/1');
+                    $hash = base64_encode($id_and_position.'////LEFT');
+                    $route = "bonus/turnover/$admin?token=$hash";
+                    $url = base_url($route);
+                    return '<a href="'.$url.'">'.$y.' '.$currency.' ('.$x.' '.$currency.')</a>';
                 }
             ),
             array(
@@ -417,7 +426,12 @@ class Datatable extends CI_Controller {
                         $y = 0;
                         $x = 0;
                     }
-                    return $y.' '.$currency.' ('.$x.' '.$currency.')';
+                    $admin = base64_encode('admin');
+                    $id_and_position = base64_encode($row[7].'/2');
+                    $hash = base64_encode($id_and_position.'////RIGHT');
+                    $route = "bonus/turnover/$admin?token=$hash";
+                    $url = base_url($route);
+                    return '<a href="'.$url.'">'.$y.' '.$currency.' ('.$x.' '.$currency.')</a>';
                 }
             ),
             array(
@@ -432,24 +446,126 @@ class Datatable extends CI_Controller {
                     return $result;
                 }
             ),
-            // array(
-            //     'db' => 'id',  'dt' => 4,
-            //     'formatter' => function($d, $row){
-            //         $link = base_url('admin/request?action=order_detail_lisensi&id='.$d);
-            //         return '
-            //         <center>
-            //             <a href="'.$link.'">
-            //                 <i title="detail" class="fa fa-edit"></i>
-            //             </a>
-            //         </center>
-            //         ';
-            //     }
-            // )
+            array(
+                'db' => 'id',  'dt' => 7,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            )
           );
           $ssptable='customer_complate_data';
           $sspprimary='id';
           $sspjoin='';
           $sspwhere='role = "customer"';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_bonus_sponsor_code($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'user_name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'lisensi_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'belance',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'percentage_at_the_time',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $y = ($row[3] / 100) * $row[4];
+                    return $y;
+                }
+            ),
+          );
+          $ssptable='sponsor_code_bonus_details_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='sponsor_code_bonus_id ='.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_bonus_turnover($hash)
+    {
+        $split = explode("/", base64_decode($hash));
+        $id = $split[0];
+        $position = $split[1];
+        $columns = array(
+            array(
+                'db' => 'register_name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'position',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'lisensi_name',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'price_at_the_time',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+                    return $percentage;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 6,
+                'formatter' => function($d, $row){
+                    $percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+                    $y = $row[4] / 100 * $percentage;
+                    return $y;
+                }
+            ),
+          );
+          $ssptable='turnover_details_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='position = '.$position.' AND owner_id ='.$id;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
