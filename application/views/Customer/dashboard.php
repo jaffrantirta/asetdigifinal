@@ -27,7 +27,13 @@
               <div class="icon">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
+              <?php
+                $customer = base64_encode('customer');
+                $hash = base64_encode($session['data']->id.'/'.$sponsor_code);
+                $route = "bonus/sponsor_code/$customer?token=$hash";
+                $url = base_url($route);
+              ?>
+              <a href="<?php echo $url ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -41,7 +47,14 @@
               <div class="icon">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
+              <?php
+                $customer = base64_encode('customer');
+                $id_and_position = base64_encode($session['data']->id.'/1');
+                $hash = base64_encode($id_and_position.'////LEFT');
+                $route = "bonus/turnover/$customer?token=$hash";
+                $url = base_url($route);
+              ?>
+              <a href="<?php echo $url ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -55,7 +68,14 @@
               <div class="icon">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
+              <?php
+                $customer = base64_encode('customer');
+                $id_and_position = base64_encode($session['data']->id.'/2');
+                $hash = base64_encode($id_and_position.'////RIGHT');
+                $route = "bonus/turnover/$customer?token=$hash";
+                $url = base_url($route);
+              ?>
+              <a href="<?php echo $url ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 

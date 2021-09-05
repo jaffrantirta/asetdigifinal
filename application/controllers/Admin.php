@@ -117,6 +117,39 @@ class Admin extends CI_Controller {
 			
 		}
 	}
+	public function settings()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$action = $this->input->get('action');
+			switch($action){
+				case "company-profile":
+					$this->company_profile();
+					break;
+				default :
+					echo "404";
+			}
+		}
+	}	
+	public function company_profile()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Company Profile';
+			$data['sistem_name'] = $this->api_model->get_data_by_where('settings', array('key'=>'sistem_name'))->result()[0]->content;
+			$data['phone_number'] = $this->api_model->get_data_by_where('settings', array('key'=>'phone_number'))->result()[0]->content;
+			$data['email'] = $this->api_model->get_data_by_where('settings', array('key'=>'email'))->result()[0]->content;
+			$data['logo'] = $this->api_model->get_data_by_where('settings', array('key'=>'logo'))->result()[0]->content;
+			$data['address'] = $this->api_model->get_data_by_where('settings', array('key'=>'address'))->result()[0]->content;
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/company_profile', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
 	public function get_order_detail($order_id)
 	{
 		if(!$this->session->userdata('authenticated_admin')){
