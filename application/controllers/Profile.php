@@ -44,27 +44,19 @@ class Profile extends CI_Controller
         $password = $this->input->post('password');
         $usdt_wallet = $this->input->post('usdt_wallet');
         $secure_pin = $this->input->post('secure_pin');
-        $data = $this->setting->get_profile($id);
-        $current_profile_picture = $data->profile_picture;
-
-        $config['upload_path'] = './assets/uploads/users/';
-        $config['allowed_types'] = 'jpg|png|jpeg';
-        $config['max_size'] = 2048;
-
+        
+        $config['upload_path']          = './upload/product/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['file_name']            = $this->id;
+        $config['overwrite']			= true;
+        $config['max_size']             = 2024; // 1MB
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
+    
         $this->load->library('upload', $config);
-
-        if (isset($_FILES['picture']) && @$_FILES['picture']['error'] == '0') {
-            if ($this->upload->do_upload('picture')) {
-                $upload_data = $this->upload->data();
-                $new_file_name = $upload_data['file_name'];
-
-                $profile_picture = $new_file_name;
-
-                if (file_exists('assets/uploads/users/' . $current_profile_picture))
-                    unlink('./assets/uploads/users/' . $current_profile_picture);
-            }
-        } else {
-            $profile_picture = $current_profile_picture;
+    
+        if ($this->upload->do_upload('image')) {
+            return $this->upload->data("file_name");
         }
      
         $data = array(

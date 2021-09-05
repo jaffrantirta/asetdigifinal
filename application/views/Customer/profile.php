@@ -40,8 +40,8 @@
                       <div class="card">
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
-                                  <li class="nav-item"><a class="nav-link profil active" href="#profile" data-toggle="tab">Profil</a></li>
-                                  <li class="nav-item"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
+                                  <li class="nav-item mr-1"><a class="nav-link profil active" href="#profile" data-toggle="tab">Profil</a></li>
+                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->
                           <div class="card-body">
