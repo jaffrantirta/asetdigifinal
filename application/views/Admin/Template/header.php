@@ -181,7 +181,7 @@
           </li>
 
           <li class="nav-item">
-        <?php if($page == 'Company Profile' || $page == 'PIN Register Settings' || $page == 'Licence Price' || $page == 'Change Instraction Payment'){ ?>
+        <?php if($page == 'Company Profile' || $page == 'PIN Register Settings' || $page == 'Licences' || $page == 'Change Instraction Payment'){ ?>
           <li class="nav-item menu-is-opening menu-open">
         <?php }else{ ?>
           <li class="nav-item">
@@ -206,29 +206,29 @@
               </li>
               <li class="nav-item">
               <?php if($page == 'PIN Register Settings'){ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link active">
+                <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link active">
               <?php }else{ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>PIN Register Settings</p>
                 </a>
               </li>
               <li class="nav-item">
-              <?php if($page == 'Licence Price'){ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link active">
+              <?php if($page == 'Licences'){ ?>
+                <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link active">
               <?php }else{ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Licence Price</p>
+                  <p>Licences</p>
                 </a>
               </li>
               <li class="nav-item">
               <?php if($page == 'Change Instraction Payment'){ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link active">
+                <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link active">
               <?php }else{ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Change Instraction Payment</p>

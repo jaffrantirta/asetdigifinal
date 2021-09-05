@@ -101,6 +101,100 @@ function update_status_order(act){
       }
     }
 
+    function update_pin_register_settings(){
+      var price = document.getElementById('price').value
+      var currency = document.getElementById('currency').value
+
+          if(price != ''){
+            if(currency != ''){
+              $.ajax({
+                url: document.getElementById('base_url').innerHTML + 'api/update_pin_register',
+                type: 'post',
+                data: {'price':price, 'currency':currency},
+                success: function(result){
+                    $('.loader').attr('hidden', true);
+                    var data = JSON.parse(result);
+                    show_message('success', data.response['message']['english'], '');
+                    location.reload();
+                },
+                error: function(error, x, y){
+                    $('.loader').attr('hidden', true);
+                    show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                    var msg = JSON.parse(error.responseText);
+                    show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+                }
+              })
+            }else{
+              show_message('warning', 'Currency is Empty', '');
+            }
+          }else{
+            show_message('warning', 'Price is Empty', '');
+          }
+    }
+
+    function update_licence_setting(){
+      var name = document.getElementById('name').value
+      var price = document.getElementById('price').value
+      var percentage = document.getElementById('percentage').value
+      var id = document.getElementById('id_licence').value
+      // console.log(id);
+      if(name != ''){
+          if(price != ''){
+            if(percentage != ''){
+              $.ajax({
+                url: document.getElementById('base_url').innerHTML + 'api/update_licence_setting',
+                type: 'post',
+                data: {'price':price, 'percentage':percentage, 'name':name, 'id':id},
+                success: function(result){
+                    $('.loader').attr('hidden', true);
+                    var data = JSON.parse(result);
+                    show_message('success', data.response['message']['english'], '');
+                    location.reload();
+                },
+                error: function(error, x, y){
+                    $('.loader').attr('hidden', true);
+                    show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                    var msg = JSON.parse(error.responseText);
+                    show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+                }
+              })
+            }else{
+              show_message('warning', 'Percentage is Empty', '');
+            }
+          }else{
+            show_message('warning', 'Price is Empty', '');
+          }
+        }else{
+          show_message('warning', 'Name is Empty', '');
+        }
+    }
+
+    function update_instruction(){
+      var instruction = document.getElementById('instruction').value
+      // console.log(id);
+      if(instruction != ''){
+              $.ajax({
+                url: document.getElementById('base_url').innerHTML + 'api/update_instruction',
+                type: 'post',
+                data: {'instruction':instruction},
+                success: function(result){
+                    $('.loader').attr('hidden', true);
+                    var data = JSON.parse(result);
+                    show_message('success', data.response['message']['english'], '');
+                    location.reload();
+                },
+                error: function(error, x, y){
+                    $('.loader').attr('hidden', true);
+                    show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                    var msg = JSON.parse(error.responseText);
+                    show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+                }
+              })
+        }else{
+          show_message('warning', 'Instruction is Empty', '');
+        }
+    }
+
     function change_logo(){
       var fd = new FormData();
       var files = $('#file')[0].files;
