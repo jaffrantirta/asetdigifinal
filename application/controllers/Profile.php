@@ -21,7 +21,8 @@ class Profile extends CI_Controller
     }
     public function setting($id){
        
-            $data['page'] = 'profile';
+            $data['page'] = 'Profile';
+            $data['sistem_name'] = $this->api_model->sistem_name();
             $data['session'] = $this->session->all_userdata();
             $dataa = $this->setting->get_profile($id);
             $users['users'] = $dataa;

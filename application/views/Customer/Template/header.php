@@ -160,7 +160,7 @@
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm dark-mode"></body>
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm"></body>
 <div hidden class="loader"></div>
 <p hidden id="base_url"><?php echo base_url() ?></p>
 
