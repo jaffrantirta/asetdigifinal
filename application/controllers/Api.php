@@ -810,6 +810,51 @@ class Api extends CI_Controller {
     }
     echo json_encode($result);
   }
+  public function update_pin_register()
+  {
+    $price = $this->input->post('price');
+    $currency = $this->input->post('currency');
+
+    $json = '{"price":'.$price.',"currency":"'.$currency.'"}';
+    $this->db->trans_start();
+    $this->api_model->update_data(array('key'=>'pin_register_price'), 'settings', array('content'=>$json));
+    $this->db->trans_complete();
+    if($this->db->trans_status()){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+
+  }
+  public function update_licence_setting()
+  {
+    $name = $this->input->post('name');
+    $id = $this->input->post('id');
+    $price = $this->input->post('price');
+    $percentage = $this->input->post('percentage');
+    if($this->api_model->update_data(array('id'=>$id), 'lisensies', array('name'=>$name, 'price'=>$price, 'percentage'=>$percentage))){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+
+  }
+  public function update_instruction()
+  {
+    $instruction = $this->input->post('instruction');
+    if($this->api_model->update_data(array('key'=>'payment_tutorial'), 'settings', array('content'=>$instruction))){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+
+  }
   public function update_logo()
     {
       if(!$this->session->userdata('authenticated_admin')){

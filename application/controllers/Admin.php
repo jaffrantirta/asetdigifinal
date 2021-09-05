@@ -127,11 +127,78 @@ class Admin extends CI_Controller {
 				case "company-profile":
 					$this->company_profile();
 					break;
+				case "pin-register":
+					$this->pin_register_settings();
+					break;
+				case "licences":
+					$this->licences();
+					break;
+				case "instruction":
+					$this->instruction();
+					break;
 				default :
 					echo "404";
 			}
 		}
+	}
+	public function licences()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Licences';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/lisensies', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
 	}	
+	public function licence_detail($hash)
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$id = base64_decode($hash);
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Licences';
+			$data['licence'] = $this->api_model->get_data_by_where('lisensies', array('id'=>$id))->result()[0];
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/licences_detail', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
+	public function pin_register_settings()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'PIN Register Settings';
+			$setting = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'pin_register_price'))->result()[0]->content);
+			$data['price'] = $setting->price;
+			$data['currency'] = $setting->currency;
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/pin_register_settings', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
+	public function instruction()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Change Instraction Payment';
+			$data['instruction'] = $this->api_model->get_data_by_where('settings', array('key'=>'payment_tutorial'))->result()[0]->content;
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/instruction', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
 	public function company_profile()
 	{
 		if(!$this->session->userdata('authenticated_admin')){

@@ -356,6 +356,50 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_all_lisensi()
+    {
+        $columns = array(
+            array(
+                'db' => 'name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'price',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return number_format($d);
+                }
+            ),
+            array(
+                'db' => 'percentage',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/licence_detail/'.base64_encode($d));
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
+          );
+          $ssptable='lisensies';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='id>=0';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_all_members()
     {
         $columns = array(
