@@ -42,7 +42,7 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <h3><?php echo $turnover_left_bonus ?> USDT</h3>
-                <p>Bonus Left Turnover</p>
+                <p>Bonus Left Turnover <strong style="color:red">UNDER DEVELOPMENT</strong></p>
               </div>
               <div class="icon">
                 <i class="fas fa-money-bill-wave"></i>
@@ -63,7 +63,7 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <h3><?php echo $turnover_right_bonus ?> USDT</h3>
-                <p>Bonus Right Turnover</p>
+                <p>Bonus Right Turnover <strong style="color:red">UNDER DEVELOPMENT</strong></p>
               </div>
               <div class="icon">
                 <i class="fas fa-money-bill-wave"></i>

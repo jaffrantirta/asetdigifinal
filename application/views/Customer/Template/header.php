@@ -387,7 +387,7 @@
                   <p>Buy Lisensi</p>
                   </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <?php if ($page == 'Transfer Lisensi') { ?>
                 <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
                 <?php } else { ?>
