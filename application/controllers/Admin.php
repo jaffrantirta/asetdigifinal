@@ -13,6 +13,18 @@ class Admin extends CI_Controller {
 		$this->load->library('pdf');
 		$this->load->library('pdf2');
 	}
+	public function delete_member($id)
+	{
+		if($this->session->userdata('authenticated_admin')){
+			if($this->api_model->update_data(array('id'=>$id), 'users', array('is_active'=>false))){
+				echo "Success delete, <a href='".base_url('admin/members')."'>back</a>";
+			}else{
+				echo "Failed delete, <a href='".base_url('admin/members')."'>back</a>";
+			}
+		}else{
+			$this->login();
+		}
+	}
 	public function index(){
         if($this->session->userdata('authenticated_admin')){
 			$this->dashboard();
@@ -70,6 +82,12 @@ class Admin extends CI_Controller {
 					$data['page'] = 'Request Lisensi';
 					$this->load->view('Admin/Template/header', $data);
 					$this->load->view('Admin/balance_lisensi', $data);
+					$this->load->view('Admin/Template/footer', $data);
+					break;
+				case "upgrade":
+					$data['page'] = 'Request Lisensi';
+					$this->load->view('Admin/Template/header', $data);
+					$this->load->view('Admin/upgrade_licence', $data);
 					$this->load->view('Admin/Template/footer', $data);
 					break;
 				case "order_detail":

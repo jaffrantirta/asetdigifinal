@@ -10,6 +10,7 @@ class Api extends CI_Controller {
 		$this->load->model('api_model');
 		$this->load->library('Ssp');
 		$this->load->library('mailer');
+    $this->load->library('upgrade');
 		$this->load->library('pdf');
 		$this->load->library('pdf2');
     $this->load->library('email_template');
@@ -41,15 +42,18 @@ class Api extends CI_Controller {
   {
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-    $result['data'] = $this->api_model->login($username, base64_decode($password))->result();
-    if(count($result['data']) > 0){
-      if($result['data'][0]->role == 'customer'){
-        $session = array(
-          'authenticated_customer'=>true,
-          'data'=>$result['data'][0]
-        );
-        $this->session->set_userdata($session);
-        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Login berhasil', 'english'=>"You're logged"));
+    $user = $this->api_model->login($username, base64_decode($password))->result();
+    if(count($user) > 0){
+      if($user[0]->role == 'customer'){
+        if(count($sponsor_code = $this->db->query("SELECT * FROM sponsor_codes a WHERE a.owner = ".$user[0]->id)->result()) > 0 ){
+          $session = array(
+            'authenticated_customer'=>true,
+            'data'=>$user[0],
+            'sponsor_code'=>$sponsor_code[0]
+          );
+          $this->session->set_userdata($session);
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Login berhasil', 'english'=>"You're logged"));
+        }
       }else{
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Kridensial yang digunakan bukan customer', 'english'=>"Your kridential is not customer"));
         $this->output->set_status_header(401);
@@ -138,7 +142,48 @@ class Api extends CI_Controller {
     }
     echo json_encode($result);
   }
+  public function balance()
+  {
+    $id = $this->input->post('id');
 
+    if(count($x = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$id))->result()) > 0 ){
+      $result['balance'] = $x[0]->balance;
+    }else{
+      $result['balance'] = 0;
+    }
+    echo json_encode($result);
+
+  }
+  public function upgrade_licence()
+  {
+    if(!$this->session->userdata('authenticated_customer')){
+			$this->login();
+		}else{
+      $secure_pin = $this->input->post('secure_pin');
+      $id = $this->input->post('id');
+      $upgrade_to = $this->input->post('upgrade_to');
+      $payment = $this->input->post('payment');
+      if($id != null){
+        $auth = $this->db->query("SELECT * FROM users WHERE users.id = $id")->result()[0]->secure_pin;
+      }else{
+        $auth = 'empty';
+      }
+      if($auth == md5($secure_pin)){
+        $data = $this->upgrade->licence($id, $upgrade_to, $payment);
+        if($data['status']){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan Berhasil', 'english'=>'Request Successful'));
+          $result['data']['id'] = $data['id'];
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Kesalahan [10001543]', 'english'=>$data['message']));
+          $this->output->set_status_header(501);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN anda salah', 'english'=>'Your Secure PIN is Wrong'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+  }
   public function create_order()
   {
     if(!$this->session->userdata('authenticated_customer')){
@@ -159,7 +204,7 @@ class Api extends CI_Controller {
           $setting = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'pin_register_price'))->result()[0]->content);
           $price = $setting->price;
           $total_payment = $amount * $price;
-          $order_number = 'PR'.time().strtoupper(random_string('alnum`', 4));
+          $order_number = 'PR'.time().strtoupper(random_string('alnum', 4));
           $this->db->trans_start();
           $insert = array(
             'order_number' => $order_number,
@@ -447,9 +492,13 @@ class Api extends CI_Controller {
                       );
                       if($this->api_model->insert_data('positions', $insert_position)){
                         $data_template = array(
-                          'opening'=> 'Hi '.$name.', thank you for your registration',
+                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br> Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br>',
                           'email'=>$email,
-                          'message'=>'Your registration has been successful. You are a member right now. Good luck!'
+                          'message'=>'SEGERALAH MEMBELI PAKET LISENSI,
+                          MELALUI ADMIN : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'phone_number'")->result()[0]->content.' <br>
+                          Email : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content.' <br>
+                          Best Regards, <br>
+                          PT. Windax Digital Indonesia'
                         );
                         $content = $this->email_template->template($data_template);
                         $send_mail = array(
@@ -555,6 +604,43 @@ class Api extends CI_Controller {
               /* Upload file */
               if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
                 if($this->api_model->update_data(array('order_number'=>$order_number), 'orders', array('receipt_of_payment'=>$filename))){
+                  $response = $location;
+                }else{
+                  echo 0;
+                }
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
+      }
+    }
+    public function upload_receipt_upgrade($id)
+    {
+      if(!$this->session->userdata('authenticated_customer')){
+        $this->login();
+      }else{
+        if(isset($_FILES['file']['name'])){
+            /* Getting file name */
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = $id.'_'.time().$remove_char.'.jpg';
+        
+            /* Location */
+            $location = "upload/receipt/pin/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            /* Valid extensions */
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            /* Check file extension */
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              /* Upload file */
+              if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                if($this->api_model->update_data(array('id'=>$id), 'lisensi_upgrades', array('receipt_of_payment'=>$filename))){
                   $response = $location;
                 }else{
                   echo 0;

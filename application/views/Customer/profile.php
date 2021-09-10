@@ -59,7 +59,7 @@
                                       <div class="form-group row">
                                           <label for="inputUserName" class="col-sm-2 col-form-label">Username:</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" disabled id="inputUserName" name="username" value="<?php echo set_value('username', $session['data']->username); ?>" required>
+                                              <input type="text" class="form-control" disabled id="inputUserName" name="username" value="<?php echo set_value('username', $users->username); ?>" required>
                                           </div>
                                           <?php echo form_error('username', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
@@ -81,14 +81,14 @@
                                       <div class="form-group row">
                                           <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
                                           <div class="col-sm-10">
-                                              <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Masukkan password baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
+                                              <input type="password" disabled class="form-control" id="inputPassword" name="password" placeholder="(!!!Under Development!!!) Masukkan password baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
                                           </div>
                                           <?php echo form_error('password', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
                                       <div class="form-group row">
                                           <label for="inputPassword" class="col-sm-2 col-form-label">Secure pin:</label>
                                           <div class="col-sm-10">
-                                              <input type="password" class="form-control" id="inputPassword" name="secure_pin" placeholder="Masukkan pin baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
+                                              <input type="password" disabled class="form-control" id="inputPassword" name="secure_pin" placeholder="(!!!Under Development!!!)Masukkan pin baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
                                           </div>
                                           <?php echo form_error('password', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
@@ -97,7 +97,7 @@
                                       <div class="form-group row">
                                           <label for="inputFoto" class="col-sm-2 col-form-label">Foto profil:</label>
                                           <div class="col-sm-10">
-                                              <input type="file" class="form-control" id="inputFoto" name="file">
+                                              <input type="file" class="form-control" id="inputFoto" name="file"> <p class="text-danger">Under Development</p>
                                           </div>
                                           <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>

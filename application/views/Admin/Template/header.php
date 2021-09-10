@@ -161,7 +161,17 @@
                 <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Lisensi</p>
+                  <p>Licence</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'Request Lisensi'){ ?>
+                <a href="<?php echo base_url('admin/request?action=upgrade') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('admin/request?action=upgrade') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Upgrade Licence</p>
                 </a>
               </li>
             </ul>
@@ -231,7 +241,7 @@
                 <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Change Instraction Payment</p>
+                  <p>Change Instructions Payment</p>
                 </a>
               </li>
             </ul>

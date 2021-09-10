@@ -40,11 +40,10 @@ class Profile extends CI_Controller
        
         $id = $this->input->post('id');
         $nama = $this->input->post('name');
-        $username = $this->input->post('username');
         $email = $this->input->post('email');
-        $password = $this->input->post('password');
+        //$password = $this->input->post('password');
         $usdt_wallet = $this->input->post('usdt_wallet');
-        $secure_pin = $this->input->post('secure_pin');
+        //$secure_pin = $this->input->post('secure_pin');
         
         $config['upload_path']          = './upload/product/';
         $config['allowed_types']        = 'gif|jpg|png';
@@ -62,10 +61,9 @@ class Profile extends CI_Controller
      
         $data = array(
             'name' => $nama,
-            'username' => $username,
             'email' => $email,
-            'password' => md5($password),
-            'secure_pin' => md5($secure_pin),
+            // 'password' => md5($password),
+            // 'secure_pin' => md5($secure_pin),
             'usdt_wallet' => $usdt_wallet,
             'profile_picture' => $profile_picture
         );

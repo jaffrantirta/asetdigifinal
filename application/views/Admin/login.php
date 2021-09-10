@@ -14,7 +14,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page" background="<?php echo base_url() ?>upload/bg.jpg">
 <p hidden id="base_url"><?php echo base_url() ?></p>
 <div class="login-box">
   <!-- /.login-logo -->
