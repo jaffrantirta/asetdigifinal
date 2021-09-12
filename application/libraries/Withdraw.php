@@ -33,6 +33,11 @@ class Withdraw {
         if(count($withdraw) > 0){
             $user = $this->ci->api_model->get_data_by_where('users', array('id'=>$withdraw[0]->user_id))->result();
             if(count($user) > 0){
+                $pecentage_properties = $this->ci->api_model->get_data_by_where('settings', array('key'=>'auto_save_properties'))->result()[0]->content;
+                $auto_amount = $withdraw[0]->amount / 100 * $pecentage_properties;
+                $withdraw_amount = $withdraw[0]->amount - $auto_amount;
+                $data['transfer']['withdraw_amount'] = $withdraw_amount;
+                $data['tranfer']['auto_amount'] = $auto_amount; 
                 $data['withdraw'] = $withdraw[0];
                 $data['user'] = $user[0];
                 return $data;
