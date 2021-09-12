@@ -888,7 +888,7 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'name',  'dt' => 3,
+                'db' => 'user_name',  'dt' => 3,
                 'formatter' => function($d, $row){
                    return $d;
                 }
@@ -920,7 +920,7 @@ class Datatable extends CI_Controller {
                 }
             ),
           );
-          $ssptable='withdraws';
+          $ssptable='withdraws_complate_data';
           $sspprimary='id';
           $sspjoin='INNER JOIN users ON users.id=withdraws.user_id';
           $sspwhere='id>=0';
