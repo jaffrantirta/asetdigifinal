@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-class Bonus {
+class Total_bonus {
     protected $ci;
     public function __construct(){
         $this->ci = &get_instance();
@@ -33,24 +33,6 @@ class Bonus {
             return $total;
         }else{
             return -1;
-        }
-    }
-    public function total($id)
-    {
-        $total_bonus = $this->ci->db->query("SELECT a.*, b.name AS user_name FROM total_bonuses a LEFT JOIN users b ON b.id=a.owner_id WHERE a.owner_id = $id")->result();
-        if(count($total_bonus) > 0){
-            return $total_bonus[0];
-        }else{
-            return false;
-        }
-    }
-    public function pairing($id)
-    {
-        $pairing = $this->ci->db->query("SELECT a.*, b.name AS user_name FROM total_bonuses a LEFT JOIN users b ON b.id=a.owner_id WHERE a.owner_id = $id")->result();
-        if(count($pairing) > 0){
-            return $pairing[0];
-        }else{
-            return false;
         }
     }
 }
