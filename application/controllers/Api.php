@@ -1044,5 +1044,9 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function request()
+    {
+      
+    }
 }
 

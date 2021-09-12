@@ -865,5 +865,67 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_withdraw()
+    {
+        $columns = array(
+            array(
+                'db' => 'order_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'amount',  'dt' => 2,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+            array(
+                'db' => 'name',  'dt' => 3,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+            array(
+                'db' => 'status',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    if($d=1){
+                        $v='<strong style="color:yellow">PENDING</strong>';
+                    }else if($d=2){
+                        $v='<strong style="color:green">SUCCESS</strong>';
+                    }else{
+                        $v='<strong style="color:red">REJECT</strong>';
+                    }
+                   return $v;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $link = base_url('customer/pin?action=order_detail&id='.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
+          );
+          $ssptable='withdraws';
+          $sspprimary='id';
+          $sspjoin='users ON users.id=withdraws.user_id';
+          $sspwhere='id>=0';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
 }
 
