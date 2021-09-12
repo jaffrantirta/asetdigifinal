@@ -922,7 +922,7 @@ class Datatable extends CI_Controller {
           );
           $ssptable='withdraws';
           $sspprimary='id';
-          $sspjoin='users ON users.id=withdraws.user_id';
+          $sspjoin='INNER JOIN users ON users.id=withdraws.user_id';
           $sspwhere='id>=0';
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
