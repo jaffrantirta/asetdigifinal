@@ -835,5 +835,35 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_pairing($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'id_inout',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'balance',  'dt' => 2,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+          );
+          $ssptable='inout_bonuses_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='note = "pairing bonus" AND owner_id = '.$id ;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
 }
 
