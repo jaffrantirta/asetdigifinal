@@ -1044,9 +1044,23 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
-    public function request()
+    public function withdraw_detail()
     {
-      
+      $id = $this->input->post('id');
+      if($id != ''){
+        $data = $this->withdraw->detail($id);
+        if($data != false){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
+          $result['data'] = $data;
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Data tidak ditemukan', 'english'=>'Data not found'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
     }
 }
 

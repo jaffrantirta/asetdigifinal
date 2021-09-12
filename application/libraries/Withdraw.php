@@ -27,4 +27,20 @@ class Withdraw {
             return false;
         }
     }
+    public function detail($id)
+    {
+        $withdraw = $this->ci->api_model->get_data_by_where('withdraws', array('id'=>$id))->result();
+        if(count($withdraw) > 0){
+            $user = $this->ci->api_model->get_data_by_where('users', array('id'=>$withdraw[0]->user_id))->result();
+            if(count($user) > 0){
+                $data['withdraw'] = $withdraw[0];
+                $data['user'] = $user[0];
+                return $data;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }
