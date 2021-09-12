@@ -1009,7 +1009,7 @@ class Api extends CI_Controller {
     {
       $id = $this->input->post('id');
       $amount = $this->input->post('amount');
-      $secure_pin = $this->input->post('secure_pin');
+      $secure_pin = base64_decode($this->input->post('secure_pin'));
       if($id != null){
         if($amount != null){
           if($secure_pin != null){
