@@ -78,10 +78,9 @@
                     <div class="m-1 input-group">
                       <div class="custom-file">
                         <input type="file" id="file" class="custom-file-input">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
+                        <label id="file_name_view" class="custom-file-label" for="exampleInputFile">Choose file receipt</label>
                       </div>
                     </div>
-                            <!-- <button id="but_upload" class="m-1 btn btn-secondary btn-block"><b>Upload receipt of payment</b></button> -->
                 </div>
 
                 <div class="form-group">

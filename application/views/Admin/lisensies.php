@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">All Members</h1>
+            <h1 class="m-0">Licences</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div><!-- /.col -->
@@ -13,10 +13,10 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <p hidden id='link'>datatable/get_all_members</p>
+    <p hidden id='link'>datatable/get_all_lisensi</p>
     <div class="card">
               <div class="card-header">
-                <h3 class="card-title">All members registered are <?php echo $members_count ?></h3>
+                <h3 class="card-title">Licences</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive">
@@ -24,14 +24,9 @@
                   <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Register Date</th>
-                    <th>Sponsor Code</th>
-                    <th>Sponsor Code Bonus</th>
-                    <th>Left Turnover Bonus</th>
-                    <th>Right Turnover Bomus</th>
-                    <th>Licence</th>
-                    <th>id</th>
-                    <!-- <th>Action</th> -->
+                    <th>Price</th>
+                    <th>Percentage</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -53,7 +48,7 @@
             "bSort":true,
             "bPaginate": true,
             "iDisplayLength": 10,
-            "order": [[ 1, "desc" ]],
+            "order": [[ 3, "desc" ]],
             "language": {
                 "searchPlaceholder": "Search...",
                 "search":""
@@ -62,6 +57,5 @@
                 $('#table_filter :input').addClass('form-control').css({'width':'10em'});
             }
         });
-        table.column( 7 ).visible( false );
     });
 </script>

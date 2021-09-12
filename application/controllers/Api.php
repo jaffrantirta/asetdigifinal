@@ -41,7 +41,7 @@ class Api extends CI_Controller {
   {
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-    $result['data'] = $this->api_model->login($username, $password)->result();
+    $result['data'] = $this->api_model->login($username, base64_decode($password))->result();
     if(count($result['data']) > 0){
       if($result['data'][0]->role == 'customer'){
         $session = array(
@@ -49,13 +49,13 @@ class Api extends CI_Controller {
           'data'=>$result['data'][0]
         );
         $this->session->set_userdata($session);
-        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'login berhasil', 'english'=>"you're logged"));
+        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Login berhasil', 'english'=>"You're logged"));
       }else{
-        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'kridensial yang digunakan bukan customer', 'english'=>"your kridential is not customer"));
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Kridensial yang digunakan bukan customer', 'english'=>"Your kridential is not customer"));
         $this->output->set_status_header(401);
       }
     }else{
-      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'login gagal', 'english'=>"logging failed"));
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Username atau Password tidak sesuai', 'english'=>"Username or Password is wrong"));
       $this->output->set_status_header(401);
     }
     echo json_encode($result);
@@ -64,7 +64,7 @@ class Api extends CI_Controller {
   {
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-    $result['data'] = $this->api_model->login($username, $password)->result();
+    $result['data'] = $this->api_model->login($username, base64_decode($password))->result();
     if(count($result['data']) > 0){
       if($result['data'][0]->role == 'admin'){
         $session = array(
@@ -596,7 +596,8 @@ class Api extends CI_Controller {
                 'register_bonus_by' => $order->requested_by,
                 'lisensies_id' => $lisensi_id,
                 'currency_at_the_time' => $currency,
-                'belance' => $lisensi_price
+                'belance' => $lisensi_price,
+                'percentage_at_the_time' => $percentage
               );
               if($this->api_model->insert_data('sponsor_code_bonus_details', $insert_sponsor_bonus_detail)){
                 $user_id_req  = $order->requested_by;
@@ -657,7 +658,8 @@ class Api extends CI_Controller {
                 'register_bonus_by' => $order->requested_by,
                 'lisensies_id' => $lisensi_id,
                 'currency_at_the_time' => $currency,
-                'belance' => $lisensi_price
+                'belance' => $lisensi_price,
+                'percentage_at_the_time' => $percentage
               );
               if($this->api_model->insert_data('sponsor_code_bonus_details', $update_sponsor_bonus_detail)){
                 $user_id_req  = $order->requested_by;
@@ -787,5 +789,108 @@ class Api extends CI_Controller {
     $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'PIN dibuat', 'english'=>'PIN has been generated'));
     echo json_encode($result);
   }
+  public function update_status_company_profile()
+  {
+    $sistem_name = $this->input->post('sistem_name');
+    $phone_number = $this->input->post('phone_number');
+    $email = $this->input->post('email');
+    $address = $this->input->post('address');
+
+    $this->db->trans_start();
+    $this->api_model->update_data(array('key'=>'sistem_name'), 'settings', array('content'=>$sistem_name));
+    $this->api_model->update_data(array('key'=>'phone_number'), 'settings', array('content'=>$phone_number));
+    $this->api_model->update_data(array('key'=>'email'), 'settings', array('content'=>$email));
+    $this->api_model->update_data(array('key'=>'address'), 'settings', array('content'=>$address));
+    $this->db->trans_complete();
+    if($this->db->trans_status()){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+  }
+  public function update_pin_register()
+  {
+    $price = $this->input->post('price');
+    $currency = $this->input->post('currency');
+
+    $json = '{"price":'.$price.',"currency":"'.$currency.'"}';
+    $this->db->trans_start();
+    $this->api_model->update_data(array('key'=>'pin_register_price'), 'settings', array('content'=>$json));
+    $this->db->trans_complete();
+    if($this->db->trans_status()){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+
+  }
+  public function update_licence_setting()
+  {
+    $name = $this->input->post('name');
+    $id = $this->input->post('id');
+    $price = $this->input->post('price');
+    $percentage = $this->input->post('percentage');
+    if($this->api_model->update_data(array('id'=>$id), 'lisensies', array('name'=>$name, 'price'=>$price, 'percentage'=>$percentage))){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+
+  }
+  public function update_instruction()
+  {
+    $instruction = $this->input->post('instruction');
+    if($this->api_model->update_data(array('key'=>'payment_tutorial'), 'settings', array('content'=>$instruction))){
+      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+    }else{
+      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+      $this->output->set_status_header(501);
+    }
+    echo json_encode($result);
+
+  }
+  public function update_logo()
+    {
+      if(!$this->session->userdata('authenticated_admin')){
+        $this->login();
+      }else{
+        if(isset($_FILES['file']['name'])){
+            /* Getting file name */
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = 'LOGO_'.time().$remove_char.'.jpg';
+        
+            /* Location */
+            $location = "upload/company/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            /* Valid extensions */
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            /* Check file extension */
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              /* Upload file */
+              if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                if($this->api_model->update_data(array('key'=>'logo'), 'settings', array('content'=>$filename))){
+                  $response = $location;
+                }else{
+                  echo 0;
+                }
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
+      }
+    }
 }
 

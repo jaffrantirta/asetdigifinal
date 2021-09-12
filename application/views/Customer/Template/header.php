@@ -160,7 +160,7 @@
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm dark-mode"></body>
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm"></body>
 <div hidden class="loader"></div>
 <p hidden id="base_url"><?php echo base_url() ?></p>
 
@@ -201,7 +201,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-light elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <!-- /<a href="index3.html" class="brand-link">
       <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -218,8 +218,10 @@
           <img src="<?php echo base_url() ?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="<?php echo base_url('profile/setting') ?>" class="d-block"><?php echo $session['data']->name ?></a>
           <p id="id" hidden><?php echo $session['data']->id ?></p>
+          <?php $id=$session['data']->id ?>
+          <a href="<?php echo base_url('profile/setting/'.$id) ?>" class="d-block"><?php echo $session['data']->name ?></a>
+          
         </div>
       </div>
 
@@ -385,7 +387,7 @@
                   <p>Buy Lisensi</p>
                   </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <?php if ($page == 'Transfer Lisensi') { ?>
                 <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
                 <?php } else { ?>

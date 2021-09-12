@@ -73,7 +73,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-light-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <!-- <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
@@ -178,6 +178,63 @@
                 Members
               </p>
             </a>
+          </li>
+
+          <li class="nav-item">
+        <?php if($page == 'Company Profile' || $page == 'PIN Register Settings' || $page == 'Licences' || $page == 'Change Instraction Payment'){ ?>
+          <li class="nav-item menu-is-opening menu-open">
+        <?php }else{ ?>
+          <li class="nav-item">
+        <?php } ?>
+            <a id="nav-daerah" href="#" class="nav-link"> 
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Settings
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <?php if($page == 'Company Profile'){ ?>
+                <a href="<?php echo base_url('admin/settings?action=company-profile') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('admin/settings?action=company-profile') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Company Profile</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'PIN Register Settings'){ ?>
+                <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PIN Register Settings</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'Licences'){ ?>
+                <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Licences</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <?php if($page == 'Change Instraction Payment'){ ?>
+                <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link active">
+              <?php }else{ ?>
+                <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link">
+              <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Change Instraction Payment</p>
+                </a>
+              </li>
+            </ul>
           </li>
 
          
