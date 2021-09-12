@@ -40,6 +40,27 @@ class Bonus extends CI_Controller {
             // echo json_encode($data);
         }
     }
+    public function pairing_bonus($hash)
+    {
+        $role = base64_decode($hash);
+        $token = explode("/", base64_decode($this->input->get('token')));
+        $data['sponsor_code_bonus_id'] = $token[0];
+        $data['sponsor_code_name'] = $token[1];
+        $data['page'] = 'Pairing Bonus';
+        $data['session'] = $this->session->all_userdata();
+        $data['sistem_name'] = $this->api_model->sistem_name();
+        if ($role == 'customer') {
+            $this->load->view('Customer/Template/header', $data);
+            $this->load->view('Customer/pairing_bonus', $data);
+            $this->load->view('Customer/Template/footer', $data);
+            // echo json_encode($data);
+        } else if ($role == 'admin') {
+            $this->load->view('Admin/Template/header', $data);
+            $this->load->view('Admin/bonus_detail_sponsor_code', $data);
+            $this->load->view('Admin/Template/footer', $data);
+            // echo json_encode($data);
+        }
+    }
     public function turnover($hash)
     {
         $role = base64_decode($hash);

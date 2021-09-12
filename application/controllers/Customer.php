@@ -64,7 +64,18 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
-	
+	public function total_bonus(){
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'total bonus';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/total_bonus', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
 	public function login(){
 		$data['sistem_name'] = $this->api_model->sistem_name();
 		$this->load->view('Customer/login', $data);
