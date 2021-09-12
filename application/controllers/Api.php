@@ -1013,7 +1013,7 @@ class Api extends CI_Controller {
       if($id != null){
         if($amount != null){
           if($secure_pin != null){
-            if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>$secure_pin))){
+            if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
               $insert = array(
                 'order_number'=>'W'.time().'-'.$id,
                 'user_id' => $id,
