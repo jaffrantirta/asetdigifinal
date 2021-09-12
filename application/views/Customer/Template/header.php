@@ -219,9 +219,9 @@
         </div>
         <div class="info">
           <p id="id" hidden><?php echo $session['data']->id ?></p>
-          <?php $id=$session['data']->id ?>
-          <a href="<?php echo base_url('profile/setting/'.$id) ?>" class="d-block"><?php echo $session['data']->name ?></a>
-          
+          <?php $id = $session['data']->id ?>
+          <a href="<?php echo base_url('profile/setting/' . $id) ?>" class="d-block"><?php echo $session['data']->name ?></a>
+
         </div>
       </div>
 
@@ -357,16 +357,16 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <?php if ($page == 'Balance Lisensi') { ?>
-                <a href="<?php echo base_url('customer/lisensi?action=balance') ?>" class="nav-link active">
-                <?php } else { ?>
-                  <a href="<?php echo base_url('customer/lisensi?action=balance') ?>" class="nav-link">
-                  <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Balance</p>
-                  </a>
-            </li>
+            <!--<li class="nav-item">-->
+            <!--  <?php if ($page == 'Balance Lisensi') { ?>-->
+            <!--    <a href="<?php echo base_url('customer/lisensi?action=balance') ?>" class="nav-link active">-->
+            <!--    <?php } else { ?>-->
+            <!--      <a href="<?php echo base_url('customer/lisensi?action=balance') ?>" class="nav-link">-->
+            <!--      <?php } ?>-->
+            <!--      <i class="far fa-circle nav-icon"></i>-->
+            <!--      <p>Balance</p>-->
+            <!--      </a>-->
+            <!--</li>-->
             <li class="nav-item">
               <?php if ($page == 'History Lisensi') { ?>
                 <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link active">
@@ -384,7 +384,17 @@
                   <a href="<?php echo base_url('customer/lisensi?action=buy') ?>" class="nav-link">
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Buy Lisensi</p>
+                  <p>Buy Licence</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Upgrade Lisensi') { ?>
+                <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Upgrade Licence</p>
                   </a>
             </li>
             <!-- <li class="nav-item">
@@ -407,21 +417,198 @@
                   <p>Transfer History</p>
                 </a>
               </li> -->
-            </ul>
+          </ul>
           </li>
+          <li class="nav-item">
 
           <li class="nav-item">
-          <?php if($page == 'Structure'){ ?>
-            <a href="<?php echo base_url('customer/structure/'.$session['data']->id) ?>" class="nav-link active">
-          <?php }else{ ?>
-            <a href="<?php echo base_url('customer/structure/'.$session['data']->id) ?>" class="nav-link">
+            <?php if ($page == 'Detail Bonus') { ?>
+          <li class="nav-item menu-is-opening menu-open">
+          <?php } else { ?>
+          <li class="nav-item">
           <?php } ?>
-              <i class="nav-icon fas fa-tree"></i>
+          <a id="nav-daerah" href="#" class="nav-link">
+            <i class="nav-icon fas fa-key"></i>
+            <p>
+              Bonus
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <?php
+              $customer = base64_encode('customer');
+              $hash = base64_encode($session['data']->id . '/' . $session['sponsor_code']->code); // 21/JAFF001
+              $route = "bonus/sponsor_code/$customer?token=$hash";
+              $url = base_url($route);
+              ?>
+              <?php if ($page == 'Detail Bonus') { ?>
+                <a href="<?php echo $url ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo $url ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sponsor</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php
+              $customer = base64_encode('customer');
+              $hash = base64_encode($session['data']->id . '/' . $session['sponsor_code']->code); // 21/JAFF001
+              $route = "bonus/pairing_bonus/$customer?token=$hash";
+              $url = base_url($route);
+              ?>
+              <?php if ($page == 'Pairing Bonus') { ?>
+                <a href="<?php echo $url ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo $url ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pairing Bonus</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'total bonus') { ?>
+                <a href="<?php echo base_url('customer/total_bonus') ?>" class="nav-link active">
+                <?php } else { ?>
+
+                  <a href="<?php echo base_url('customer/total_bonus') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Total Bonus</p>
+                  </a>
+            </li>
+            <!-- <li class="nav-item">
+              <?php if ($page == 'Transfer Lisensi') { ?>
+                <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer Lisensi</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Transfer Lisensi History') { ?>
+                <a href="<?php echo base_url('customer/lisensi?action=transfer_history') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/lisensi?action=transfer_history') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Transfer History</p>
+                </a>
+              </li> -->
+          </ul>
+          </li>
+          <li class="nav-item">
+            <?php if ($page == 'Witthdraw') { ?>
+              <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Withdraw Bonus
+                </p>
+                </a>
+          </li>
+          <li class="nav-item">
+
+            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+
+              <i class="nav-icon fa fa-tags"></i>
               <p>
-              Structure
+                Auto Save Property
               </p>
             </a>
           </li>
+          <li class="nav-item">
+
+            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Reward
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+
+          <li class="nav-item">
+            <?php if ($page == 'Structure') { ?>
+          <li class="nav-item menu-is-opening menu-open">
+          <?php } else { ?>
+          <li class="nav-item">
+          <?php } ?>
+          <a id="nav-daerah" href="#" class="nav-link">
+            <i class="nav-icon fas fa-key"></i>
+            <p>
+              Network
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <?php if ($page == 'History Lisensi') { ?>
+                <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Referrals</p>
+                  </a>
+            </li>
+           
+            <li class="nav-item">
+              <?php if ($page == 'Structure') { ?>
+                <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="nav-icon far fa-circle"></i>
+                  <p>
+                    Network Diagram
+                  </p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Buy Lisensi') { ?>
+                <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
+                          ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Left Group Omset</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Buy Lisensi') { ?>
+                <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
+                          ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Right Group Omset</p>
+                  </a>
+            </li>
+
+          </ul>
+          </li>
+          <li class="nav-item">
+
+            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+
+              <i class="nav-icon fa fa-film"></i>
+              <p>
+                Video Tutorial
+              </p>
+            </a>
+          </li>
+
 
           <li class="nav-item">
             <a href="<?php echo base_url('customer/logout') ?>" class="nav-link">

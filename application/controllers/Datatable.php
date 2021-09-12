@@ -400,6 +400,71 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_upgrade_licence()
+    {
+        $columns = array(
+            array(
+                'db' => 'order_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'current_licence_name',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'upgrade_to_name',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'diff_payment',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'is_finish',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    if($d){
+                        return "<strong style='color: green'>FINISH</strong>";
+                    }else{
+                        return "<strong style='color: yellow'>PENDING</strong>";
+                    }
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 6,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/detail_upgrade/'.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
+          );
+          $ssptable='lisensi_upgrades_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='id>=0';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_all_members()
     {
         $columns = array(
@@ -495,7 +560,20 @@ class Datatable extends CI_Controller {
                 'formatter' => function($d, $row){
                     return $d;
                 }
-            )
+            ),
+            array(
+                'db' => 'id',  'dt' => 8,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/delete_member/'.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="delete" class="fa fa-trash"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
           );
           $ssptable='customer_complate_data';
           $sspprimary='id';
@@ -754,6 +832,98 @@ class Datatable extends CI_Controller {
           $sspprimary='id';
           $sspjoin='';
           $sspwhere='transfer_number LIKE "PT%" AND receive_by = '.$id ;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_pairing($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'id_inout',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'balance',  'dt' => 2,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+          );
+          $ssptable='inout_bonuses_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='note = "pairing bonus" AND owner_id = '.$id ;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function get_withdraw()
+    {
+        $columns = array(
+            array(
+                'db' => 'order_number',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'amount',  'dt' => 2,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+            array(
+                'db' => 'user_name',  'dt' => 3,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+            array(
+                'db' => 'status',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    if($d=1){
+                        $v='<strong style="color:yellow">PENDING</strong>';
+                    }else if($d=2){
+                        $v='<strong style="color:green">SUCCESS</strong>';
+                    }else{
+                        $v='<strong style="color:red">REJECT</strong>';
+                    }
+                   return $v;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $link = base_url('customer/pin?action=order_detail&id='.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
+          );
+          $ssptable='withdraws_complate_data';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='id>=0';
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }

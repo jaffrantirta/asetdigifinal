@@ -32,8 +32,6 @@
                 <h3 class="card-title">LISENSI</h3>
               </div>
               <div class="card-body">
-
-
                 <div class="form-group">
                   <label>Lisensi</label><br>
                   <div class="input-group">
