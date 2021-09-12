@@ -37,7 +37,7 @@ class Withdraw {
                 $auto_amount = $withdraw[0]->amount / 100 * $pecentage_properties;
                 $withdraw_amount = $withdraw[0]->amount - $auto_amount;
                 $data['transfer']['withdraw_amount'] = $withdraw_amount;
-                $data['tranfer']['auto_amount'] = $auto_amount; 
+                $data['transfer']['auto_amount'] = $auto_amount; 
                 $data['withdraw'] = $withdraw[0];
                 $data['user'] = $user[0];
                 return $data;
@@ -46,6 +46,12 @@ class Withdraw {
             }
         }else{
             return false;
+        }
+    }
+    public function update_status($data)    
+    {
+        if($data['status'] = 3){
+            // $update =$this->ci->api_model->update_data(array('id'=>$data['id']), 'withdraws', array('status'))
         }
     }
 }
