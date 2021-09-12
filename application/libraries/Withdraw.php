@@ -50,8 +50,42 @@ class Withdraw {
     }
     public function update_status($data)    
     {
-        if($data['status'] = 3){
-            // $update =$this->ci->api_model->update_data(array('id'=>$data['id']), 'withdraws', array('status'))
+        $withdraw = $this->ci->api_model->get_data_by_where('withdraws', array('id'=>$data['id']))->result();
+        if(count($withdraw) > 0){
+            if($data['status'] == 3){
+                $update =$this->ci->api_model->update_data(array('id'=>$data['id']), 'withdraws', array('status'=>3));
+                if($update){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                $total_bonus = $this->ci->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$withdraw[0]->user_id))->result();
+                if($total_bonus[0]->balance >= $withdraw[0]->amount){
+                    $balance = $total_bonus[0]->balance - $withdraw[0]->amount;
+                    $this->ci->db->trans_start();
+                    $this->ci->api_model->update_data(array('id'=>$data['id']), 'withdraws', array('status'=>2));
+                    $this->ci->api_model->update_data(array('id'=>$total_bonus[0]->id), 'total_bonuses', array('balance'=>$balance));
+                    $insert = array(
+                        'id_inout'=>'BI'.time().'-'.$total_bonus[0]->owner_id,
+                        'type'=>2,
+                        'balance'=>$withdraw[0]->amount,
+                        'note'=>'withdraw',
+                        'total_bonus_id'=>$total_bonus[0]->id
+                    );
+                    $this->ci->api_model->insert_data('inout_bonuses', $insert);
+                    $this->ci->db->trans_complete();
+                    if($this->ci->db->trans_status()){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return false;
         }
     }
 }
