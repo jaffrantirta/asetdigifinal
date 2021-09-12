@@ -1062,5 +1062,17 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function update_status_withdraw()
+    {
+      $id = $this->input->post('id');
+      $status = $this->input->post('status');
+      if($id != ''){
+        
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
 }
 
