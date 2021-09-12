@@ -384,7 +384,17 @@
                   <a href="<?php echo base_url('customer/lisensi?action=buy') ?>" class="nav-link">
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Buy Lisensi</p>
+                  <p>Buy Licence</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Upgrade Lisensi') { ?>
+                <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Upgrade Licence</p>
                   </a>
             </li>
             <!-- <li class="nav-item">

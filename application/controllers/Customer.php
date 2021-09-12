@@ -12,6 +12,7 @@ class Customer extends CI_Controller {
 		$this->load->library('mailer');
 		$this->load->library('pdf');
 		$this->load->library('pdf2');
+		$this->load->library('bonus');
 	}
 	public function index(){
         if($this->session->userdata('authenticated_customer')){
@@ -335,6 +336,34 @@ class Customer extends CI_Controller {
 					$this->load->view('Customer/Template/header', $data);
 					$this->load->view('Customer/transfer_lisensi_history', $data);
 					$this->load->view('Customer/Template/footer', $data);
+					break;
+				case "upgrade":
+					if(count($x = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$this->session->userdata('data')->id))->result()) > 0){
+						$data['balance_total'] = $x[0];
+					}else{
+						$data['balance_total'] = 0;
+					}
+					$data['lisensi_currency'] = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+					$data['how_to_buy'] = $this->api_model->get_data_by_where('settings', array('key'=>'payment_tutorial'))->result()[0]->content;
+					$data['page'] = 'Upgrade Licence';
+					$data['get_lisensies'] = $this->api_model->get_data_by_where('user_lisensies_complate_data', array('owner'=>$this->session->userdata('data')->id))->result();
+					switch($data['get_lisensies'][0]->lisensi_id){
+						case "1":
+							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 2 OR a.id = 3")->result();
+							break;
+						case "2":
+							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 3")->result();
+							break;
+						case "3":
+							$data['lisensies'][0]['id'] = '99';
+							$data['lisensies'][0]['name'] = 'You are at latest Licence level';
+							$data['lisensies'][0]['price'] = '';
+							break;
+					}
+					$this->load->view('Customer/Template/header', $data);
+					$this->load->view('Customer/upgrade_licence', $data);
+					$this->load->view('Customer/Template/footer', $data);
+					// echo json_encode($data);
 					break;
 				default :
 					echo "404";

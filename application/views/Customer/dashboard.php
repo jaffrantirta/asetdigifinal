@@ -13,7 +13,7 @@
     <!-- /.content-header -->
 
     <section class="content">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
 
@@ -170,13 +170,15 @@
           <!--  </div>-->
           <!--</div>-->
           <!-- ./col -->
+         
+        </div>
 
         </div>
 
         <div class="row">
           <div class="col-lg-4 col-sm-4">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-dark">
               <div class="inner">
                 <h3><?php echo $sponsor_code ?></h3>
                 <p>Your Sponsor Code</p>
@@ -192,6 +194,7 @@
             <div class="small-box bg-success">
               <div class="inner">
                 <h3 class="m"><?php echo $sponsor_code_use ?></h3>
+                <h3><?php echo $sponsor_code_use ?></h3>
                 <p>Your Sponsor Code Used</p>
               </div>
               <div class="icon">
@@ -201,6 +204,7 @@
             </div>
           </div>
           <div class="col-lg-4 col-sm-4">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
@@ -270,4 +274,6 @@
     <!--    </div>-->
     <!--</div>-->
 
+  </div>
+           
   </div>

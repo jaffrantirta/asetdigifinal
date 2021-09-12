@@ -52,7 +52,7 @@ class Mailer {
         $mail = new PHPMailer;
         $mail->isSMTP();
 
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'mail.assetdigital.id';
         $mail->Username = $this->email_pengirim; // Email Pengirim
         $mail->Password = $this->password; // Isikan dengan Password email pengirim
         $mail->Port = 465;
