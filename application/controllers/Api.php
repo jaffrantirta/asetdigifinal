@@ -1067,7 +1067,17 @@ class Api extends CI_Controller {
       $id = $this->input->post('id');
       $status = $this->input->post('status');
       if($id != ''){
-        
+        if($status != ''){
+          if($this->withdraw->update_status(array('id'=>$id, 'status'=>$status))){
+            $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update berhasil', 'english'=>'Updated'));
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update gagal', 'english'=>'Update failed'));
+            $this->output->set_status_header(501);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan Status', 'english'=>'Status is required'));
+          $this->output->set_status_header(401);
+        }
       }else{
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID', 'english'=>'ID is required'));
         $this->output->set_status_header(401);
