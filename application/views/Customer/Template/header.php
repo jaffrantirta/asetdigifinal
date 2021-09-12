@@ -560,17 +560,7 @@
                   <p>Referrals</p>
                   </a>
             </li>
-            <li class="nav-item">
-              <?php if ($page == 'Buy Lisensi') { ?>
-                <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
-                          ?>" class="nav-link active">
-                <?php } else { ?>
-                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-                  <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Omset Group</p>
-                  </a>
-            </li>
+           
             <li class="nav-item">
               <?php if ($page == 'Structure') { ?>
                 <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">

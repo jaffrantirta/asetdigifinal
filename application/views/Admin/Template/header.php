@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,6 +33,7 @@
   <!-- lottie player -->
   <script src="<?php echo base_url('assets/build/js/lottie/LottiePlayer.js') ?>"></script>
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm"></body>
 <div hidden class="loader"></div>
 <p hidden id="base_url"><?php echo base_url() ?></p>
@@ -42,11 +44,11 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <lottie-player class="animation__shake" src="https://assets9.lottiefiles.com/packages/lf20_x62chJ.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-    <h3 class="text-center">Memuat ...</h3> 
+    <lottie-player class="animation__shake" src="https://assets9.lottiefiles.com/packages/lf20_x62chJ.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+    <h3 class="text-center">Memuat ...</h3>
   </div>
 
-  
+
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-light">
@@ -80,7 +82,7 @@
       <h4 class="brand-text font-weight-light"><?php echo $sistem_name ?> - Admin</h4>
     </a>
 
-    
+
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -95,7 +97,7 @@
         </div>
       </div>
 
-      
+
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -103,23 +105,23 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-          <?php if($page == 'Dashboard'){ ?>
-            <a href="<?php echo base_url('admin/dashboard') ?>" class="nav-link active">
-          <?php }else{ ?>
-            <a href="<?php echo base_url('admin/dashboard') ?>" class="nav-link">
-          <?php } ?>
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-              </p>
-            </a>
+            <?php if ($page == 'Dashboard') { ?>
+              <a href="<?php echo base_url('admin/dashboard') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('admin/dashboard') ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                </p>
+                </a>
           </li>
 
 
           <!-- <li class="nav-item">
-          <?php if($page == 'Pengguna'){ ?>
+          <?php if ($page == 'Pengguna') { ?>
             <a href="<?php echo base_url('admin/users') ?>" class="nav-link active">
-          <?php }else{ ?>
+          <?php } else { ?>
             <a href="<?php echo base_url('admin/users') ?>" class="nav-link">
           <?php } ?>
               <i class="nav-icon fas fa-user"></i>
@@ -131,125 +133,135 @@
 
 
           <li class="nav-item">
-        <?php if($page == 'Request PIN Register' || $page == 'Request Lisensi'){ ?>
+            <?php if ($page == 'Request PIN Register' || $page == 'Request Lisensi') { ?>
           <li class="nav-item menu-is-opening menu-open">
-        <?php }else{ ?>
+          <?php } else { ?>
           <li class="nav-item">
-        <?php } ?>
-            <a id="nav-daerah" href="#" class="nav-link"> 
-              <i class="nav-icon fas fa-key"></i>
-              <p>
-                Request
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-              <?php if($page == 'Request PIN Register'){ ?>
+          <?php } ?>
+          <a id="nav-daerah" href="#" class="nav-link">
+            <i class="nav-icon fas fa-key"></i>
+            <p>
+              Request
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <?php if ($page == 'Request PIN Register') { ?>
                 <a href="<?php echo base_url('admin/request?action=pin') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/request?action=pin') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/request?action=pin') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>PIN Register</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <?php if($page == 'Request Lisensi'){ ?>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Request Lisensi') { ?>
                 <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/request?action=lisensi') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Licence</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <?php if($page == 'Request Lisensi'){ ?>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'up Lisensi') { ?>
                 <a href="<?php echo base_url('admin/request?action=upgrade') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/request?action=upgrade') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/request?action=upgrade') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Upgrade Licence</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Request Withdraw') { ?>
+                <a href="<?php echo base_url('admin/request?action=withdraw') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/request?action=withdraw') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Withdraw Request</p>
+                  </a>
+            </li>
+          </ul>
+          </li>
+
+          <li class="nav-item">
+            <?php if ($page == 'Members') { ?>
+              <a href="<?php echo base_url('admin/members') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('admin/members') ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Members
+                </p>
                 </a>
-              </li>
-            </ul>
           </li>
 
           <li class="nav-item">
-          <?php if($page == 'Members'){ ?>
-            <a href="<?php echo base_url('admin/members') ?>" class="nav-link active">
-          <?php }else{ ?>
-            <a href="<?php echo base_url('admin/members') ?>" class="nav-link">
-          <?php } ?>
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Members
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-        <?php if($page == 'Company Profile' || $page == 'PIN Register Settings' || $page == 'Licences' || $page == 'Change Instraction Payment'){ ?>
+            <?php if ($page == 'Company Profile' || $page == 'PIN Register Settings' || $page == 'Licences' || $page == 'Change Instraction Payment') { ?>
           <li class="nav-item menu-is-opening menu-open">
-        <?php }else{ ?>
+          <?php } else { ?>
           <li class="nav-item">
-        <?php } ?>
-            <a id="nav-daerah" href="#" class="nav-link"> 
-              <i class="nav-icon fas fa-key"></i>
-              <p>
-                Settings
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-              <?php if($page == 'Company Profile'){ ?>
+          <?php } ?>
+          <a id="nav-daerah" href="#" class="nav-link">
+            <i class="nav-icon fas fa-key"></i>
+            <p>
+              Settings
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <?php if ($page == 'Company Profile') { ?>
                 <a href="<?php echo base_url('admin/settings?action=company-profile') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/settings?action=company-profile') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=company-profile') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Company Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <?php if($page == 'PIN Register Settings'){ ?>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'PIN Register Settings') { ?>
                 <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=pin-register') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>PIN Register Settings</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <?php if($page == 'Licences'){ ?>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Licences') { ?>
                 <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=licences') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Licences</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <?php if($page == 'Change Instraction Payment'){ ?>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Change Instraction Payment') { ?>
                 <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link active">
-              <?php }else{ ?>
-                <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link">
-              <?php } ?>
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link">
+                  <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Change Instructions Payment</p>
-                </a>
-              </li>
-            </ul>
+                  </a>
+            </li>
+          </ul>
           </li>
 
-         
+
           <li class="nav-item">
-                <a href="<?php echo base_url('admin/logout') ?>" class="nav-link">
+            <a href="<?php echo base_url('admin/logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Logout
@@ -262,5 +274,3 @@
     </div>
     <!-- /.sidebar -->
   </aside>
-
-  

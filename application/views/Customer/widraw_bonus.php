@@ -42,17 +42,15 @@
 
                   <div class="form-group">
                       <label>Amount</label><br>
-                      <small id="msg_title" hidden style="color: red">PIN is wrong</small>
                       <div class="input-group">
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                           </div>
-                          <input id="amount" type="text" class="form-control" placeholder="enter amount your withdraw ..">
+                          <input id="amount_withdraw" type="number" class="form-control" placeholder="enter amount to withdraw ..">
                       </div>
                   </div>
                   <div class="form-group">
                       <label>Secure PIN</label><br>
-                      <small id="msg_title" hidden style="color: red">PIN is wrong</small>
                       <div class="input-group">
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
@@ -61,7 +59,7 @@
                       </div>
                   </div>
                   <div class="form-group">
-                      <button class="col-12 col-md-6 btn btn-primary" onclick="create_order()">Submit</button>
+                      <button class="col-12 col-md-6 btn btn-primary" onclick="request()">Submit</button>
                   </div>
               </div>
           </div>
@@ -74,7 +72,6 @@
   <script>
       var id = document.getElementById('id').innerHTML;
       var base_url = document.getElementById('base_url').innerHTML;
-      console.log('oke')
       $.ajax({
           url: base_url + "api/total_bonus",
           type: "post",
@@ -83,7 +80,7 @@
           },
           success: function(result) {
               $('.loader').attr('hidden', true);
-              console.log('data : ' + result);
+              //   console.log('data : ' + result);
               var d = JSON.parse(result);
               document.getElementById('amount').innerHTML = d.data['balance'];
           },
@@ -96,4 +93,37 @@
               show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
           }
       });
+  </script>
+  <script>
+      function request() {
+          var id = document.getElementById('id').innerHTML;
+          var base_url = document.getElementById('base_url').innerHTML;
+          var amount = document.getElementById('amount_withdraw').value;
+          var secure_pin = document.getElementById('secure_pin').value;
+          console.log(amount)
+          $.ajax({
+              url: base_url + "api/withdraw",
+              type: "post",
+              data: {
+                  'id': id,
+                  'amount': amount,
+                  'secure_pin': btoa(secure_pin)
+
+              },
+              success: function(result) {
+                  $('.loader').attr('hidden', true);
+                  console.log('data : ' + result);
+                  var d = JSON.parse(result);
+                  show_message('success', d.response.message['english'], '');
+              },
+              error: function(result, ajaxOptions, thrownError) {
+                  $('.loader').attr('hidden', true);
+                  // console.log('data : '+xhr.responseText);
+                  show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                  var string = JSON.stringify(result.responseText);
+                  var msg = JSON.parse(result.responseText);
+                  show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+              }
+          });
+      }
   </script>
