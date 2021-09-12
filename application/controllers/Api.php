@@ -41,15 +41,18 @@ class Api extends CI_Controller {
   {
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-    $result['data'] = $this->api_model->login($username, base64_decode($password))->result();
-    if(count($result['data']) > 0){
-      if($result['data'][0]->role == 'customer'){
-        $session = array(
-          'authenticated_customer'=>true,
-          'data'=>$result['data'][0]
-        );
-        $this->session->set_userdata($session);
-        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Login berhasil', 'english'=>"You're logged"));
+    $user = $this->api_model->login($username, base64_decode($password))->result();
+    if(count($user) > 0){
+      if($user[0]->role == 'customer'){
+        if(count($sponsor_code = $this->db->query("SELECT * FROM sponsor_codes a WHERE a.owner = ".$user[0]->id)->result()) > 0 ){
+          $session = array(
+            'authenticated_customer'=>true,
+            'data'=>$user[0],
+            'sponsor_code'=>$sponsor_code[0]
+          );
+          $this->session->set_userdata($session);
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Login berhasil', 'english'=>"You're logged"));
+        }
       }else{
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Kridensial yang digunakan bukan customer', 'english'=>"Your kridential is not customer"));
         $this->output->set_status_header(401);
@@ -447,9 +450,13 @@ class Api extends CI_Controller {
                       );
                       if($this->api_model->insert_data('positions', $insert_position)){
                         $data_template = array(
-                          'opening'=> 'Hi '.$name.', thank you for your registration',
+                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br> Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br>',
                           'email'=>$email,
-                          'message'=>'Your registration has been successful. You are a member right now. Good luck!'
+                          'message'=>'SEGERALAH MEMBELI PAKET LISENSI,
+                          MELALUI ADMIN : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'phone_number'")->result()[0]->content.' <br>
+                          Email : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content.' <br>
+                          Best Regards, <br>
+                          PT. Windax Digital Indonesia'
                         );
                         $content = $this->email_template->template($data_template);
                         $send_mail = array(

@@ -495,7 +495,20 @@ class Datatable extends CI_Controller {
                 'formatter' => function($d, $row){
                     return $d;
                 }
-            )
+            ),
+            array(
+                'db' => 'id',  'dt' => 8,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/delete_member/'.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="delete" class="fa fa-trash"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
           );
           $ssptable='customer_complate_data';
           $sspprimary='id';

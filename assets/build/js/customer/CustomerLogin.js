@@ -29,8 +29,7 @@ function login(){
                     $('.loader').attr('hidden', true);
                     // console.log('data : '+result);
                     var data = JSON.parse(result);
-                    var d = data.data[0];
-                    show_message('success', 'Login berhasil', '');
+                    show_message('success', data['response']['message']['english'], '');
                     location.reload();
                 },
                 error: function (result, ajaxOptions, thrownError) {

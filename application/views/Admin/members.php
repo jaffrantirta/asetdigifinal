@@ -27,11 +27,11 @@
                     <th>Register Date</th>
                     <th>Sponsor Code</th>
                     <th>Sponsor Code Bonus</th>
-                    <th>Left Turnover Bonus</th>
-                    <th>Right Turnover Bomus</th>
+                    <th><p class="text-danger">Under Development</p></th>
+                    <th><p class="text-danger">Under Development</p></th>
                     <th>Licence</th>
                     <th>id</th>
-                    <!-- <th>Action</th> -->
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>

@@ -231,7 +231,7 @@
                 <a href="<?php echo base_url('admin/settings?action=instruction') ?>" class="nav-link">
               <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Change Instraction Payment</p>
+                  <p>Change Instructions Payment</p>
                 </a>
               </li>
             </ul>

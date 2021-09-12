@@ -32,10 +32,12 @@ class Bonus extends CI_Controller {
             $this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/bonus_detail_sponsor_code', $data);
 			$this->load->view('Customer/Template/footer', $data);
+            // echo json_encode($data);
         }else if($role == 'admin'){
             $this->load->view('Admin/Template/header', $data);
             $this->load->view('Admin/bonus_detail_sponsor_code', $data);
             $this->load->view('Admin/Template/footer', $data);
+            // echo json_encode($data);
         }
     }
     public function turnover($hash)
