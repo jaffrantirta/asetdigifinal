@@ -14,6 +14,8 @@ class Api extends CI_Controller {
 		$this->load->library('pdf');
 		$this->load->library('pdf2');
     $this->load->library('bonus');
+    $this->load->library('secure_pin');
+    $this->load->library('withdraw');
     $this->load->library('email_template');
     $this->load->helper('string');
 	}
@@ -997,6 +999,45 @@ class Api extends CI_Controller {
       if($id != null){
         $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
         $result['data'] = $this->bonus->total($id);
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'ID customer is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function withdraw()
+    {
+      $id = $this->input->post('id');
+      $amount = $this->input->post('amount');
+      $secure_pin = $this->input->post('secure_pin');
+      if($id != null){
+        if($amount != null){
+          if($secure_pin != null){
+            if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>$secure_pin))){
+              $insert = array(
+                'order_number'=>'W'.time().'-'.$id,
+                'user_id' => $id,
+                'amount' => $amount,
+                'status' => 1
+              );
+              if($this->withdraw->request($insert)){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
+                $this->output->set_status_header(501);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID jumlah penarikan', 'english'=>'Amount is required'));
+          $this->output->set_status_header(401);
+        }
       }else{
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'ID customer is required'));
         $this->output->set_status_header(401);
