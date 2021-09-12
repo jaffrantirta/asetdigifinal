@@ -13,6 +13,7 @@ class Api extends CI_Controller {
     $this->load->library('upgrade');
 		$this->load->library('pdf');
 		$this->load->library('pdf2');
+    $this->load->library('bonus');
     $this->load->library('email_template');
     $this->load->helper('string');
 	}
@@ -977,6 +978,30 @@ class Api extends CI_Controller {
         }
         echo 0;
       }
+    }
+    public function total_bonus()
+    {
+      $id = $this->input->post('id');
+      if($id != null){
+        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
+        $result['data'] = $this->bonus->total($id);
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'ID customer is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function pairing_bonus()
+    {
+      $id = $this->input->post('id');
+      if($id != null){
+        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
+        $result['data'] = $this->bonus->total($id);
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'ID customer is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
     }
 }
 
