@@ -35,6 +35,7 @@
 
  <script>
      var id = document.getElementById('id').innerHTML;
+     var base_url = document.getElementById('base_url').innerHTML;
      console.log('oke')
      $.ajax({
          url: base_url + "api/total_bonus",
@@ -45,8 +46,8 @@
          success: function(result) {
              $('.loader').attr('hidden', true);
              console.log('data : ' + result);
-             var data = JSON.parse(result);
-             document.getElementById('amount').innerHTML = data['balance'];
+             var d = JSON.parse(result);
+             document.getElementById('amount').innerHTML = d.data['balance'];
          },
          error: function(result, ajaxOptions, thrownError) {
              $('.loader').attr('hidden', true);

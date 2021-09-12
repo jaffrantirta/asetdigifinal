@@ -13,7 +13,7 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <p hidden id='link'>datatable/get_pairing_Bonuses/<?php echo $sponsor_code_bonus_id ?></p>
+    <p hidden id='link'>datatable/get_pairing/<?php echo $session['data']->id?></p>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">All bonuses of Pairing : <?php echo $sponsor_code_name ?></h3>

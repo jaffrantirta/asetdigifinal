@@ -454,10 +454,10 @@
             </li>
             <li class="nav-item">
               <?php
-                  $customer = base64_encode('customer');
-                  $hash = base64_encode($session['data']->id . '/' . $session['sponsor_code']->code); // 21/JAFF001
-                  $route = "bonus/pairing_bonus/$customer?token=$hash";
-                  $url = base_url($route);
+              $customer = base64_encode('customer');
+              $hash = base64_encode($session['data']->id . '/' . $session['sponsor_code']->code); // 21/JAFF001
+              $route = "bonus/pairing_bonus/$customer?token=$hash";
+              $url = base_url($route);
               ?>
               <?php if ($page == 'Pairing Bonus') { ?>
                 <a href="<?php echo $url ?>" class="nav-link active">
@@ -502,14 +502,16 @@
           </ul>
           </li>
           <li class="nav-item">
-
-            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-
-              <i class="nav-icon fa fa-star"></i>
-              <p>
-                Withdraw Bonus
-              </p>
-            </a>
+            <?php if ($page == 'Witthdraw') { ?>
+              <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Withdraw Bonus
+                </p>
+                </a>
           </li>
           <li class="nav-item">
 
