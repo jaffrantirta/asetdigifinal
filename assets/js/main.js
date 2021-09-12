@@ -1,4 +1,4 @@
-* Template Name: WeBuild - v4.3.0
+/* Template Name: WeBuild - v4.3.0
 * Template URL: https://bootstrapmade.com/free-bootstrap-coming-soon-template-countdwon/
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
@@ -125,4 +125,4 @@
 
 
 
-})()
+});
