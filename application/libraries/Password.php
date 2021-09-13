@@ -12,7 +12,7 @@ class Password {
         $user = $this->ci->api_model->get_data_by_where('users', array('email'=>$email))->result();
         if(count($user) > 0){
             $date = $this->start_time();
-            $link = base_url('password?action=reset&token='.base64_encode($user[0]->id.'/'.$date));
+            $link = base_url('password?token='.base64_encode($user[0]->id.'/'.$date));
             $data_template = array(
                 'opening'=> 'Hi '.$user[0]->name.', We received a request to reset the password on your '.$this->ci->api_model->sistem_name().' Account.',
                 'email'=>$email,
@@ -21,7 +21,7 @@ class Password {
             $content = $this->ci->email_template->template($data_template);
             $send_mail = array(
                 'email_penerima'=>$email,
-                'subjek'=>'Registration',
+                'subjek'=>'Reset Password',
                 'content'=>$content,
             );
             $send = $this->ci->mailer->send($send_mail);
@@ -58,6 +58,19 @@ class Password {
 		    return false;
 		}else{
             return true;
+        }
+    }
+    public function change_secure_pin($data)
+    {
+        $user = $this->ci->api_model->get_data_by_where('users', array('id'=>$data['id']))->result();
+        if(count($user) > 0){
+            if($this->ci->api_model->update_data(array('id'=>$data['id']), 'users', $data['insert'])){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
         }
     }
 }
