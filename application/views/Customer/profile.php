@@ -40,7 +40,28 @@
                       <div class="card">
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
-                                  <li class="nav-item mr-1"><a class="nav-link profil active" href="#profile" data-toggle="tab">Profil</a></li>
+                                  <li class="nav-item mr-1"><a class="nav-link profil" href="" data-toggle="tab">Profil</a></li>
+                                  <li class="nav-item mr-1">
+                                      <?php if ($page == 'Change Password') { ?>
+                                          <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link">
+                                              <?php } ?>
+                                              Change Password</a>
+                                  </li>
+                                  <li class="nav-item mr-1"><?php if ($page == 'Change Pin') { ?>
+                                          <a href="<?php echo base_url('customer/change_pin') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/change_pin') ?>" class="nav-link">
+                                                  <?php } ?>Change Pin</a>
+                                  </li>
+                                  <li class="nav-item mr-1">
+                                      <?php if ($page == 'Upload Image') { ?>
+                                          <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
+                                                  <?php } ?>Profile Image</a>
+                                  </li>
                                   <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->
@@ -75,32 +96,10 @@
                                           <div class="col-sm-10">
                                               <input type="text" class="form-control" id="inputEmail" name="usdt_wallet" value="<?php echo set_value('usdt_wallet', $users->usdt_wallet); ?>" required>
                                           </div>
-                                          
-                                      </div>
-                                      
-                                      <div class="form-group row">
-                                          <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
-                                          <div class="col-sm-10">
-                                              <input type="password" disabled class="form-control" id="inputPassword" name="password" placeholder="(!!!Under Development!!!) Masukkan password baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
-                                          </div>
-                                          <?php echo form_error('password', '<div class="text-danger font-weight-bold">', '</div>'); ?>
-                                      </div>
-                                      <div class="form-group row">
-                                          <label for="inputPassword" class="col-sm-2 col-form-label">Secure pin:</label>
-                                          <div class="col-sm-10">
-                                              <input type="password" disabled class="form-control" id="inputPassword" name="secure_pin" placeholder="(!!!Under Development!!!)Masukkan pin baru untuk mengganti. Kosongkan jika tidak ingin mengganti">
-                                          </div>
-                                          <?php echo form_error('password', '<div class="text-danger font-weight-bold">', '</div>'); ?>
+
                                       </div>
 
 
-                                      <div class="form-group row">
-                                          <label for="inputFoto" class="col-sm-2 col-form-label">Foto profil:</label>
-                                          <div class="col-sm-10">
-                                              <input type="file" class="form-control" id="inputFoto" name="file"> <p class="text-danger">Under Development</p>
-                                          </div>
-                                          <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
-                                      </div>
                                       <div class="form-group row">
                                           <div class="offset-sm-2 col-sm-10">
                                               <button type="submit" class="btn btn-danger">update</button>
