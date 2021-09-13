@@ -78,7 +78,7 @@
                                       <div class="form-group row">
                                           <label for="inputName" class="col-sm-2 col-form-label">Password</label>
                                           <div class="col-sm-10">
-                                              <input type="password" class="form-control" id="new_password" value="" placeholder="input your new password" required>
+                                              <input type="password" class="form-control" id="password" value="" placeholder="input your new password" required>
                                           </div>
 
                                       </div>
@@ -119,14 +119,16 @@
       function request() {
           var id = document.getElementById('id').innerHTML;
           var base_url = document.getElementById('base_url').innerHTML;
+          var old_password = document.getElementById('old_password').value;
           var password = document.getElementById('password').value;
           var password_confirm = document.getElementById('password_confirm').value;
 
           $.ajax({
-              url: base_url + "api/reset_password",
+              url: base_url + "api/change_password",
               type: "post",
               data: {
                   'id': id,
+                  'old_password': old_password,
                   'password': password,
                   'password_confirm': password_confirm
               },
