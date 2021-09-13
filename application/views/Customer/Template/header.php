@@ -514,9 +514,11 @@
                 </a>
           </li>
           <li class="nav-item">
-
-            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-
+          <?php if ($page == 'Auto Save Property') { ?>
+              <a href="<?php echo base_url('customer/auto') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('customer/auto') ?>" class="nav-link">
+                <?php } ?>
               <i class="nav-icon fa fa-tags"></i>
               <p>
                 Auto Save Property

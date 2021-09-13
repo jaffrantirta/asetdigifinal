@@ -176,7 +176,7 @@
         <div class="row">
           <div class="col-lg-4 col-12">
             <!-- small box -->
-            <div class="small-box bg-dark">
+            <div class="small-box bg-warning">
               <div class="inner">
                 <h3><?php echo $sponsor_code ?></h3>
                 <p>Your Sponsor Code</p>
@@ -187,9 +187,9 @@
               <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
-          <div class="col-lg-4 col-6">
+          <div class="col-lg-4 col-12">
             <!-- small box -->
-            <div class="small-box bg-dark">
+            <div class="small-box bg-warning">
               <div class="inner">
                 <h3><?php echo $sponsor_code_use ?></h3>
                 <p>Your Sponsor Code Used</p>
@@ -200,9 +200,9 @@
               <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
-          <div class="col-lg-4 col-6">
+          <div class="col-lg-4 col-12">
             <!-- small box -->
-            <div class="small-box bg-dark">
+            <div class="small-box bg-warning">
               <div class="inner">
                 <h3><?php echo $your_licence ?></h3>
                 <p>Your Licence</p>

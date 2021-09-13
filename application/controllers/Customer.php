@@ -76,6 +76,18 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function auto(){
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Auto Save Property';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/auto_save_property', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
 	public function withdraw()
 	{
 		if (!$this->session->userdata('authenticated_customer')) {
