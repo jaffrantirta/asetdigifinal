@@ -174,7 +174,7 @@ class Datatable extends CI_Controller {
                     }else if($row[5]){
                         $y = '<p style="color:red">REJECTED</p>';
                     }else{
-                        $y = '<p style="color:yellow">PENDING</p>';
+                        $y = '<p style="color:#ff6600">PENDING</p>';
                     }
                     return $y;
                 }
@@ -247,7 +247,7 @@ class Datatable extends CI_Controller {
                     }else if($row[5]){
                         $y = '<p style="color:red">REJECTED</p>';
                     }else{
-                        $y = '<p style="color:yellow">PENDING</p>';
+                        $y = '<p style="color:#ff6600">PENDING</p>';
                     }
                     return $y;
                 }
@@ -546,11 +546,10 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'lisensi_name',  'dt' => 6,
                 'formatter' => function($d, $row){
-                    if($d == null){
+                    if($row[9] == 0 || $row[9] == null){
                         $result = '<a style="color: red">not have licence</a>';
                     }else{
                         $result = '<a style="color: green">'.$d.'</a>';
-
                     }
                     return $result;
                 }
@@ -564,18 +563,24 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 8,
                 'formatter' => function($d, $row){
-                    $link = base_url('admin/delete_member/'.$d);
+                    $link = 'deactivate('.$d.')';//base_url('admin/delete_member/'.$d);
                     return '
                     <center>
-                        <a href="'.$link.'">
-                            <i title="delete" class="fa fa-trash"></i>
-                        </a>
+                        <button class="btn btn-danger"  onclick="'.$link.'">
+                            Deactivate
+                        </button>
                     </center>
                     ';
                 }
             ),
+            array(
+                'db' => 'is_active_licence',  'dt' => 9,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
           );
-          $ssptable='customer_complate_data';
+          $ssptable='customer_complate_date';
           $sspprimary='id';
           $sspjoin='';
           $sspwhere='role = "customer"';
@@ -896,9 +901,9 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'status',  'dt' => 4,
                 'formatter' => function($d, $row){
-                    if($d=1){
-                        $v='<strong style="color:yellow">PENDING</strong>';
-                    }else if($d=2){
+                    if($d==1){
+                        $v='<strong style="color:#ff6600">PENDING</strong>';
+                    }else if($d==2){
                         $v='<strong style="color:green">SUCCESS</strong>';
                     }else{
                         $v='<strong style="color:red">REJECT</strong>';

@@ -45,3 +45,13 @@ from ((`user_lisensies` `ul`
 left join `users` `u` on(`u`.`id` = `ul`.`owner`)) 
 left join `lisensies` `l` on(`l`.`id` = `ul`.`lisensi_id`));
 
+CREATE VIEW customer_complate_date AS
+select `f`.`left_belance` AS `left_belance`,`f`.`right_belance` AS `right_belance`,`e`.`balance` AS `balance`,`a`.`id` AS `id`,`a`.`name` AS `name`,`a`.`email` AS `email`,`a`.`email_verified_at` AS `email_verified_at`,`a`.`username` AS `username`,`a`.`password` AS `password`,`a`.`profile_picture` AS `profile_picture`,`a`.`role` AS `role`,`a`.`register_date` AS `register_date`,`a`.`secure_pin` AS `secure_pin`,`b`.`code` AS `code`,`d`.`name` AS `lisensi_name`, `c`.`is_active` AS `is_active_licence` 
+from (((((`users` `a` 
+left join `sponsor_codes` `b` on(`b`.`owner` = `a`.`id`)) 
+left join `user_lisensies` `c` on(`c`.`owner` = `a`.`id`)) 
+left join `lisensies` `d` on(`d`.`id` = `c`.`lisensi_id`)) 
+left join `sponsor_code_bonuses` `e` on(`e`.`owner_id` = `a`.`id`)) 
+left join `turnovers` `f` on(`f`.`owner` = `a`.`id`)) 
+where `a`.`is_active` = 1;
+

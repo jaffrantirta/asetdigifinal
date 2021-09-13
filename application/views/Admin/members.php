@@ -32,6 +32,7 @@
                     <th>Licence</th>
                     <th>id</th>
                     <th>Action</th>
+                    <th>id</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -63,5 +64,20 @@
             }
         });
         table.column( 7 ).visible( false );
+        table.column( 9 ).visible( false );
     });
+    function deactivate(id) {
+      var vID = id
+      Swal.fire({
+        title: 'Do you want to deactivate this member ?',
+        showDenyButton: true,
+        showCancelButton: true,
+        showConfirmButton: false,
+        denyButtonText: `Deactivate`,
+      }).then((result) => {
+        if (result.isDenied) {
+          window.location.replace(document.getElementById('base_url').innerHTML+'admin/delete_member/'+vID);
+        }
+      })
+    }
 </script>
