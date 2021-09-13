@@ -506,5 +506,31 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function change_pin()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Change Pin';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/pin_change', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function upload_image()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Upload Image';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/image_profile', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
 	
 }

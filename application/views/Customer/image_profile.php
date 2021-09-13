@@ -39,10 +39,27 @@
                       <div class="card">
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-warning profile" href="" data-toggle="tab">Profil</a></li>
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-success" href="" data-toggle="tab">Change Password</a></li>
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-info" href="" data-toggle="tab">Change Pin</a></li>
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-primary" href="" data-toggle="tab">Profile Image</a></li>
+                                  <li class="nav-item mr-1">
+                                      <?php if ($page == 'Change Password') { ?>
+                                          <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link">
+                                              <?php } ?>
+                                              Change Password</a>
+                                  </li>
+                                  <li class="nav-item mr-1"><?php if ($page == 'Change Pin') { ?>
+                                          <a href="<?php echo base_url('customer/change_pin') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/change_pin') ?>" class="nav-link">
+                                                  <?php } ?>Change Pin</a>
+                                  </li>
+                                  <li class="nav-item mr-1">
+                                      <?php if ($page == 'Upload Image') { ?>
+                                          <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
+                                                  <?php } ?>Profile Image</a>
+                                  </li>
                                   <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->

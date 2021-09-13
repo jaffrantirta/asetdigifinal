@@ -39,10 +39,27 @@
                       <div class="card">
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-warning profile" href="" data-toggle="tab">Profil</a></li>
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-success" href="" data-toggle="tab">Change Password</a></li>
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-info" href="" data-toggle="tab">Change Pin</a></li>
-                                  <li class="nav-item mr-1"><a class="nav-link btn btn-primary" href="" data-toggle="tab">Profile Image</a></li>
+                                  <li class="nav-item mr-1">
+                                      <?php if ($page == 'Change Password') { ?>
+                                          <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link">
+                                              <?php } ?>
+                                              Change Password</a>
+                                  </li>
+                                  <li class="nav-item mr-1"><?php if ($page == 'Change Pin') { ?>
+                                          <a href="<?php echo base_url('customer/change_pin') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/change_pin') ?>" class="nav-link">
+                                                  <?php } ?>Change Pin</a>
+                                  </li>
+                                  <li class="nav-item mr-1">
+                                      <?php if ($page == 'Upload Image') { ?>
+                                          <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link active">
+                                          <?php } else { ?>
+                                              <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
+                                                  <?php } ?>Profile Image</a>
+                                  </li>
                                   <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->
@@ -54,14 +71,21 @@
                                       <div class="form-group row">
                                           <label for="inputName" class="col-sm-2 col-form-label">Old Password</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="old_pin" value="" required>
+                                              <input type="password" class="form-control" id="old_password" value="" placeholder="input your old password" required>
                                           </div>
 
                                       </div>
                                       <div class="form-group row">
-                                          <label for="inputUserName" class="col-sm-2 col-form-label">New Password</label>
+                                          <label for="inputName" class="col-sm-2 col-form-label">Password</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" disabled id="new_pin_confirm" value="" required>
+                                              <input type="password" class="form-control" id="new_password" value="" placeholder="input your new password" required>
+                                          </div>
+
+                                      </div>
+                                      <div class="form-group row">
+                                          <label for="inputUserName" class="col-sm-2 col-form-label">Password Confirm</label>
+                                          <div class="col-sm-10">
+                                              <input type="password" class="form-control" id="password_confirm" placeholder="input your confirm password must be same to new password" value="" required>
                                           </div>
 
                                       </div>
@@ -70,7 +94,7 @@
                                   </div>
                                   <div class="form-group row">
                                       <div class="offset-sm-2 col-sm-10">
-                                          <button type="submit" class="btn btn-danger">update</button>
+                                          <button onclick="request()" type="submit" class="btn btn-danger">update</button>
                                       </div>
                                   </div>
 
@@ -90,3 +114,36 @@
   </section>
 
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      function request() {
+          var id = document.getElementById('id').innerHTML;
+          var base_url = document.getElementById('base_url').innerHTML;
+          var password = document.getElementById('password').value;
+          var password_confirm = document.getElementById('password_confirm').value;
+
+          $.ajax({
+              url: base_url + "api/reset_password",
+              type: "post",
+              data: {
+                  'id': id,
+                  'password': password,
+                  'password_confirm': password_confirm
+              },
+              success: function(result) {
+                  $('.loader').attr('hidden', true);
+                  console.log('data : ' + result);
+                  var d = JSON.parse(result);
+                  show_message('success', d.response.message['english'], '');
+              },
+              error: function(result, ajaxOptions, thrownError) {
+                  $('.loader').attr('hidden', true);
+                  // console.log('data : '+xhr.responseText);
+                  show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                  var string = JSON.stringify(result.responseText);
+                  var msg = JSON.parse(result.responseText);
+                  show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+              }
+          });
+      }
+  </script>
