@@ -550,18 +550,7 @@
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview">
-
-            <li class="nav-item">
-              <?php if ($page == 'History Lisensi') { ?>
-                <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link active">
-                <?php } else { ?>
-                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-                  <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Referrals</p>
-                  </a>
-            </li>
+          <ul class="nav nav-treeview"></ul>
            
             <li class="nav-item">
               <?php if ($page == 'Structure') { ?>
