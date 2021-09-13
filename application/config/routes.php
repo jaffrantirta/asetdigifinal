@@ -56,6 +56,7 @@ $route['send-email'] = 'email controller';
 $route['email'] = 'Auth';
 
 $route['register'] = 'Customer/register';
+$route['password'] = 'Customer/password';
 
 //APIs
 $route['api/total_bonus'] = 'Api/total_bonus';

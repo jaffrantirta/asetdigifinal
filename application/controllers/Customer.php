@@ -473,4 +473,25 @@ class Customer extends CI_Controller {
 			$re_secure_pin = $this->input->post('re_secure_pin');
 		}
 	}
+	public function forgot_password(){
+		$data['sistem_name'] = $this->api_model->sistem_name();
+		$this->load->view('Customer/forgot_password', $data);
+	}
+	public function password()
+	{
+		$data['sistem_name'] = $this->api_model->sistem_name();
+		$token = base64_decode($this->input->get('token'));
+		$split = explode("/", $token);
+		$data['id'] = $split[0];
+		$date = $split[1];
+		date_default_timezone_set("Asia/Makassar");
+		$expire_date = $date;
+		$now = date("Y-m-d H:i:s");
+		if ($now > $expire_date) {
+			echo "your link has been expired";
+		} else {
+			$this->load->view('Customer/resert_password', $data);	
+		}
+	}
+	
 }
