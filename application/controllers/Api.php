@@ -1141,5 +1141,44 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function change_secure_pin()
+    {
+      $id = $this->input->post('id');
+      $old_pin = $this->input->post('old_pin');
+      $new_pin = $this->input->post('new_pin');
+      $new_pin_confirm = $this->input->post('new_pin_confirm');
+      if($id != ''){
+        if($old_pin != ''){
+          if($new_pin != ''){
+            if($new_pin_confirm != ''){
+              $data = array(
+                'id'=>$id,
+                'insert' => array(
+                  'secure_pin'=>md5($new_pin)
+                )
+              );
+              if($this->password->change_secure_pin($data)){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Ganti PIN sukses', 'english'=>'Change PIN successful'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal ganti PIN', 'english'=>'Failed to change PIN'));
+                $this->output->set_status_header(401);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN konfirmasi baru kosong', 'english'=>'New PIN confirm is empty'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN baru kosong', 'english'=>'New PIN is empty'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN lama kosong', 'english'=>'Old PIN is empty'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+    }
 }
 
