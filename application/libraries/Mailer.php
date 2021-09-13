@@ -5,9 +5,9 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mailer {
     protected $_ci;
-    protected $email_pengirim = 'noreply@assetdigital.id';
+    protected $email_pengirim = 'drivebali2016@gmail.com';//'noreply@assetdigital.id';
     protected $nama_pengirim = 'WINDAX';
-    protected $password = 'e+S7pks3Aa8@';
+    protected $password = 'qASEwS12Df8Vuj9Y';//'e+S7pks3Aa8@';
 
     public function __construct(){
         $this->_ci = &get_instance(); // Set variabel _ci dengan Fungsi2-fungsi dari Codeigniter
@@ -21,7 +21,7 @@ class Mailer {
         $mail = new PHPMailer;
         $mail->isSMTP();
 
-        $mail->Host = 'mail.assetdigital.id';//'smtp.gmail.com';
+        $mail->Host = 'smtp.gmail.com';//'smtp.gmail.com';
         $mail->Username = $this->email_pengirim; // Email Pengirim
         $mail->Password = $this->password; // Isikan dengan Password email pengirim
         $mail->Port = 465;

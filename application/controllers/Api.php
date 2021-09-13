@@ -16,6 +16,7 @@ class Api extends CI_Controller {
     $this->load->library('bonus');
     $this->load->library('secure_pin');
     $this->load->library('withdraw');
+    $this->load->library('password');
     $this->load->library('email_template');
     $this->load->helper('string');
 	}
@@ -1080,6 +1081,62 @@ class Api extends CI_Controller {
         }
       }else{
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function forgot_password()
+    {
+      $email = $this->input->post('email');
+      $user = $this->api_model->get_data_by_where('users', array('email'=>$email))->result();
+      if(count($user) > 0){
+        if($this->password->forgot($email)){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Email terkirim', 'english'=>'Emain sent'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal kirim email', 'english'=>'Failed to send email'));
+          $this->output->set_status_header(500);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Tidak ada pengguna yang menggunakan email tersebut', 'english'=>'No one else use this email'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function reset_password()
+    {
+      $password = $this->input->post('password');
+      $password_confirm = $this->input->post('password_confirm');
+      $id = $this->input->post('id');
+      if($id != ''){
+        if($password != ''){
+          if($password_confirm != ''){
+            if($password == $password_confirm){
+              $data = array(
+                'id' => $id,
+                'insert' => array(
+                  'password' => md5($password)
+                )
+              );
+              if($this->password->reset($data)){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Password Berubah', 'english'=>'Password Changed'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal mengubah password', 'english'=>'Failed to change password'));
+                $this->output->set_status_header(401);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password tidak cocok', 'english'=>'Password not match'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password konfirmasi kosong', 'english'=>'Confirm Password is empty'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password kosong', 'english'=>'Password is empty'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
         $this->output->set_status_header(401);
       }
       echo json_encode($result);
