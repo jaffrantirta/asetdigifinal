@@ -1091,7 +1091,7 @@ class Api extends CI_Controller {
       $user = $this->api_model->get_data_by_where('users', array('email'=>$email))->result();
       if(count($user) > 0){
         if($this->password->forgot($email)){
-          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Email terkirim', 'english'=>'Emain sent'));
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Email terkirim, MOHON CEK INBOX, SPAM ATAU PROMOSI', 'english'=>'Email sent, PLEASE CHECK INBOX, SPAM OR PROMOTION'));
         }else{
           $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal kirim email', 'english'=>'Failed to send email'));
           $this->output->set_status_header(500);
@@ -1179,6 +1179,25 @@ class Api extends CI_Controller {
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
         $this->output->set_status_header(401);
       }
+      echo json_encode($result);
+    }
+    public function user_detail()
+    {
+      $id = $this->input->post('id');
+      if($id != ''){
+        $data = $this->api_model->get_data_by_where('users', array('id'=>$id))->result();
+        if(count($data) > 0){
+          $result['data'] = $data[0];
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Data tidak ditemukan', 'english'=>'Data not found'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
     }
 }
 

@@ -27,7 +27,7 @@ class Mailer {
         $mail->Port = 465;
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = 'ssl';
-        $mail->SMTPDebug = 2; // Aktifkan untuk melakukan debugging
+        // $mail->SMTPDebug = 2; // Aktifkan untuk melakukan debugging
 
         $mail->setFrom($this->email_pengirim, $this->nama_pengirim);
         $mail->addAddress($data['email_penerima'], '');

@@ -67,3 +67,4 @@ $route['api/update_status_withdraw'] = 'Api/update_status_withdraw';
 $route['api/forgot_password'] = 'Api/forgot_password';
 $route['api/reset_password'] = 'Api/reset_password';
 $route['api/change_secure_pin'] = 'Api/change_secure_pin';
+$route['api/user_detail'] = 'Api/user_detail';
