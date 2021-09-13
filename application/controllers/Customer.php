@@ -493,5 +493,18 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/resert_password', $data);	
 		}
 	}
+	public function change_password()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Change Password';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/password_change', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
 	
 }
