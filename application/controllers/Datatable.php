@@ -909,7 +909,7 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 5,
                 'formatter' => function($d, $row){
-                    $link = base_url('customer/pin?action=order_detail&id='.$d);
+                    $link = base_url('admin/request?action=detail_withdraw&id='.$d);
                     return '
                     <center>
                         <a href="'.$link.'">

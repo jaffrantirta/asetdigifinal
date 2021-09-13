@@ -42,6 +42,23 @@ class Password {
             return false;
         }
     }
+    public function change_password($data)
+    {
+        $user = $this->ci->api_model->get_data_by_where('users', array('id'=>$data['id']))->result();
+        if(count($user) > 0){
+            if(md5($data['old_password']) == $user[0]->password){
+                if($this->ci->api_model->update_data(array('id'=>$data['id']), 'users', $data['insert'])){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+
+            }
+        }else{
+            return false;
+        }
+    }
     public function start_time()
     {
         date_default_timezone_set("Asia/Makassar");
