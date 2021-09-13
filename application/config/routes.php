@@ -68,3 +68,4 @@ $route['api/forgot_password'] = 'Api/forgot_password';
 $route['api/reset_password'] = 'Api/reset_password';
 $route['api/change_secure_pin'] = 'Api/change_secure_pin';
 $route['api/user_detail'] = 'Api/user_detail';
+$route['api/change_password'] = 'Api/change_password';
