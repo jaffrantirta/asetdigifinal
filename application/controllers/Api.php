@@ -1091,7 +1091,7 @@ class Api extends CI_Controller {
       $user = $this->api_model->get_data_by_where('users', array('email'=>$email))->result();
       if(count($user) > 0){
         if($this->password->forgot($email)){
-          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Email terkirim', 'english'=>'Emain sent'));
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Email terkirim, MOHON CEK INBOX, SPAM ATAU PROMOSI', 'english'=>'Email sent, PLEASE CHECK INBOX, SPAM OR PROMOTION'));
         }else{
           $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal kirim email', 'english'=>'Failed to send email'));
           $this->output->set_status_header(500);

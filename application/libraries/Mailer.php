@@ -35,7 +35,7 @@ class Mailer {
 
         $mail->Subject = $data['subjek'];
         $mail->Body = $data['content'];
-        $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email
+        // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email
 
         $send = $mail->send();
 
