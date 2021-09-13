@@ -1179,6 +1179,25 @@ class Api extends CI_Controller {
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
         $this->output->set_status_header(401);
       }
+      echo json_encode($result);
+    }
+    public function user_detail()
+    {
+      $id = $this->input->post('id');
+      if($id != ''){
+        $data = $this->api_model->get_data_by_where('users', array('id'=>$id))->result();
+        if(count($data) > 0){
+          $result['data'] = $data[0];
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Data tidak ditemukan', 'english'=>'Data not found'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
     }
 }
 
