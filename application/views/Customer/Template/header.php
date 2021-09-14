@@ -545,7 +545,7 @@
                 </a>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Buy Lisensi') { ?>
+            <?php if ($page == 'Left Group Omset') { ?>
               <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
                         ?>" class="nav-link active">
               <?php } else { ?>
@@ -556,7 +556,7 @@
                 </a>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Buy Lisensi') { ?>
+            <?php if ($page == 'Right Group Omset') { ?>
               <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
                         ?>" class="nav-link active">
               <?php } else { ?>
