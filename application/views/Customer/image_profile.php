@@ -60,7 +60,7 @@
                                               <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
                                                   <?php } ?>Profile Image</a>
                                   </li>
-                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
+                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo base_url('customer/logout') ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->
                           <div class="card-body">
@@ -104,27 +104,27 @@
   </div>
 
   <script>
-      function upload_process(){
-        var fd = new FormData();
-        var files = $('#file')[0].files;
-        fd.append('file',files[0]);
-        $.ajax({
-            url: document.getElementById('base_url').innerHTML + 'api/update_profile_picture/' + <?php echo $session['data']->id ?>,
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            success: function(response){
-                if(response != 0){
-                    show_message('success', 'Updated', '');
-                }else{
-                    Swal.fire(
-                        'File failed to upload',
-                        '',
-                        'error'
-                    )
-                }
-            },
-        });
-    }
+      function upload_process() {
+          var fd = new FormData();
+          var files = $('#file')[0].files;
+          fd.append('file', files[0]);
+          $.ajax({
+              url: document.getElementById('base_url').innerHTML + 'api/update_profile_picture/' + <?php echo $session['data']->id ?>,
+              type: 'post',
+              data: fd,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  if (response != 0) {
+                      show_message('success', 'Updated', '');
+                  } else {
+                      Swal.fire(
+                          'File failed to upload',
+                          '',
+                          'error'
+                      )
+                  }
+              },
+          });
+      }
   </script>
