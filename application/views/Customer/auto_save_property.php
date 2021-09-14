@@ -12,7 +12,7 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <p hidden id='link'>datatable/get_pairing/<?php echo $session['data']->id?></p>
+    <p hidden id='link'>datatable/get_properties/<?php echo $session['data']->id ?></p>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Auto Save Property</h3>
@@ -22,9 +22,8 @@
             <table id="table" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Date</th>
                         <th>Amount</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,3 +32,27 @@
         </div>
         <!-- /.card-body -->
     </div>
+    <script src="<?php echo base_url() ?>assets/build/js/customer/Jquery3Offline.js"></script>
+<script>
+    $(document).ready(function() {
+        var link = document.getElementById('base_url').innerHTML + document.getElementById('link').innerHTML;
+        console.log(link);
+        table = $('#table').DataTable({
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": link,
+            "bSort":true,
+            "bPaginate": true,
+            "iDisplayLength": 10,
+            "order": [[ 1, "desc" ]],
+            "language": {
+                "searchPlaceholder": "Search...",
+                "search":""
+            },
+            "fnInitComplete": function(oSettings, json) {
+                $('#table_filter :input').addClass('form-control').css({'width':'10em'});
+            }
+        });
+    });
+</script>

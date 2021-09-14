@@ -72,11 +72,24 @@ class Customer extends CI_Controller {
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'total bonus';
-			$admin = base64_encode('admin');
-            $id_and_position = base64_encode($this->session->.'/1');
-            $hash = base64_encode($id_and_position.'////LEFT');
-            $route = "bonus/turnover/$admin?token=$hash";
-            $url = base_url($route);
+			$customer = base64_encode('customer');
+			$position = $this->input->get('position');
+			switch($position){
+				case "left":
+					$id_and_position = base64_encode($this->session->userdata('data')->id.'/1');
+					$hash = base64_encode($id_and_position.'////LEFT');
+					$route = "bonus/turnover/$customer?token=$hash";
+					$url = base_url($route);
+					header("Location: $url");
+					break;
+				case "right":
+					$id_and_position = base64_encode($this->session->userdata('data')->id.'/2');
+					$hash = base64_encode($id_and_position.'////RIGHT');
+					$route = "bonus/turnover/$customer?token=$hash";
+					$url = base_url($route);
+					header("Location: $url");
+					break;
+			}
 		}
 	}
 	public function total_bonus(){

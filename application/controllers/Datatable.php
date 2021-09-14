@@ -400,6 +400,30 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_properties($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'amount',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d.' USDT';
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+          );
+          $ssptable='auto_save_properties';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='user_id='.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_upgrade_licence()
     {
         $columns = array(
@@ -605,13 +629,13 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'lisensi_name',  'dt' => 2,
+                'db' => 'licence_name',  'dt' => 2,
                 'formatter' => function($d, $row){
                     return $d;
                 }
             ),
             array(
-                'db' => 'belance',  'dt' => 3,
+                'db' => 'balance_detail',  'dt' => 3,
                 'formatter' => function($d, $row){
                     return $d;
                 }
@@ -633,7 +657,7 @@ class Datatable extends CI_Controller {
           $ssptable='sponsor_code_bonus_details_complate_data';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='sponsor_code_bonus_id ='.$id;
+          $sspwhere='owner_id ='.$id;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }

@@ -496,9 +496,9 @@ class Api extends CI_Controller {
                       );
                       if($this->api_model->insert_data('positions', $insert_position)){
                         $data_template = array(
-                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br> Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br>',
+                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br>',
                           'email'=>$email,
-                          'message'=>'SEGERALAH MEMBELI PAKET LISENSI,
+                          'message'=>'Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br> SEGERALAH MEMBELI PAKET LISENSI,
                           MELALUI ADMIN : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'phone_number'")->result()[0]->content.' <br>
                           Email : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content.' <br>
                           Best Regards, <br>
@@ -657,17 +657,25 @@ class Api extends CI_Controller {
         echo 0;
       }
     }
-  public function update_status_test()
+  public function update_status_order_test()
   {
     $action = $this->input->post('action');
     $id = $this->input->post('id');
     switch($action){
       case "pending":
-        if($this->bonus->sponsor_count($id)){
-
+        $this->db->trans_start();
+        $this->bonus->sponsor_count($id);
+        $this->bonus->update_omset($id);
+        $this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true));
+        $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+        $this->db->trans_complete();
+        if($this->db->trans_status()){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
         }else{
-
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(501);
         }
+        echo json_encode($result);
         break;
       case "reject":
         $update = $this->db->query("UPDATE `orders` SET `is_open` = '0', `is_pending` = '0', `is_finish` = '0', `is_reject` = '1' WHERE `orders`.`id` = $id");

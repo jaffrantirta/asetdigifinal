@@ -18,12 +18,11 @@ select `p`.`id` AS `id`,`p`.`pin` AS `pin`,`p`.`registered_by` AS `registered_by
 from (`pin_register` `p` 
 left join `users` `u` on(`u`.`id` = `p`.`used_by`));
 
-CREATE VIEW sponsor_code_bonus_detail_complate_data AS
-select `d`.`code` AS `sponsor_code_name`,`a`.`id` AS `id`,`a`.`sponsor_code_bonus_id` AS `sponsor_code_bonus_id`,`a`.`register_bonus_by` AS `register_bonus_by`,`a`.`lisensies_id` AS `lisensies_id`,`a`.`currency_at_the_time` AS `currency_at_the_time`,`a`.`belance` AS `belance`,`a`.`date` AS `date`,`b`.`name` AS `user_name`,`c`.`name` AS `lisensi_name`,`c`.`percentage` AS `percentage_lisensi`,`a`.`percentage_at_the_time` AS `percentage_at_the_time` 
-from (((`sponsor_code_bonus_details` `a` 
-left join `users` `b` on(`b`.`id` = `a`.`register_bonus_by`)) 
-left join `lisensies` `c` on(`c`.`id` = `a`.`lisensies_id`)) 
-left join `sponsor_codes` `d` on(`d`.`owner` = `b`.`id`));
+CREATE VIEW sponsor_code_bonus_details_complate_data AS
+SELECT a.*, b.date AS date, c.name AS user_name, d.name AS licence_name FROM sponsor_code_bonuses a 
+LEFT JOIN sponsor_code_bonus_details b ON b.sponsor_code_bonus_id=a.id
+LEFT JOIN users c ON c.id=b.register_bonus_by
+LEFT JOIN lisensies d ON d.id=b.lisensies_id;
 
 CREATE VIEW transfer_complate_date AS
 select `t`.`id` AS `id`,`t`.`transfer_number` AS `transfer_number`,`t`.`send_by` AS `send_by`,`t`.`receive_by` AS `receive_by`,`t`.`amount` AS `amount`,`t`.`date` AS `date`,`us`.`id` AS `sender_id`,`us`.`name` AS `sender_name`,`ur`.`id` AS `receiver_id`,`ur`.`name` AS `receiver_name` 

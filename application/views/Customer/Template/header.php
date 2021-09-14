@@ -495,9 +495,9 @@
           </li>
           <li class="nav-item">
             <?php if ($page == 'Auto Save Property') { ?>
-              <a href="<?php echo base_url('customer/auto') ?>" class="nav-link active">
+              <a href="<?php echo base_url('customer/properties') ?>" class="nav-link active">
               <?php } else { ?>
-                <a href="<?php echo base_url('customer/auto') ?>" class="nav-link">
+                <a href="<?php echo base_url('customer/properties') ?>" class="nav-link">
                 <?php } ?>
                 <i class="nav-icon fa fa-tags"></i>
                 <p>
@@ -549,7 +549,7 @@
               <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
                         ?>" class="nav-link active">
               <?php } else { ?>
-                <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                <a href="<?php echo base_url('customer/omset?position=left') ?>" class="nav-link">
                 <?php } ?>
                 <i class="far fa-circle nav-icon"></i>
                 <p>Left Group Omset</p>
@@ -560,7 +560,7 @@
               <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
                         ?>" class="nav-link active">
               <?php } else { ?>
-                <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                <a href="<?php echo base_url('customer/omset?position=right') ?>" class="nav-link">
                 <?php } ?>
                 <i class="far fa-circle nav-icon"></i>
                 <p>Right Group Omset</p>
