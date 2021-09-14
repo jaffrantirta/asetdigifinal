@@ -135,7 +135,7 @@
 
 
           <li class="nav-item">
-            <?php if ($page == 'Request PIN Register' || $page == 'Request Lisensi') { ?>
+            <?php if ($page == 'Request PIN Register' || $page == 'Request Lisensi' || $page == 'Request Withdraw' || $page == 'up Lisensi') { ?>
           <li class="nav-item menu-is-opening menu-open">
           <?php } else { ?>
           <li class="nav-item">
@@ -211,7 +211,7 @@
           <li class="nav-item">
           <?php } ?>
           <a id="nav-daerah" href="#" class="nav-link">
-            <i class="nav-icon fas fa-key"></i>
+            <i class="nav-icon fas fa-cogs"></i>
             <p>
               Settings
               <i class="fas fa-angle-left right"></i>

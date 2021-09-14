@@ -67,14 +67,15 @@ class Bonus extends CI_Controller {
         $token = explode("////", base64_decode($this->input->get('token')));
         $data['id_and_position'] = $token[0];
         $data['position_turnover'] = $token[1];
-        $data['page'] = 'Detail Bonus';
         $data['session'] = $this->session->all_userdata();
         $data['sistem_name'] = $this->api_model->sistem_name();
         if($role == 'customer'){
+            $data['page'] = 'Detail Omset '.$token[1];
             $this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/bonus_detail_turnover', $data);
 			$this->load->view('Customer/Template/footer', $data);
         }else if($role == 'admin'){
+            $data['page'] = 'Detail Omset '.$token[1];
             $this->load->view('Admin/Template/header', $data);
             $this->load->view('Admin/bonus_detail_turnover', $data);
             $this->load->view('Admin/Template/footer', $data);

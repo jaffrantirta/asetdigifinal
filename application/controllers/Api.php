@@ -1326,5 +1326,9 @@ class Api extends CI_Controller {
         }
         echo 0;
     }
+    public function get_pairing()
+    {
+      // $turnover = $this->db->qr
+    }
 }
 

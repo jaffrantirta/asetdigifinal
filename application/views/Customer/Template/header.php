@@ -344,7 +344,7 @@
           </li>
 
           <li class="nav-item">
-            <?php if ($page == 'Transfer Lisensi' || $page == 'Buy Lisensi' || $page == 'Balance Lisensi' || $page == 'History Lisensi' || $page == 'Transfer Lisensi History') { ?>
+            <?php if ($page == 'Transfer Lisensi' || $page == 'Buy Lisensi' || $page == 'Balance Lisensi' || $page == 'History Lisensi' || $page == 'Transfer Lisensi History' || $page == 'Upgrade Licence') { ?>
           <li class="nav-item menu-is-opening menu-open">
           <?php } else { ?>
           <li class="nav-item">
@@ -388,7 +388,7 @@
                   </a>
             </li>
             <li class="nav-item">
-              <?php if ($page == 'Upgrade Lisensi') { ?>
+              <?php if ($page == 'Upgrade Licence') { ?>
                 <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link active">
                 <?php } else { ?>
                   <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link">
@@ -422,7 +422,7 @@
           <li class="nav-item">
 
           <li class="nav-item">
-            <?php if ($page == 'Detail Bonus') { ?>
+            <?php if ($page == 'Detail Bonus' || $page == 'Pairing Bonus' || $page == 'total bonus') { ?>
           <li class="nav-item menu-is-opening menu-open">
           <?php } else { ?>
           <li class="nav-item">
@@ -482,7 +482,7 @@
           </ul>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Witthdraw') { ?>
+            <?php if ($page == 'Withdraw') { ?>
               <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link active">
               <?php } else { ?>
                 <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link">
@@ -518,7 +518,7 @@
                 </a>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Structure') { ?>
+            <?php if ($page == 'Structure' || $page == 'Detail Omset RIGHT' || $page == 'Detail Omset LEFT') { ?>
           <li class="nav-item menu-is-opening menu-open">
           <?php } else { ?>
           <li class="nav-item">
@@ -532,38 +532,7 @@
           </a>
           <ul class="nav nav-treeview">
 
-<<<<<<< HEAD
-          <li class="nav-item">
-            <?php if ($page == 'Structure') { ?>
-              <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link">
-                <?php } ?>
-                <i class="nav-icon far fa-circle"></i>
-                <p>
-                  Network Diagram
-                </p>
-                </a>
-          </li>
-          <li class="nav-item">
-            <?php if ($page == 'Buy Lisensi') { ?>
-              <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
-                        ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/omset?position=left') ?>" class="nav-link">
-                <?php } ?>
-                <i class="far fa-circle nav-icon"></i>
-                <p>Left Group Omset</p>
-                </a>
-          </li>
-          <li class="nav-item">
-            <?php if ($page == 'Buy Lisensi') { ?>
-              <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
-                        ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/omset?position=right') ?>" class="nav-link">
-                <?php } ?>
-=======
+         
             <li class="nav-item">
               <?php if ($page == 'Structure') { ?>
                 <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
@@ -576,15 +545,20 @@
                   </p>
                   </a>
             </li>
+            
             <li class="nav-item">
               <?php
               $customer = base64_encode('customer');
-              $id_and_position = base64_encode($session['data']->id . '/2');
+              $id_and_position = base64_encode($session['data']->id . '/1');
               $hash = base64_encode($id_and_position . '////LEFT');
               $route = "bonus/turnover/$customer?token=$hash";
               $url = base_url($route);
               ?>
-              <a href="<?php echo $url ?>" class="nav-link">
+              <?php if ($page == 'Detail Omset LEFT') { ?>
+                <a href="<?php echo $url ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo $url ?>" class="nav-link">
+              <?php } ?>
                 <i class="far fa-circle nav-icon"></i>
                 <p>Left Group Omset</p>
               </a>
@@ -597,12 +571,14 @@
               $route = "bonus/turnover/$customer?token=$hash";
               $url = base_url($route);
               ?>
-              <a href="<?php echo $url ?>" class="nav-link">
->>>>>>> 34540a9a9ec1e9380643e14244092fbf94f13d1b
+              <?php if ($page == 'Detail Omset RIGHT') { ?>
+                <a href="<?php echo $url ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo $url ?>" class="nav-link">
+              <?php } ?>
                 <i class="far fa-circle nav-icon"></i>
                 <p>Right Group Omset</p>
               </a>
-            </li>
 
           </ul>
           </li>
