@@ -82,7 +82,7 @@
                                   </div>
                                   <div class="form-group row">
                                       <div class="offset-sm-2 col-sm-10">
-                                          <button type="submit" class="btn btn-danger">update</button>
+                                          <button onclick="upload_process()" class="btn btn-danger">update</button>
                                       </div>
                                   </div>
 
@@ -102,3 +102,29 @@
   </section>
 
   </div>
+
+  <script>
+      function upload_process(){
+        var fd = new FormData();
+        var files = $('#file')[0].files;
+        fd.append('file',files[0]);
+        $.ajax({
+            url: document.getElementById('base_url').innerHTML + 'api/update_profile_picture/' + <?php echo $session['data']->id ?>,
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                if(response != 0){
+                    show_message('success', 'Updated', '');
+                }else{
+                    Swal.fire(
+                        'File failed to upload',
+                        '',
+                        'error'
+                    )
+                }
+            },
+        });
+    }
+  </script>

@@ -1175,16 +1175,32 @@ class Api extends CI_Controller {
         if($old_pin != ''){
           if($new_pin != ''){
             if($new_pin_confirm != ''){
-              $data = array(
-                'id'=>$id,
-                'insert' => array(
-                  'secure_pin'=>md5($new_pin)
-                )
-              );
-              if($this->password->change_secure_pin($data)){
-                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Ganti PIN sukses', 'english'=>'Change PIN successful'));
+              if($new_pin == $new_pin_confirm){
+                $data = array(
+                  'id'=>$id,
+                  'insert' => array(
+                    'secure_pin'=>md5($new_pin)
+                  )
+                );
+                $user = $this->api_model->get_data_by_where('users', array('id'=>$id))->result();
+                if(count($user) > 0){
+                  if(md5($old_pin) == $user[0]->secure_pin){
+                    if($this->password->change_secure_pin($data)){
+                      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Ganti PIN sukses', 'english'=>'Change PIN successful'));
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal ganti PIN', 'english'=>'Failed to change PIN'));
+                      $this->output->set_status_header(401);
+                    }
+                  }else{
+                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN lama tidak sesuai', 'english'=>'Old PIN is wrong'));
+                    $this->output->set_status_header(401);
+                  }
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'User tidak ada', 'english'=>'User not found'));
+                  $this->output->set_status_header(401);
+                }
               }else{
-                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal ganti PIN', 'english'=>'Failed to change PIN'));
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN baru tidak sama', 'english'=>'New PIN not match'));
                 $this->output->set_status_header(401);
               }
             }else{
@@ -1268,6 +1284,39 @@ class Api extends CI_Controller {
         $this->output->set_status_header(401);
       }
       echo json_encode($result);
+    }
+    public function update_profile_picture($id)
+    {
+        if(isset($_FILES['file']['name'])){
+            /* Getting file name */
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = $id.'_'.time().$remove_char.'.jpg';
+        
+            /* Location */
+            $location = "upload/members/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            /* Valid extensions */
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            /* Check file extension */
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              /* Upload file */
+              if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                if($this->api_model->update_data(array('id'=>$id), 'users', array('profile_picture'=>$filename))){
+                  $response = $location;
+                }else{
+                  echo 0;
+                }
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
     }
 }
 

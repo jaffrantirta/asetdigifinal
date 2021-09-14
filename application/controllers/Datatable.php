@@ -471,7 +471,8 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'name',  'dt' => 0,
                 'formatter' => function($d, $row){
-                    return $d;
+                    $link = base_url('admin/members?action=detail&id='.$row[8]);
+                    return '<a href="'.$link.'">'.$d.'</a>';
                 }
             ),
             array(

@@ -479,26 +479,6 @@
                   <p>Total Bonus</p>
                   </a>
             </li>
-            <!-- <li class="nav-item">
-              <?php if ($page == 'Transfer Lisensi') { ?>
-                <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link active">
-                <?php } else { ?>
-                  <a href="<?php echo base_url('customer/lisensi?action=transfer') ?>" class="nav-link">
-                  <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Transfer Lisensi</p>
-                  </a>
-            </li>
-            <li class="nav-item">
-              <?php if ($page == 'Transfer Lisensi History') { ?>
-                <a href="<?php echo base_url('customer/lisensi?action=transfer_history') ?>" class="nav-link active">
-                <?php } else { ?>
-                  <a href="<?php echo base_url('customer/lisensi?action=transfer_history') ?>" class="nav-link">
-                  <?php } ?>
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Transfer History</p>
-                </a>
-              </li> -->
           </ul>
           </li>
           <li class="nav-item">
@@ -538,8 +518,6 @@
                 </a>
           </li>
           <li class="nav-item">
-
-          <li class="nav-item">
             <?php if ($page == 'Structure') { ?>
           <li class="nav-item menu-is-opening menu-open">
           <?php } else { ?>
@@ -552,7 +530,7 @@
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview"></ul>
+          <ul class="nav nav-treeview">
 
           <li class="nav-item">
             <?php if ($page == 'Structure') { ?>
