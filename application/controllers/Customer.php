@@ -64,6 +64,21 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function omset()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'total bonus';
+			$admin = base64_encode('admin');
+            $id_and_position = base64_encode($this->session->.'/1');
+            $hash = base64_encode($id_and_position.'////LEFT');
+            $route = "bonus/turnover/$admin?token=$hash";
+            $url = base_url($route);
+		}
+	}
 	public function total_bonus(){
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
@@ -76,7 +91,7 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
-	public function auto(){
+	public function properties(){
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
 		} else {
