@@ -532,63 +532,67 @@
           </a>
           <ul class="nav nav-treeview">
 
-          <li class="nav-item">
-            <?php if ($page == 'Structure') { ?>
-              <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link">
-                <?php } ?>
-                <i class="nav-icon far fa-circle"></i>
-                <p>
-                  Network Diagram
-                </p>
-                </a>
-          </li>
-          <li class="nav-item">
-            <?php if ($page == 'Left Group Omset') { ?>
-              <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
-                        ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-                <?php } ?>
+            <li class="nav-item">
+              <?php if ($page == 'Structure') { ?>
+                <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="nav-icon far fa-circle"></i>
+                  <p>
+                    Network Diagram
+                  </p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php
+              $customer = base64_encode('customer');
+              $id_and_position = base64_encode($session['data']->id . '/2');
+              $hash = base64_encode($id_and_position . '////LEFT');
+              $route = "bonus/turnover/$customer?token=$hash";
+              $url = base_url($route);
+              ?>
+              <a href="<?php echo $url ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Left Group Omset</p>
-                </a>
-          </li>
-          <li class="nav-item">
-            <?php if ($page == 'Right Group Omset') { ?>
-              <a href="#<?php //echo base_url('customer/lisensi?action=buy') 
-                        ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-                <?php } ?>
+              </a>
+            </li>
+            <li class="nav-item">
+              <?php
+              $customer = base64_encode('customer');
+              $id_and_position = base64_encode($session['data']->id . '/2');
+              $hash = base64_encode($id_and_position . '////RIGHT');
+              $route = "bonus/turnover/$customer?token=$hash";
+              $url = base_url($route);
+              ?>
+              <a href="<?php echo $url ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Right Group Omset</p>
-                </a>
+              </a>
+            </li>
+
+          </ul>
+          </li>
+          <li class="nav-item">
+
+            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+
+              <i class="nav-icon fa fa-film"></i>
+              <p>
+                Video Tutorial
+              </p>
+            </a>
           </li>
 
-        </ul>
-        </li>
-        <li class="nav-item">
 
-          <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-
-            <i class="nav-icon fa fa-film"></i>
-            <p>
-              Video Tutorial
-            </p>
-          </a>
-        </li>
-
-
-        <li class="nav-item">
-          <a href="<?php echo base_url('customer/logout') ?>" class="nav-link">
-            <i class="nav-icon fas fa-sign-out-alt"></i>
-            <p>
-              Logout
-            </p>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url('customer/logout') ?>" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                Logout
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
