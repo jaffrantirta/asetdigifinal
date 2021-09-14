@@ -55,3 +55,27 @@ left join `sponsor_code_bonuses` `e` on(`e`.`owner_id` = `a`.`id`))
 left join `turnovers` `f` on(`f`.`owner` = `a`.`id`)) 
 where `a`.`is_active` = 1;
 
+CREATE VIEW sponsor_code_uses_complete_data AS
+SELECT a.*, 
+b.code AS code, 
+c.id AS owner_id, 
+c.name AS owner_code, 
+d.id AS user_id, 
+d.name AS user_code, 
+f.id AS owner_lisensi_id,
+f.name AS owner_lisensi_name, 
+f.price AS owner_lisensi_price, 
+f.percentage AS owner_percentage,
+h.id AS user_lisensi_id,
+h.name AS user_lisensi_name, 
+h.price AS user_lisensi_price, 
+h.percentage AS user_percentage 
+FROM sponsor_code_uses a 
+LEFT JOIN sponsor_codes b ON b.id=a.sponsor_id 
+LEFT JOIN users c ON c.id=b.owner 
+LEFT JOIN users d ON d.id=a.used_by 
+LEFT JOIN user_lisensies e ON e.owner=b.owner 
+LEFT JOIN lisensies f ON f.id=e.lisensi_id 
+LEFT JOIN user_lisensies g ON g.owner=d.id
+LEFT JOIN lisensies h ON h.id=g.lisensi_id;
+

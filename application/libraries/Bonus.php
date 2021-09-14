@@ -53,4 +53,36 @@ class Bonus {
             return false;
         }
     }
+    public function sponsor_count($user_id)
+    {
+        $x = $this->ci->api_model->get_data_by_where('sponsor_code_uses_complete_data', array('used_by'=>$user_id))->result();
+        if(count($x) > 0){
+            $bonus = $x[0]->user_lisensi_price /100 * $x[0]->owner_percentage;
+            $sponsor_bonus = $this->ci->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$x[0]->owner_id))->result();
+            if(count($sponsor_bonus) > 0){
+                $balance_update = $sponsor_bonus[0]->balance + $bonus;
+                $this->ci->db->trans_start();
+                $this->ci->api_model->update_data(array('owner_id'=>$x[0]->owner_id), 'sponsor_code_bonuses', array('balance'=>$balance_update));
+                $this->ci->api_model->insert_data('sponsor_code_bonus_details', array('sponsor_code_bonus_id'=>$sponsor_bonus[0]->id,'register_bonus_by'=>$x[0]->user_id, 'lisensies_id'=>$x[0]->user_lisensi_id, 'currency_at_the_time'=>'USDT', 'belance'=>$bonus, 'percentage_at_the_time'=>$x[0]->owner_percentage));
+                $this->ci->db->trans_complete();
+                if($this->ci->db->status()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                $this->ci->db->trans_start();
+                $this->ci->api_model->insert_data('sponsor_code_bonuses', array('owner_id'=>$x[0]->owner_id, 'balance'=>$bonus));
+                $this->ci->api_model->insert_data('sponsor_code_bonus_details', array('sponsor_code_bonus_id'=>$this->ci->db->insert_id(),'register_bonus_by'=>$x[0]->user_id, 'lisensies_id'=>$x[0]->user_lisensi_id, 'currency_at_the_time'=>'USDT', 'belance'=>$bonus, 'percentage_at_the_time'=>$x[0]->owner_percentage));
+                $this->ci->db->trans_complete();
+                if($this->ci->db->status()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
+    }
 }

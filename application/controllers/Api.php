@@ -657,6 +657,30 @@ class Api extends CI_Controller {
         echo 0;
       }
     }
+  public function update_status_test()
+  {
+    $action = $this->input->post('action');
+    $id = $this->input->post('id');
+    switch($action){
+      case "pending":
+        if($this->bonus->sponsor_count($id)){
+
+        }else{
+
+        }
+        break;
+      case "reject":
+        $update = $this->db->query("UPDATE `orders` SET `is_open` = '0', `is_pending` = '0', `is_finish` = '0', `is_reject` = '1' WHERE `orders`.`id` = $id");
+        if($update){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(501);
+        }
+        echo json_encode($result);
+        break;
+    }
+  }
   public function update_status_order()
   {
       $action = $this->input->post('action');
