@@ -1,0 +1,13 @@
+CREATE VIEW inout_bonuses_complate_data AS
+SELECT a.*, b.id AS owner_id FROM inout_bonuses a
+LEFT JOIN total_bonuses b ON b.id=a.total_bonus_id
+
+CREATE VIEW withdraws_complate_data AS
+SELECT a.*, b.name AS user_name FROM withdraws a
+LEFT JOIN users b ON b.id=a.user_id
+
+CREATE VIEW AS
+select a.*,`b`.`name` AS `current_licence_name`,`c`.`name` AS `upgrade_to_name`,`d`.`name` AS `user_name` from lisensi_upgrades a
+LEFT JOIN lisensies b ON b.id=a.`current_lisensi
+LEFT JOIN lisensies c ON c.id=a.`current_lisensi
+ (((`kuyc8958_assetdigital_dev`.`lisensi_upgrades` `a` left join `kuyc8958_assetdigital_dev`.`lisensies` `b` on(`b`.`id` = `a`.`current_lisensi`)) left join `kuyc8958_assetdigital_dev`.`lisensies` `c` on(`c`.`id` = `a`.`upgrade_to`)) left join `kuyc8958_assetdigital_dev`.`users` `d` on(`d`.`id` = `a`.`request_by`))

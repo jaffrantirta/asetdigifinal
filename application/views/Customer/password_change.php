@@ -26,7 +26,6 @@
                               </div>
 
                               <h3 class="profile-username text-center"></h3>
-                              <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $session['data']->email; ?></p>
 
 
                           </div>
@@ -40,7 +39,6 @@
                       <div class="card">
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
-                                  <li class="nav-item mr-1"><a class="nav-link profil" href="" data-toggle="tab">Profil</a></li>
                                   <li class="nav-item mr-1">
                                       <?php if ($page == 'Change Password') { ?>
                                           <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link active">
@@ -68,57 +66,86 @@
                           <div class="card-body">
                               <div class="tab-content">
                                   <div class="active tab-pane" id="profile">
-                                      <?php echo form_open_multipart('profile/update '); ?>
-                                      <input type="hidden" class="form-control" id="inputName" name="id" value="<?php echo $users->id; ?>" required>
+
+                                      <input type="hidden" class="form-control" id="inputName" name="id" value="" required>
                                       <div class="form-group row">
-                                          <label for="inputName" class="col-sm-2 col-form-label">Nama:</label>
+                                          <label for="inputName" class="col-sm-2 col-form-label">Old Password</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="inputName" name="name" value="<?php echo set_value('name', $users->name); ?>" required>
+                                              <input type="password" class="form-control" id="old_password" value="" placeholder="input your old password" required>
                                           </div>
-                                          <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
+
                                       </div>
                                       <div class="form-group row">
-                                          <label for="inputUserName" class="col-sm-2 col-form-label">Username:</label>
+                                          <label for="inputName" class="col-sm-2 col-form-label">Password</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" disabled id="inputUserName" name="username" value="<?php echo set_value('username', $users->username); ?>" required>
+                                              <input type="password" class="form-control" id="password" value="" placeholder="input your new password" required>
                                           </div>
-                                          <?php echo form_error('username', '<div class="text-danger font-weight-bold">', '</div>'); ?>
+
                                       </div>
                                       <div class="form-group row">
-                                          <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
+                                          <label for="inputUserName" class="col-sm-2 col-form-label">Password Confirm</label>
                                           <div class="col-sm-10">
-                                              <input type="email" class="form-control" id="inputEmail" name="email" value="<?php echo set_value('email', $users->email); ?>" required>
-                                          </div>
-                                          <?php echo form_error('email', '<div class="text-danger font-weight-bold">', '</div>'); ?>
-                                      </div>
-                                      <div class="form-group row">
-                                          <label for="inputEmail" class="col-sm-2 col-form-label">USDT Wallet</label>
-                                          <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="inputEmail" name="usdt_wallet" value="<?php echo set_value('usdt_wallet', $users->usdt_wallet); ?>" required>
+                                              <input type="password" class="form-control" id="password_confirm" placeholder="input your confirm password must be same to new password" value="" required>
                                           </div>
 
                                       </div>
 
 
-                                      <div class="form-group row">
-                                          <div class="offset-sm-2 col-sm-10">
-                                              <button type="submit" class="btn btn-danger">update</button>
-                                          </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <div class="offset-sm-2 col-sm-10">
+                                          <button onclick="request()" type="submit" class="btn btn-danger">update</button>
                                       </div>
-                                      <?php echo form_close(); ?>
                                   </div>
 
-                                  <!-- /.tab-pane -->
                               </div>
-                              <!-- /.tab-content -->
-                          </div><!-- /.card-body -->
-                      </div>
-                      <!-- /.nav-tabs-custom -->
+
+                              <!-- /.tab-pane -->
+                          </div>
+                          <!-- /.tab-content -->
+                      </div><!-- /.card-body -->
                   </div>
-                  <!-- /.col -->
+                  <!-- /.nav-tabs-custom -->
               </div>
-              <!-- /.row -->
-          </div><!-- /.container-fluid -->
-      </section>
+              <!-- /.col -->
+          </div>
+          <!-- /.row -->
+  </div><!-- /.container-fluid -->
+  </section>
 
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      function request() {
+          var id = document.getElementById('id').innerHTML;
+          var base_url = document.getElementById('base_url').innerHTML;
+          var old_password = document.getElementById('old_password').value;
+          var password = document.getElementById('password').value;
+          var password_confirm = document.getElementById('password_confirm').value;
+
+          $.ajax({
+              url: base_url + "api/change_password",
+              type: "post",
+              data: {
+                  'id': id,
+                  'old_password': old_password,
+                  'password': password,
+                  'password_confirm': password_confirm
+              },
+              success: function(result) {
+                  $('.loader').attr('hidden', true);
+                  console.log('data : ' + result);
+                  var d = JSON.parse(result);
+                  show_message('success', d.response.message['english'], '');
+              },
+              error: function(result, ajaxOptions, thrownError) {
+                  $('.loader').attr('hidden', true);
+                  // console.log('data : '+xhr.responseText);
+                  show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                  var string = JSON.stringify(result.responseText);
+                  var msg = JSON.parse(result.responseText);
+                  show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+              }
+          });
+      }
+  </script>

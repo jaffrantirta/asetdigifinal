@@ -56,3 +56,16 @@ $route['send-email'] = 'email controller';
 $route['email'] = 'Auth';
 
 $route['register'] = 'Customer/register';
+$route['password'] = 'Customer/password';
+
+//APIs
+$route['api/total_bonus'] = 'Api/total_bonus';
+$route['api/pairing_bonus'] = 'Api/pairing_bonus';
+$route['api/withdraw'] = 'Api/withdraw';
+$route['api/withdraw_detail'] = 'Api/withdraw_detail';
+$route['api/update_status_withdraw'] = 'Api/update_status_withdraw';
+$route['api/forgot_password'] = 'Api/forgot_password';
+$route['api/reset_password'] = 'Api/reset_password';
+$route['api/change_secure_pin'] = 'Api/change_secure_pin';
+$route['api/user_detail'] = 'Api/user_detail';
+$route['api/change_password'] = 'Api/change_password';

@@ -32,7 +32,7 @@
                     <b>Date</b> <a class="float-right"><?php echo $order->date ?></a>
                   </li>
                   <li class="list-group-item">
-                    <b>Requested By</b> <a class="float-right"><?php echo $order->user_register ?></a>
+                    <b>Requested By</b> <a href="<?php echo base_url('admin/members?action=detail&id='.$order->requested_by) ?>" class="float-right"><?php echo $order->user_register ?></a>
                   </li>
                   <li class="list-group-item">
                     <b>Amount</b> <a class="float-right"><?php echo $order->amount  ?></a>

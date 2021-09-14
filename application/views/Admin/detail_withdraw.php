@@ -32,7 +32,8 @@
                                     <b>Date</b> <a id="date" class="float-right"></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Requested By</b> <a id="name" class="float-right"></a>
+                                    <b>Requested By</b> <a id="name" href="#" onclick="member_detail()" class="float-right"></a>
+                                    <p hidden id="user_id"></p>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Amount to transfer</b> <a id="withdraw_amount" class="float-right"></a>
@@ -44,20 +45,20 @@
                                     <b>Status</b> <a id="status" class="float-right"></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>USDT Wallet</b> <input disabled class="col-4 form-control" id="usdt_wallet" value=""> <button class="btn btn-info" onclick="myFunction()"><i class="fa fa-copy" aria-hidden="true"></i></button>
-                                    <!-- <div class="col-4">
-                                        <button class="btn btn-info" onclick="myFunction()"><i class="fa fa-copy" aria-hidden="true"></i></button>
+                                    <b>USDT Wallet</b>
+                                    <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <button onclick="myFunction()" type="button" class="btn btn-info">Copy</button>
                                     </div>
-
-                                    </span>
-                                    <div class="col-8">
-                                        <input disabled class="form-control" id="usdt_wallet" value="">
-                                    </div> -->
+                                    <input disabled id="usdt_wallet" class="form-control" value="">
+                                    </div>
+                                    <!-- <b>USDT Wallet</b> <input disabled class="col-4 form-control" id="usdt_wallet" value=""> <button class="btn btn-info" onclick="myFunction()"><i class="fa fa-copy" aria-hidden="true"></i></button> -->
 
                                 </li>
                             </ul>
-                            <button onclick="update_status(2)" class="btn btn-warning btn-block"><b>Update Status to Finish</b></button>
-                            <button onclick="update_status(3)" class="btn btn-danger btn-block"><b>Reject</b></button>
+                            <div id="button_action" class="col-12">
+                                
+                            </div>
 
                         </div>
                         <!-- /.card-body -->
@@ -93,7 +94,7 @@
             },
             success: function(result) {
                 $('.loader').attr('hidden', true);
-                //console.log('data : ' + result);
+                // console.log('data : ' + result);
                 var d = JSON.parse(result);
                 show_message('success', d.response.message['english'], '');
                 location.reload();
@@ -121,19 +122,22 @@
         },
         success: function(result) {
             $('.loader').attr('hidden', true);
-            //console.log('data : ' + result);
+            // console.log('data : ' + result);
             var d = JSON.parse(result);
             document.getElementById('order_number').innerHTML = d.data.withdraw['order_number'];
             document.getElementById('date').innerHTML = d.data.withdraw['date'];
             document.getElementById('withdraw_amount').innerHTML = d.data.transfer['withdraw_amount'];
             document.getElementById('name').innerHTML = d.data.user['name'];
+            document.getElementById('user_id').innerHTML = d.data.user['id'];
             document.getElementById('auto_amount').innerHTML = d.data.transfer['auto_amount'];
             if (d.data.withdraw['status'] == 1) {
                 document.getElementById('status').innerHTML = 'PENDING';
+                document.getElementById('button_action').innerHTML = '  <button onclick="update_status(2)" class="btn btn-warning btn-block"><b>Update Status to Finish</b></button>'+
+                                                                        '<button onclick="update_status(3)" class="btn btn-danger btn-block"><b>Reject</b></button>';
             } else if (d.data.withdraw['status'] == 2) {
                 document.getElementById('status').innerHTML = 'ACCEPTED';
             } else {
-                document.getElementById('status').innerHTML = 'REJECT';
+                document.getElementById('status').innerHTML = 'REJECTED';
             }
             document.getElementById('usdt_wallet').value = d.data.user['usdt_wallet'];
         },
@@ -160,6 +164,11 @@
         navigator.clipboard.writeText(copyText.value);
 
         /* Alert the copied text */
-        alert("Copied the text: " + copyText.value);
+        Swal.fire('Copied', '', 'success')
+        // alert("Copied the text: " + copyText.value);
+    }
+    function member_detail(){
+        var user_id = document.getElementById('user_id').innerHTML
+        window.location.replace(document.getElementById('base_url').innerHTML+'admin/members?action=detail&id='+user_id)
     }
 </script>

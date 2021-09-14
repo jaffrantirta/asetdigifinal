@@ -65,7 +65,7 @@ class Profile extends CI_Controller
             // 'password' => md5($password),
             // 'secure_pin' => md5($secure_pin),
             'usdt_wallet' => $usdt_wallet,
-            'profile_picture' => $profile_picture
+            // 'profile_picture' => $profile_picture
         );
      
         $where = array(
@@ -75,6 +75,18 @@ class Profile extends CI_Controller
         $this->api_model->update_data($where,'users',$data);
         redirect('profile/setting/'.$id);
     }
-   
+    public function change_password()
+    {
+        if (!$this->session->userdata('authenticated_customer')) {
+            $this->login();
+        } else {
+            $data['sistem_name'] = $this->api_model->sistem_name();
+            $data['session'] = $this->session->all_userdata();
+            $data['page'] = 'Change Password';
+            $this->load->view('Customer/Template/header', $data);
+            $this->load->view('Customer/password_change', $data);
+            $this->load->view('Customer/Template/footer', $data);
+        }
+    }
   
 }

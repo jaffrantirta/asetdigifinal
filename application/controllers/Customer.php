@@ -49,7 +49,7 @@ class Customer extends CI_Controller {
 				$data['turnover_left_bonus'] = 0;
 				$data['turnover_right_bonus'] = 0;
 			}
-			if(count($lisensi = $this->db->query("SELECT a.*, b.name AS lisensi_name FROM user_lisensies a LEFT JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $id")->result()) > 0){
+			if(count($lisensi = $this->db->query("SELECT a.*, b.name AS lisensi_name FROM user_lisensies a LEFT JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $id AND a.is_active = true")->result()) > 0){
 				$data['your_licence'] = $lisensi[0]->lisensi_name;
 				$data['licence_status'] = $lisensi[0]->is_active;
 			}else{
@@ -64,6 +64,34 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function omset()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'total bonus';
+			$customer = base64_encode('customer');
+			$position = $this->input->get('position');
+			switch($position){
+				case "left":
+					$id_and_position = base64_encode($this->session->userdata('data')->id.'/1');
+					$hash = base64_encode($id_and_position.'////LEFT');
+					$route = "bonus/turnover/$customer?token=$hash";
+					$url = base_url($route);
+					header("Location: $url");
+					break;
+				case "right":
+					$id_and_position = base64_encode($this->session->userdata('data')->id.'/2');
+					$hash = base64_encode($id_and_position.'////RIGHT');
+					$route = "bonus/turnover/$customer?token=$hash";
+					$url = base_url($route);
+					header("Location: $url");
+					break;
+			}
+		}
+	}
 	public function total_bonus(){
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
@@ -73,6 +101,18 @@ class Customer extends CI_Controller {
 			$data['page'] = 'total bonus';
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/total_bonus', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function properties(){
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Auto Save Property';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/auto_save_property', $data);
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
@@ -461,4 +501,77 @@ class Customer extends CI_Controller {
 			$re_secure_pin = $this->input->post('re_secure_pin');
 		}
 	}
+	public function forgot_password(){
+		$data['sistem_name'] = $this->api_model->sistem_name();
+		$this->load->view('Customer/forgot_password', $data);
+	}
+	public function password()
+	{
+		$data['sistem_name'] = $this->api_model->sistem_name();
+		$token = base64_decode($this->input->get('token'));
+		$split = explode("/", $token);
+		$data['id'] = $split[0];
+		$date = $split[1];
+		date_default_timezone_set("Asia/Makassar");
+		$expire_date = $date;
+		$now = date("Y-m-d H:i:s");
+		if ($now > $expire_date) {
+			echo "your link has been expired";
+		} else {
+			$this->load->view('Customer/resert_password', $data);	
+		}
+	}
+	public function change_password()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Change Password';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/password_change', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function change_pin()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Change Pin';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/pin_change', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function upload_image()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Upload Image';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/image_profile', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function reward()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Reward';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/reward', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	
 }

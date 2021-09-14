@@ -128,9 +128,11 @@ class Admin extends CI_Controller {
 			if(isset($action)){
 				switch($action){
 					case "detail":
-						$data['page'] = 'Detail member';
+						$id = $this->input->get('id');
+						$data['member'] = $this->api_model->get_data_by_where('users', array('id'=>$id))->result()[0];
+						$data['page'] = 'Detail Member';
 						$this->load->view('Admin/Template/header', $data);
-						$this->load->view('Admin/balance_pin_register', $data);
+						$this->load->view('Admin/detail_member', $data);
 						$this->load->view('Admin/Template/footer', $data);
 						break;
 					default :

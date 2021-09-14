@@ -61,11 +61,17 @@ class Withdraw {
                 }
             }else{
                 $total_bonus = $this->ci->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$withdraw[0]->user_id))->result();
+                $pecentage_properties = $this->ci->api_model->get_data_by_where('settings', array('key'=>'auto_save_properties'))->result()[0]->content;
+                $auto_amount = $withdraw[0]->amount / 100 * $pecentage_properties;
                 if($total_bonus[0]->balance >= $withdraw[0]->amount){
                     $balance = $total_bonus[0]->balance - $withdraw[0]->amount;
                     $this->ci->db->trans_start();
                     $this->ci->api_model->update_data(array('id'=>$data['id']), 'withdraws', array('status'=>2));
                     $this->ci->api_model->update_data(array('id'=>$total_bonus[0]->id), 'total_bonuses', array('balance'=>$balance));
+                    $insert_auto_properties = array(
+                        'user_id'=>$total_bonus[0]->owner_id,
+                        'amount'=>$auto_amount
+                    );
                     $insert = array(
                         'id_inout'=>'BI'.time().'-'.$total_bonus[0]->owner_id,
                         'type'=>2,
@@ -73,6 +79,7 @@ class Withdraw {
                         'note'=>'withdraw',
                         'total_bonus_id'=>$total_bonus[0]->id
                     );
+                    $this->ci->api_model->insert_data('auto_save_properties', $insert_auto_properties);
                     $this->ci->api_model->insert_data('inout_bonuses', $insert);
                     $this->ci->db->trans_complete();
                     if($this->ci->db->trans_status()){

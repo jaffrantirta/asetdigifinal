@@ -16,6 +16,7 @@ class Api extends CI_Controller {
     $this->load->library('bonus');
     $this->load->library('secure_pin');
     $this->load->library('withdraw');
+    $this->load->library('password');
     $this->load->library('email_template');
     $this->load->helper('string');
 	}
@@ -495,9 +496,9 @@ class Api extends CI_Controller {
                       );
                       if($this->api_model->insert_data('positions', $insert_position)){
                         $data_template = array(
-                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br> Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br>',
+                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br>',
                           'email'=>$email,
-                          'message'=>'SEGERALAH MEMBELI PAKET LISENSI,
+                          'message'=>'Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br> SEGERALAH MEMBELI PAKET LISENSI,
                           MELALUI ADMIN : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'phone_number'")->result()[0]->content.' <br>
                           Email : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content.' <br>
                           Best Regards, <br>
@@ -656,6 +657,38 @@ class Api extends CI_Controller {
         echo 0;
       }
     }
+  public function update_status_order_test()
+  {
+    $action = $this->input->post('action');
+    $id = $this->input->post('id');
+    switch($action){
+      case "pending":
+        $this->db->trans_start();
+        $this->bonus->sponsor_count($id);
+        $this->bonus->update_omset($id);
+        $this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true));
+        $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+        $this->db->trans_complete();
+        if($this->db->trans_status()){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(501);
+        }
+        echo json_encode($result);
+        break;
+      case "reject":
+        $update = $this->db->query("UPDATE `orders` SET `is_open` = '0', `is_pending` = '0', `is_finish` = '0', `is_reject` = '1' WHERE `orders`.`id` = $id");
+        if($update){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(501);
+        }
+        echo json_encode($result);
+        break;
+    }
+  }
   public function update_status_order()
   {
       $action = $this->input->post('action');
@@ -1083,6 +1116,219 @@ class Api extends CI_Controller {
         $this->output->set_status_header(401);
       }
       echo json_encode($result);
+    }
+    public function forgot_password()
+    {
+      $email = $this->input->post('email');
+      $user = $this->api_model->get_data_by_where('users', array('email'=>$email))->result();
+      if(count($user) > 0){
+        if($this->password->forgot($email)){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Email terkirim, MOHON CEK INBOX, SPAM ATAU PROMOSI', 'english'=>'Email sent, PLEASE CHECK INBOX, SPAM OR PROMOTION'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal kirim email', 'english'=>'Failed to send email'));
+          $this->output->set_status_header(500);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Tidak ada pengguna yang menggunakan email tersebut', 'english'=>'No one else use this email'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function reset_password()
+    {
+      $password = $this->input->post('password');
+      $password_confirm = $this->input->post('password_confirm');
+      $id = $this->input->post('id');
+      if($id != ''){
+        if($password != ''){
+          if($password_confirm != ''){
+            if($password == $password_confirm){
+              $data = array(
+                'id' => $id,
+                'insert' => array(
+                  'password' => md5($password)
+                )
+              );
+              if($this->password->reset($data)){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Password Berubah', 'english'=>'Password Changed'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal mengubah password', 'english'=>'Failed to change password'));
+                $this->output->set_status_header(401);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password tidak cocok', 'english'=>'Password not match'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password konfirmasi kosong', 'english'=>'Confirm Password is empty'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password kosong', 'english'=>'Password is empty'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function change_secure_pin()
+    {
+      $id = $this->input->post('id');
+      $old_pin = $this->input->post('old_pin');
+      $new_pin = $this->input->post('new_pin');
+      $new_pin_confirm = $this->input->post('new_pin_confirm');
+      if($id != ''){
+        if($old_pin != ''){
+          if($new_pin != ''){
+            if($new_pin_confirm != ''){
+              if($new_pin == $new_pin_confirm){
+                $data = array(
+                  'id'=>$id,
+                  'insert' => array(
+                    'secure_pin'=>md5($new_pin)
+                  )
+                );
+                $user = $this->api_model->get_data_by_where('users', array('id'=>$id))->result();
+                if(count($user) > 0){
+                  if(md5($old_pin) == $user[0]->secure_pin){
+                    if($this->password->change_secure_pin($data)){
+                      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Ganti PIN sukses', 'english'=>'Change PIN successful'));
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal ganti PIN', 'english'=>'Failed to change PIN'));
+                      $this->output->set_status_header(401);
+                    }
+                  }else{
+                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN lama tidak sesuai', 'english'=>'Old PIN is wrong'));
+                    $this->output->set_status_header(401);
+                  }
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'User tidak ada', 'english'=>'User not found'));
+                  $this->output->set_status_header(401);
+                }
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN baru tidak sama', 'english'=>'New PIN not match'));
+                $this->output->set_status_header(401);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN konfirmasi baru kosong', 'english'=>'New PIN confirm is empty'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN baru kosong', 'english'=>'New PIN is empty'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'PIN lama kosong', 'english'=>'Old PIN is empty'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function user_detail()
+    {
+      $id = $this->input->post('id');
+      if($id != ''){
+        $data = $this->api_model->get_data_by_where('users', array('id'=>$id))->result();
+        if(count($data) > 0){
+          $result['data'] = $data[0];
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Data ditemukan', 'english'=>'Data founded'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Data tidak ditemukan', 'english'=>'Data not found'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function change_password()
+    {
+      $old_password = $this->input->post('old_password');
+      $password = $this->input->post('password');
+      $password_confirm = $this->input->post('password_confirm');
+      $id = $this->input->post('id');
+      if($id != ''){
+        if($old_password != ''){
+          if($password != ''){
+            if($password_confirm != ''){
+              if($password == $password_confirm){
+                $data = array(
+                  'id' => $id,
+                  'old_password' => $old_password,
+                  'insert' => array(
+                    'password' => md5($password)
+                  )
+                );
+                if($this->password->change_password($data)){
+                  $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Password Berubah', 'english'=>'Password Changed'));
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal mengubah password', 'english'=>'Failed to change password'));
+                  $this->output->set_status_header(401);
+                }
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password tidak cocok', 'english'=>'Password not match'));
+                $this->output->set_status_header(401);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password konfirmasi kosong', 'english'=>'Confirm Password is empty'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password kosong', 'english'=>'Password is empty'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Password lama kosong', 'english'=>'Old password is empty'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID diperlukan', 'english'=>'ID is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function update_profile_picture($id)
+    {
+        if(isset($_FILES['file']['name'])){
+            /* Getting file name */
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = $id.'_'.time().$remove_char.'.jpg';
+        
+            /* Location */
+            $location = "upload/members/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            /* Valid extensions */
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            /* Check file extension */
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              /* Upload file */
+              if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                if($this->api_model->update_data(array('id'=>$id), 'users', array('profile_picture'=>$filename))){
+                  $response = $location;
+                }else{
+                  echo 0;
+                }
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
+    }
+    public function get_pairing()
+    {
+      // $turnover = $this->db->qr
     }
 }
 
