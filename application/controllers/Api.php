@@ -456,7 +456,7 @@ class Api extends CI_Controller {
       $position = $this->input->post('position');
       $top_id = $this->input->post('top_id');
 
-      $this->db->trans_start();
+      // $this->db->trans_start();
       $check_position = $this->api_model->get_data_by_where('positions', array('position'=>$position, 'top'=>$top_id))->result();
       if(count($check_position) == 0){
         $check_sponsor = $this->api_model->get_data_by_where('sponsor_codes', array('code'=>$sponsor_code, 'is_active'=>true))->result();
@@ -466,73 +466,63 @@ class Api extends CI_Controller {
             $auth = $this->db->query("SELECT * FROM users WHERE users.email = '$email' OR users.username = '$username'")->result();
             if(count($auth) == 0){
               $insert = array(
-                'name' => $name,
+                'name' => strtoupper($name),
                 'email' => $email,
                 'username' => $username,
                 'password' => md5($password),
                 'role' => "customer",
                 'secure_pin' => md5($secure_pin)
               );
-              if($this->api_model->insert_data('users', $insert)){
-                $last_id = $this->db->insert_id();
-                if($this->api_model->update_data(array('pin'=>$pin_register), 'pin_register', array('is_active'=>false, 'used_by'=>$last_id))){
-                  $generate_sponsor = strtoupper(preg_replace("/[^a-zA-Z]/", "", substr($name,0,5).random_string('alnum', 3)));
-                  $sponsor_code = $generate_sponsor.rand(1,1000);
-                  $sponsor_insert = array(
-                    'code' => $sponsor_code,
-                    'owner' => $last_id
-                  );
-                  if($this->api_model->insert_data('sponsor_codes', $sponsor_insert)){
-                    $last_id_sponsor = $this->db->insert_id();
-                    $aponsor_use_insert = array(
-                      'sponsor_id' => $check_sponsor[0]->id,
-                      'used_by' => $last_id
-                    );
-                    if($this->api_model->insert_data('sponsor_code_uses', $aponsor_use_insert)){
-                      $insert_position = array(
-                        'position' => $position,
-                        'top' => $top_id,
-                        'bottom' => $last_id
-                      );
-                      if($this->api_model->insert_data('positions', $insert_position)){
-                        $data_template = array(
-                          'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di Asset Digital <br>',
-                          'email'=>$email,
-                          'message'=>'Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br> SEGERALAH MEMBELI PAKET LISENSI,
-                          MELALUI ADMIN : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'phone_number'")->result()[0]->content.' <br>
-                          Email : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content.' <br>
-                          Best Regards, <br>
-                          PT. Windax Digital Indonesia'
-                        );
-                        $content = $this->email_template->template($data_template);
-                        $send_mail = array(
-                          'email_penerima'=>$email,
-                          'subjek'=>'Registration',
-                          'content'=>$content,
-                        );
-                        $send = $this->mailer->send($send_mail);
-                        if($send['status']=="Sukses"){
-                          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
-                        }else{
-                          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
-                          $this->output->set_status_header(501);
-                        }
-                      }
-                    }else{
-                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
-                      $this->output->set_status_header(501);
-                    }
-                  }else{
-                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
-                    $this->output->set_status_header(501);
-                  }
+              $this->db->trans_start();
+              $this->api_model->insert_data('users', $insert);
+              $last_id = $this->db->insert_id();
+              $this->api_model->update_data(array('id'=>$check_pin_register[0]->id), 'pin_register', array('is_active'=>false, 'used_by'=>$last_id));
+              $generate_sponsor = strtoupper(preg_replace("/[^a-zA-Z]/", "", substr($name,0,5).random_string('alnum', 3)));
+              $sponsor_code = $generate_sponsor.rand(1,1000);
+              $sponsor_insert = array(
+                'code' => $sponsor_code,
+                'owner' => $last_id
+              );
+              $this->api_model->insert_data('sponsor_codes', $sponsor_insert);
+              $last_id_sponsor = $this->db->insert_id();
+              $aponsor_use_insert = array(
+                'sponsor_id' => $check_sponsor[0]->id,
+                'used_by' => $last_id
+              );
+              $this->api_model->insert_data('sponsor_code_uses', $aponsor_use_insert);
+              $insert_position = array(
+                'position' => $position,
+                'top' => $top_id,
+                'bottom' => $last_id
+              );
+              $this->api_model->insert_data('positions', $insert_position);
+              $this->db->trans_complete();
+              if($this->db->trans_status()){
+                $data_template = array(
+                  'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'sistem_name'")->result()[0]->content.' <br>',
+                  'email'=>$email,
+                  'message'=>'Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br> SEGERALAH MEMBELI PAKET LISENSI,
+                  MELALUI ADMIN : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'phone_number'")->result()[0]->content.' <br>
+                  Email : '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content.' <br>
+                  Best Regards, <br>
+                  PT. Windax Digital Indonesia'
+                );
+                $content = $this->email_template->template($data_template);
+                $send_mail = array(
+                  'email_penerima'=>$email,
+                  'subjek'=>'Registration',
+                  'content'=>$content,
+                );
+                $send = $this->mailer->send($send_mail);
+                if($send['status']=="Sukses"){
+                  $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Registrasi Berhasil', 'english'=>'Register Successful'));
                 }else{
-                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
-                  $this->output->set_status_header(501);
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Berhasil Namun Email Gagal Terkirim', 'english'=>'Register Success, But email failed send to you'));
+                  $this->output->set_status_header(500);
                 }
               }else{
                 $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Registrasi Gagal', 'english'=>'Register Failed'));
-                $this->output->set_status_header(501);
+                $this->output->set_status_header(500);
               }
             }else{
               $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Email atau Username sudah terdaftar', 'english'=>'Email of Username has been registered'));
@@ -550,7 +540,7 @@ class Api extends CI_Controller {
         $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Posisi sudah terisi', 'english'=>'This position already with another person'));
         $this->output->set_status_header(501);
       }
-      $this->db->trans_complete();
+      // $this->db->trans_complete();
       echo json_encode($result);
 		}
     public function send_email(){
@@ -711,8 +701,11 @@ class Api extends CI_Controller {
               'owner_id'=>$owner_id,
               'balance'=>$bonus_sponsor_fix
             );
-            if($this->api_model->insert_data('sponsor_code_bonuses', $insert_sponsor_bonus)){
-              $sponsor_code_bonus_id = $this->db->insert_id();
+            $this->db->trans_start();
+            $this->api_model->insert_data('sponsor_code_bonuses', $insert_sponsor_bonus);
+            $sponsor_code_bonus_id = $this->db->insert_id();
+            $this->db->trans_complete();
+            if($this->db->trans_status()){
               $insert_sponsor_bonus_detail = array(
                 'sponsor_code_bonus_id' => $sponsor_code_bonus_id,
                 'register_bonus_by' => $order->requested_by,
@@ -748,19 +741,40 @@ class Api extends CI_Controller {
                   $this->api_model->insert_data('turnover_details', array('turnover_id'=>$turnover_id, 'position'=>$position, 'user_id'=>$user_id_req, 'lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi_price, 'currency_at_the_time'=>$currency));
                   $user_id = $top_id;
                 }
-                if($this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true))){
-                  $update = $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
-                  if($update){
-                    $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
-                  }else{
-                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
-                    $this->output->set_status_header(501);
-                  }
-                  echo json_encode($result);
+               
+                $x = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$owner_id))->result();
+                if(count($x) > 0){
+                    $balance = $x[0]->balance + $bonus_sponsor_fix;
+                    $id_inout = 'BI'.time().'-'.$owner_id;
+                    $this->db->trans_start();
+                    $this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true));
+                    $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+                    $this->api_model->update_data(array('id'=>$x[0]->id), 'total_bonuses', array('balance'=>$balance));
+                    $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus_sponsor_fix, 'note'=>'sponsor bonus', 'total_bonus_id'=>$x[0]->id));
+                    $this->db->trans_complete();
+                    if($this->db->trans_status()){
+                      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+                      $this->output->set_status_header(501);
+                    }
+                    echo json_encode($result);
                 }else{
-                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
-                  $this->output->set_status_header(501);
-                  echo json_encode($result);
+                    $balance = $bonus_sponsor_fix;
+                    $id_inout = 'BI'.time().'-'.$owner_id;
+                    $this->db->trans_start();
+                    $this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true));
+                    $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+                    $this->api_model->insert_data('total_bonuses', array('owner_id'=>$owner_id, 'balance'=>$balance));
+                    $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus_sponsor_fix, 'note'=>'sponsor bonus', 'total_bonus_id'=>$this->db->insert_id()));
+                    $this->db->trans_complete();
+                    if($this->db->trans_status()){
+                      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+                      $this->output->set_status_header(501);
+                    }
+                    echo json_encode($result);
                 }
               }else{
                 $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
@@ -810,19 +824,39 @@ class Api extends CI_Controller {
                   $this->api_model->insert_data('turnover_details', array('turnover_id'=>$turnover_id, 'position'=>$position, 'user_id'=>$user_id_req, 'lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi_price, 'currency_at_the_time'=>$currency));
                   $user_id = $top_id;
                 }
-                if($this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true))){
-                  $update = $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
-                  if($update){
-                    $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
-                  }else{
-                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
-                    $this->output->set_status_header(501);
-                  }
-                  echo json_encode($result);
+                $x = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$owner_id))->result();
+                if(count($x) > 0){
+                    $balance = $x[0]->balance + $bonus_sponsor_fix;
+                    $id_inout = 'BI'.time().'-'.$owner_id;
+                    $this->db->trans_start();
+                    $this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true));
+                    $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+                    $this->api_model->update_data(array('id'=>$x[0]->id), 'total_bonuses', array('balance'=>$balance));
+                    $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus_sponsor_fix, 'note'=>'sponsor bonus', 'total_bonus_id'=>$x[0]->id));
+                    $this->db->trans_complete();
+                    if($this->db->trans_status()){
+                      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+                      $this->output->set_status_header(501);
+                    }
+                    echo json_encode($result);
                 }else{
-                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
-                  $this->output->set_status_header(501);
-                  echo json_encode($result);
+                    $balance = $bonus_sponsor_fix;
+                    $id_inout = 'BI'.time().'-'.$owner_id;
+                    $this->db->trans_start();
+                    $this->api_model->update_data(array('order_id'=>$id), 'user_lisensies', array('is_active'=>true));
+                    $this->db->query("UPDATE `orders` SET `is_pending` = '0', `is_finish` = '1' WHERE `orders`.`id` = $id");
+                    $this->api_model->insert_data('total_bonuses', array('owner_id'=>$owner_id, 'balance'=>$balance));
+                    $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus_sponsor_fix, 'note'=>'sponsor bonus', 'total_bonus_id'=>$this->db->insert_id()));
+                    $this->db->trans_complete();
+                    if($this->db->trans_status()){
+                      $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+                      $this->output->set_status_header(501);
+                    }
+                    echo json_encode($result);
                 }
               }else{
                 $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
