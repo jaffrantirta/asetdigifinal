@@ -60,6 +60,7 @@
                 $('#table_filter :input').addClass('form-control').css({'width':'10em'});
             }
         });
-        // table.column( 3 ).visible( false );
+        table.column( 6 ).visible( false );
+        table.column( 5 ).visible( false );
     });
 </script>

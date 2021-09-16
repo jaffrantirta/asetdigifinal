@@ -24,7 +24,7 @@
         <p><?php echo $how_to_buy ?></p>
       </div>
     </div>
-    <div class="card card-primary">
+    <div class="card card-warning">
               <div class="card-header">
                 <h3 class="card-title">PIN Register</h3>
               </div>
@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="form-group">
-                  <button class="col-12 col-md-4 btn btn-primary"onclick="create_order()">Submit</button>
+                  <button class="col-12 col-md-4 btn btn-warning"onclick="create_order()">Submit</button>
                 </div>
               </div>
             </div>

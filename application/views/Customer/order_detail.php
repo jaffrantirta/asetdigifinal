@@ -19,7 +19,7 @@
           <div class="col-md-4">
 
             <!-- Profile Image -->
-            <div class="card card-primary card-outline">
+            <div class="card card-warning card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
                     <strong>ORDER NUMBER</strong><br>
@@ -63,7 +63,7 @@
                       } 
                     }
                 }else{
-                    echo '<button class="m-1 btn btn-primary btn-block"><b>Status OPEN</b></button>';
+                    echo '<button class="m-1 btn btn-warning btn-block"><b>Status OPEN</b></button>';
                 }
                 ?>
               </div>

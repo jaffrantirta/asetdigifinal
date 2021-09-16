@@ -201,7 +201,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-warning elevation-4">
     <!-- Brand Logo -->
     <!-- /<a href="index3.html" class="brand-link">
       <img src="<?php echo base_url() ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -215,7 +215,18 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo base_url() ?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="User Image">
+          <?php
+          if ($session['data']->profile_picture == null) {
+            $thumb = base_url('upload/no_image/no_image.png');
+          } else {
+            if (file_exists(base_url('upload/members/' . $session['data']->profile_picture))) {
+              $thumb = base_url('upload/no_image/no_image.png');
+            } else {
+              $thumb = base_url('upload/members/' . $session['data']->profile_picture);
+            }
+          }
+          ?>
+          <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>" alt="User profile picture">
         </div>
         <div class="info">
           <p id="id" hidden><?php echo $session['data']->id ?></p>
@@ -532,7 +543,17 @@
           </a>
           <ul class="nav nav-treeview">
 
-         
+            <!-- <li class="nav-item">
+              <?php if ($page == 'History Lisensi') { ?>
+                <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Referrals</p>
+                  </a>
+            </li> -->
+
             <li class="nav-item">
               <?php if ($page == 'Structure') { ?>
                 <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
@@ -545,7 +566,7 @@
                   </p>
                   </a>
             </li>
-            
+
             <li class="nav-item">
               <?php
               $customer = base64_encode('customer');
@@ -556,12 +577,12 @@
               ?>
               <?php if ($page == 'Detail Omset LEFT') { ?>
                 <a href="<?php echo $url ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo $url ?>" class="nav-link">
-              <?php } ?>
-                <i class="far fa-circle nav-icon"></i>
-                <p>Left Group Omset</p>
-              </a>
+                <?php } else { ?>
+                  <a href="<?php echo $url ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Left Group Omset</p>
+                  </a>
             </li>
             <li class="nav-item">
               <?php
@@ -573,12 +594,12 @@
               ?>
               <?php if ($page == 'Detail Omset RIGHT') { ?>
                 <a href="<?php echo $url ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo $url ?>" class="nav-link">
-              <?php } ?>
-                <i class="far fa-circle nav-icon"></i>
-                <p>Right Group Omset</p>
-              </a>
+                <?php } else { ?>
+                  <a href="<?php echo $url ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Right Group Omset</p>
+                  </a>
 
           </ul>
           </li>

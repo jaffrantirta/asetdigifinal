@@ -471,7 +471,7 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 6,
                 'formatter' => function($d, $row){
-                    $link = base_url('admin/detail_upgrade/'.$d);
+                    $link = base_url('admin/upgrade?action=licence&id='.$d);
                     return '
                     <center>
                         <a href="'.$link.'">

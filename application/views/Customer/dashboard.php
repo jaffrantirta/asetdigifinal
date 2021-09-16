@@ -217,7 +217,7 @@
 
         <!-- <div class="row">
 
-          <div class="col-md-4 card card-primary">
+          <div class="col-md-4 card card-warning">
             <div class="card-header">
               <h3 class="card-title">Pengguna terdaftar berdasarkan pekerjaan</h3>
               <div class="card-tools">
@@ -239,16 +239,35 @@
       </div><!-- /.container-fluid -->
       <div class="container">
         <div class="row">
-          <div class="col-6">
-            <img width="200px" class="img-fluid" src="https://lintasdaerah.com/wp-content/uploads/2018/09/3-poin-utama-crypto-mata-uang-komoditas-token.jpg" alt="Los Angeles">
+
+          <div class="col-12">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img width="1140" height="100" src="<?php echo base_url() ?>upload/banner.PNG" class="d-block w-100 rounded-lg" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img width="1140" height="100" src="<?php echo base_url() ?>upload/banner2.PNG" class="d-block w-100 rounded-lg" alt="...">
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-6">
-            <img width="200px" class="img-fluid" src="https://lintasdaerah.com/wp-content/uploads/2018/09/3-poin-utama-crypto-mata-uang-komoditas-token.jpg" alt="Los Angeles">
+        </div>
+        <div class="row">
+          <div class="col-6 col-lg-6">
+            <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
+              <iframe class="rounded-lg" width="560" height="315" src="https://www.youtube.com/embed/Fg1X2obC3_8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-6 col-lg-6">
+            <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
+              <iframe class="rounded-lg" width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
       </div>
     </section>
-    
+
     <!--<div class="container">-->
     <!--    <div class="row">-->
     <!--        <div class="col-12 col-lg-12 col-md-12 col-sm-12">-->
@@ -270,3 +289,6 @@
     <!--</div>-->
 
   </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>

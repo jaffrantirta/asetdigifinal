@@ -294,4 +294,28 @@ class Admin extends CI_Controller {
 			
 		}
 	}
+	public function upgrade()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$action = $this->input->get('action');
+			$id_order = $this->input->get('id');
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Detail Upgrade Licence';
+			switch($action){
+				case "licence":
+					$data['order'] = $this->db->query("SELECT a.* , b.name AS user_name, c.name AS current_lisensi_name, d.name AS upgrade_lisensi_name
+					FROM lisensi_upgrades a 
+					LEFT JOIN users b ON b.id=a.request_by
+					LEFT JOIN lisensies c ON c.id=a.current_lisensi
+					LEFT JOIN lisensies d ON d.id=a.upgrade_to WHERE a.id = $id_order")->result()[0];
+					$this->load->view('Admin/Template/header', $data);
+					$this->load->view('Admin/upgrade_licence_detail', $data);
+					$this->load->view('Admin/Template/footer', $data);
+					break;
+			}
+		}
+	}
 }

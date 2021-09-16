@@ -20,7 +20,7 @@
 
 
 <div class="register-box">
-  <div class="card card-outline card-primary">
+  <div class="card card-outline card-warning">
     <div class="card-header text-center">
       <a href="<?php echo base_url(); ?>" class="h1"><b>⠀ ⠀ ⠀ ⠀ ⠀ ⠀⠀ ⠀</b></a>
     </div>
@@ -113,12 +113,12 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <button onclick="register_customer()" class="btn btn-primary btn-block">Register</button>
+            <button onclick="register_customer()" class="btn btn-warning btn-block">Register</button>
           </div>
         </div>
-        <p style="margin-top: 1em" class="col-12 row">
+        <!-- <p style="margin-top: 1em" class="col-12 row">
           <a class="col-12" href="<?php echo base_url() ?>">Login</a>
-        </p>
+        </p> -->
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

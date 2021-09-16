@@ -15,7 +15,7 @@
     </div>
     <!-- /.content-header -->
     <div class="container">
-    <div class="card card-primary">
+    <div class="card card-warning">
               <div class="card-header">
                 <h3 class="card-title">Transfer PIN Register</h3>
               </div>
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-group">
-                  <button class="col-12 col-md-6 btn btn-primary"onclick="create_transfer()">Submit</button>
+                  <button class="col-12 col-md-6 btn btn-warning"onclick="create_transfer()">Submit</button>
                 </div>
               </div>
             </div>

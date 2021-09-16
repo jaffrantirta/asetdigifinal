@@ -3,8 +3,8 @@ function count(){
     var current_licence_price = document.getElementById('current_licence_price').innerHTML;
     var lisensi = document.getElementById('lisensi').value;
     var lisensi_price = document.getElementById('lisensi_'+lisensi).innerHTML;
-    lisensi_price_global = lisensi_price
     var total_payment = lisensi_price - current_licence_price;
+    lisensi_price_global = total_payment
     document.getElementById('total_payment').value = total_payment;
 }
 function upload_process_lisensi(fd, id){
@@ -46,9 +46,9 @@ function payment_method(){
                     data: {'id':id},
                     success: function(result){
                         $('.loader').attr('hidden', true);
-                        // console.log('data : '+result);
                         var data = JSON.parse(result)
                         var link = data['balance']
+                        console.log('data : '+lisensi_price_global);
                         Swal.fire({
                             html:   '<strong>Please choose payment method</strong>'+
                                     '<div class="row">'+
@@ -83,11 +83,29 @@ function payment_method(){
     }
 }
 function bonus_balance(balance){
-    // var lisensi_price = document.getElementById('lisensi_'+lisensi).innerHTML;
-    if(balance < lisensi_price_global){
-        Swal.fire('Your balance is not enough')
+    if(balance >= lisensi_price_global){
+        var lisensi = document.getElementById('lisensi').value;
+        var user_id = document.getElementById('id').innerHTML;
+        var secure_pin = document.getElementById('secure_pin').value;
+          $.ajax({
+            url: document.getElementById('base_url').innerHTML + 'api/upgrade_licence_with_balance',
+            type: 'post',
+            data: {'lisensi_id': lisensi,'id': user_id, 'secure_pin':secure_pin},
+            success: function(result){
+                $('.loader').attr('hidden', true);
+                var d = JSON.parse(result);
+                show_message('success', d.response.message['english'], '');
+                location.reload();
+            },
+            error: function(error, x, y){
+                $('.loader').attr('hidden', true);
+                show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                var msg = JSON.parse(error.responseText);
+                show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+            }
+          })
     }else{
-        Swal.fire('Your balance is enough')
+        Swal.fire('Your balance is not enough')
     }
 }
 function transfer(){

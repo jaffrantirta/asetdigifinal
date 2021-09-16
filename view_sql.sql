@@ -1,5 +1,5 @@
 CREATE VIEW inout_bonuses_complate_data AS
-SELECT a.*, b.id AS owner_id FROM inout_bonuses a
+SELECT a.*, b.owner_id AS owner_id FROM inout_bonuses a
 LEFT JOIN total_bonuses b ON b.id=a.total_bonus_id;
 
 CREATE VIEW withdraws_complate_data AS
@@ -19,10 +19,11 @@ from (`pin_register` `p`
 left join `users` `u` on(`u`.`id` = `p`.`used_by`));
 
 CREATE VIEW sponsor_code_bonus_details_complate_data AS
-SELECT a.*, b.date AS date, c.name AS user_name, d.name AS licence_name FROM sponsor_code_bonuses a 
-LEFT JOIN sponsor_code_bonus_details b ON b.sponsor_code_bonus_id=a.id
-LEFT JOIN users c ON c.id=b.register_bonus_by
-LEFT JOIN lisensies d ON d.id=b.lisensies_id;
+select `a`.`id` AS `id`,`a`.`owner_id` AS `owner_id`,`a`.`balance` AS `balance`,`a`.`updated_at` AS `updated_at`,`b`.`date` AS `date`,`c`.`name` AS `user_name`,`d`.`name` AS `licence_name`,`b`.`belance` AS `balance_detail`,`b`.`percentage_at_the_time` AS `percentage_at_the_time` 
+from (((`sponsor_code_bonuses` `a` 
+left join `sponsor_code_bonus_details` `b` on(`b`.`sponsor_code_bonus_id` = `a`.`id`)) 
+left join `users` `c` on(`c`.`id` = `b`.`register_bonus_by`)) 
+left join `lisensies` `d` on(`d`.`id` = `b`.`lisensies_id`));
 
 CREATE VIEW transfer_complate_date AS
 select `t`.`id` AS `id`,`t`.`transfer_number` AS `transfer_number`,`t`.`send_by` AS `send_by`,`t`.`receive_by` AS `receive_by`,`t`.`amount` AS `amount`,`t`.`date` AS `date`,`us`.`id` AS `sender_id`,`us`.`name` AS `sender_name`,`ur`.`id` AS `receiver_id`,`ur`.`name` AS `receiver_name` 
@@ -77,4 +78,8 @@ LEFT JOIN user_lisensies e ON e.owner=b.owner
 LEFT JOIN lisensies f ON f.id=e.lisensi_id 
 LEFT JOIN user_lisensies g ON g.owner=d.id
 LEFT JOIN lisensies h ON h.id=g.lisensi_id;
+
+ALTER TABLE turnovers ADD is_active BOOLEAN NOT NULL DEFAULT FALSE AFTER updated_at;
+
+ALTER TABLE `lisensi_upgrades` CHANGE `is_finish` `is_finish` INT(1) NOT NULL DEFAULT '0' COMMENT '0=pending 1=finish 2=reject';
 
