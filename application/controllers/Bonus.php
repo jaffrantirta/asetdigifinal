@@ -157,7 +157,7 @@ class Bonus extends CI_Controller {
     }
     public function pairing()
     {
-        $turnover = $this->api_model->get_data_by_where('turnovers', array('is_active'=>false))->result();
+        $turnover = $this->db->query("SELECT a.*, c.max_bonus AS max_bonus FROM turnovers a LEFT JOIN user_lisensies b ON b.owner=a.owner LEFT JOIN lisensies c ON c.id=b.lisensi_id WHERE a.is_active = false")->result();
                 $percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
                 if(count($turnover) > 0){
                     foreach($turnover as $data){
@@ -165,10 +165,19 @@ class Bonus extends CI_Controller {
                         $right = $data->right_belance;
                         if($left >= $right){
                             $smaller = $right;
+                            $update_left = $left - $right;
+                            $update_right = 0;
                         }else{
                             $smaller = $left;
+                            $update_left = 0;
+                            $update_right = $right - $left;
                         }
-                        $bonus = $smaller / 100 * $percentage;
+                        $vbonus = $smaller / 100 * $percentage;
+                        if($vbonus > $turnover[0]->max_bonus){
+                            $bonus = $turnover[0]->max_bonus;
+                        }else{
+                            $bonus = $vbonus;
+                        }
                         $x = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$data->owner))->result();
                         if(count($x) > 0){
                             $balance = $x[0]->balance + $bonus;
@@ -176,7 +185,7 @@ class Bonus extends CI_Controller {
                             $this->db->trans_start();
                             $this->api_model->update_data(array('id'=>$x[0]->id), 'total_bonuses', array('balance'=>$balance));
                             $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus, 'note'=>'pairing bonus', 'total_bonus_id'=>$x[0]->id));
-                            $this->api_model->update_data(array('id'=>$data->id), 'turnovers', array('is_active'=>true));
+                            $this->api_model->update_data(array('id'=>$data->id), 'turnovers', array('is_active'=>true, 'left_belance'=>$update_left, 'right_belance'=>$update_right));
                             $this->db->trans_complete();
                             if($this->db->trans_status()){
                                 echo true;
@@ -189,7 +198,7 @@ class Bonus extends CI_Controller {
                             $this->db->trans_start();
                             $this->api_model->insert_data('total_bonuses', array('owner_id'=>$data->owner, 'balance'=>$balance));
                             $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus, 'note'=>'pairing bonus', 'total_bonus_id'=>$this->db->insert_id()));
-                            $this->api_model->update_data(array('id'=>$data->id), 'turnovers', array('is_active'=>true));
+                            $this->api_model->update_data(array('id'=>$data->id), 'turnovers', array('is_active'=>true, 'left_belance'=>$update_left, 'right_belance'=>$update_right));
                             $this->db->trans_complete();
                             if($this->db->trans_status()){
                                 echo true;
@@ -199,7 +208,7 @@ class Bonus extends CI_Controller {
                         }
                     }
                 }else{
-                    echo "not found";
+                    echo false;
                 }
     }
 }
