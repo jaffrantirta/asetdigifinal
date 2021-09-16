@@ -72,7 +72,7 @@
                                               <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
                                                   <?php } ?>Profile Image</a>
                                   </li>
-                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo base_url('customer/logout') ?>">Log Out</a></li>
+                                 
                               </ul>
                           </div><!-- /.card-header -->
                           <div class="card-body">
