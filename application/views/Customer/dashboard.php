@@ -251,7 +251,7 @@
           </div>
           <div class="col-6 col-lg-6">
             <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=4BZxYghlmeg"></iframe>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
         </div>
