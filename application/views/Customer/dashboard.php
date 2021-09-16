@@ -240,7 +240,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <img width="919" height="100" class="rounded img-fluid" src="https://lintasdaerah.com/wp-content/uploads/2018/09/3-poin-utama-crypto-mata-uang-komoditas-token.jpg" alt="Los Angeles">
+            <img width="1140" height="100" class="rounded img-fluid" src="https://lintasdaerah.com/wp-content/uploads/2018/09/3-poin-utama-crypto-mata-uang-komoditas-token.jpg" alt="Los Angeles">
           </div>
         </div>
         <div class="row">
