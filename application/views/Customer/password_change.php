@@ -21,11 +21,23 @@
                       <!-- Profile Image -->
                       <div class="card card-primary card-outline">
                           <div class="card-body box-profile">
-                              <div class="text-center">
-                                  <img class="profile-user-img img-fluid img-circle" src="">
-                              </div>
+                          <div class="text-center">
+                                <?php
+                                if($session['data']->profile_picture == null){
+                                    $thumb = base_url('upload/no_image/no_image.png');
+                                }else{
+                                    if (file_exists(base_url('upload/members/'.$session['data']->profile_picture))) {
+                                        $thumb = base_url('upload/no_image/no_image.png');
+                                    }else{
+                                        $thumb = base_url('upload/members/'.$session['data']->profile_picture);
+                                    }
+                                }
+                                ?>
+                                <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
+                            </div>
 
-                              <h3 class="profile-username text-center"></h3>
+                              <h3 class="profile-username text-center"><?php echo $session['data']->name; ?></h3>
+                              <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $session['data']->email; ?></p>
 
 
                           </div>
