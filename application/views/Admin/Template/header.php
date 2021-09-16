@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- iCheck -->
@@ -133,7 +135,7 @@
 
 
           <li class="nav-item">
-            <?php if ($page == 'Request PIN Register' || $page == 'Request Lisensi') { ?>
+            <?php if ($page == 'Request PIN Register' || $page == 'Request Lisensi' || $page == 'Request Withdraw' || $page == 'up Lisensi') { ?>
           <li class="nav-item menu-is-opening menu-open">
           <?php } else { ?>
           <li class="nav-item">
@@ -209,7 +211,7 @@
           <li class="nav-item">
           <?php } ?>
           <a id="nav-daerah" href="#" class="nav-link">
-            <i class="nav-icon fas fa-key"></i>
+            <i class="nav-icon fas fa-cogs"></i>
             <p>
               Settings
               <i class="fas fa-angle-left right"></i>

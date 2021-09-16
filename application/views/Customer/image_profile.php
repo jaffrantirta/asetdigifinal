@@ -21,11 +21,23 @@
                       <!-- Profile Image -->
                       <div class="card card-warning card-outline">
                           <div class="card-body box-profile">
-                              <div class="text-center">
-                                  <img class="profile-user-img img-fluid img-circle" src="">
-                              </div>
+                          <div class="text-center">
+                                <?php
+                                if($session['data']->profile_picture == null){
+                                    $thumb = base_url('upload/no_image/no_image.png');
+                                }else{
+                                    if (file_exists(base_url('upload/members/'.$session['data']->profile_picture))) {
+                                        $thumb = base_url('upload/no_image/no_image.png');
+                                    }else{
+                                        $thumb = base_url('upload/members/'.$session['data']->profile_picture);
+                                    }
+                                }
+                                ?>
+                                <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
+                            </div>
 
-                              <h3 class="profile-username text-center"></h3>
+                              <h3 class="profile-username text-center"><?php echo $session['data']->name; ?></h3>
+                              <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $session['data']->email; ?></p>
 
 
                           </div>
@@ -60,7 +72,7 @@
                                               <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
                                                   <?php } ?>Profile Image</a>
                                   </li>
-                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
+                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo base_url('customer/logout') ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->
                           <div class="card-body">
@@ -82,7 +94,7 @@
                                   </div>
                                   <div class="form-group row">
                                       <div class="offset-sm-2 col-sm-10">
-                                          <button type="submit" class="btn btn-danger">update</button>
+                                          <button onclick="upload_process()" class="btn btn-danger">update</button>
                                       </div>
                                   </div>
 
@@ -102,3 +114,29 @@
   </section>
 
   </div>
+
+  <script>
+      function upload_process() {
+          var fd = new FormData();
+          var files = $('#file')[0].files;
+          fd.append('file', files[0]);
+          $.ajax({
+              url: document.getElementById('base_url').innerHTML + 'api/update_profile_picture/' + <?php echo $session['data']->id ?>,
+              type: 'post',
+              data: fd,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  if (response != 0) {
+                      show_message('success', 'Updated', '');
+                  } else {
+                      Swal.fire(
+                          'File failed to upload',
+                          '',
+                          'error'
+                      )
+                  }
+              },
+          });
+      }
+  </script>

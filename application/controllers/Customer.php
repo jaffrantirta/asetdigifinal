@@ -49,7 +49,7 @@ class Customer extends CI_Controller {
 				$data['turnover_left_bonus'] = 0;
 				$data['turnover_right_bonus'] = 0;
 			}
-			if(count($lisensi = $this->db->query("SELECT a.*, b.name AS lisensi_name FROM user_lisensies a LEFT JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $id")->result()) > 0){
+			if(count($lisensi = $this->db->query("SELECT a.*, b.name AS lisensi_name FROM user_lisensies a LEFT JOIN lisensies b ON b.id=a.lisensi_id WHERE a.owner = $id AND a.is_active = true")->result()) > 0){
 				$data['your_licence'] = $lisensi[0]->lisensi_name;
 				$data['licence_status'] = $lisensi[0]->is_active;
 			}else{
@@ -64,6 +64,34 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function omset()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'total bonus';
+			$customer = base64_encode('customer');
+			$position = $this->input->get('position');
+			switch($position){
+				case "left":
+					$id_and_position = base64_encode($this->session->userdata('data')->id.'/1');
+					$hash = base64_encode($id_and_position.'////LEFT');
+					$route = "bonus/turnover/$customer?token=$hash";
+					$url = base_url($route);
+					header("Location: $url");
+					break;
+				case "right":
+					$id_and_position = base64_encode($this->session->userdata('data')->id.'/2');
+					$hash = base64_encode($id_and_position.'////RIGHT');
+					$route = "bonus/turnover/$customer?token=$hash";
+					$url = base_url($route);
+					header("Location: $url");
+					break;
+			}
+		}
+	}
 	public function total_bonus(){
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
@@ -76,7 +104,7 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
-	public function auto(){
+	public function properties(){
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
 		} else {
@@ -386,19 +414,28 @@ class Customer extends CI_Controller {
 					switch($data['get_lisensies'][0]->lisensi_id){
 						case "1":
 							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 2 OR a.id = 3")->result();
+							$this->load->view('Customer/Template/header', $data);
+							$this->load->view('Customer/upgrade_licence', $data);
+							$this->load->view('Customer/Template/footer', $data);
 							break;
 						case "2":
 							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 3")->result();
+							$this->load->view('Customer/Template/header', $data);
+							$this->load->view('Customer/upgrade_licence', $data);
+							$this->load->view('Customer/Template/footer', $data);
 							break;
 						case "3":
-							$data['lisensies'][0]['id'] = '99';
-							$data['lisensies'][0]['name'] = 'You are at latest Licence level';
-							$data['lisensies'][0]['price'] = '';
+							$data2 = array(
+								'status'=>true,
+								'title'=>'You are cannot Upgrade',
+								'message'=>'You are on Latest Licence',
+								'link_redirect'=>base_url(),
+								'button_text'=>'Back to Home'
+							);
+							$this->load->view('Message/index', $data2);
 							break;
 					}
-					$this->load->view('Customer/Template/header', $data);
-					$this->load->view('Customer/upgrade_licence', $data);
-					$this->load->view('Customer/Template/footer', $data);
+					
 					// echo json_encode($data);
 					break;
 				default :
@@ -529,6 +566,19 @@ class Customer extends CI_Controller {
 			$data['page'] = 'Upload Image';
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/image_profile', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function reward()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Reward';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/reward', $data);
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}

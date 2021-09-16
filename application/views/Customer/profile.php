@@ -21,11 +21,22 @@
                       <!-- Profile Image -->
                       <div class="card card-warning card-outline">
                           <div class="card-body box-profile">
-                              <div class="text-center">
-                                  <img class="profile-user-img img-fluid img-circle" src="">
-                              </div>
+                          <div class="text-center">
+                                <?php
+                                if($session['data']->profile_picture == null){
+                                    $thumb = base_url('upload/no_image/no_image.png');
+                                }else{
+                                    if (file_exists(base_url('upload/members/'.$session['data']->profile_picture))) {
+                                        $thumb = base_url('upload/no_image/no_image.png');
+                                    }else{
+                                        $thumb = base_url('upload/members/'.$session['data']->profile_picture);
+                                    }
+                                }
+                                ?>
+                                <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
+                            </div>
 
-                              <h3 class="profile-username text-center"></h3>
+                              <h3 class="profile-username text-center"><?php echo $session['data']->name; ?></h3>
                               <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $session['data']->email; ?></p>
 
 
@@ -62,7 +73,7 @@
                                               <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
                                                   <?php } ?>Profile Image</a>
                                   </li>
-                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo site_url('auth/logout'); ?>">Log Out</a></li>
+                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo base_url('customer/logout') ?>">Log Out</a></li>
                               </ul>
                           </div><!-- /.card-header -->
                           <div class="card-body">

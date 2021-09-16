@@ -174,7 +174,7 @@ class Datatable extends CI_Controller {
                     }else if($row[5]){
                         $y = '<p style="color:red">REJECTED</p>';
                     }else{
-                        $y = '<p style="color:yellow">PENDING</p>';
+                        $y = '<p style="color:#ff6600">PENDING</p>';
                     }
                     return $y;
                 }
@@ -247,7 +247,7 @@ class Datatable extends CI_Controller {
                     }else if($row[5]){
                         $y = '<p style="color:red">REJECTED</p>';
                     }else{
-                        $y = '<p style="color:yellow">PENDING</p>';
+                        $y = '<p style="color:#ff6600">PENDING</p>';
                     }
                     return $y;
                 }
@@ -400,6 +400,30 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_properties($id)
+    {
+        $columns = array(
+            array(
+                'db' => 'amount',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d.' USDT';
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+          );
+          $ssptable='auto_save_properties';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='user_id='.$id;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_upgrade_licence()
     {
         $columns = array(
@@ -447,7 +471,7 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 6,
                 'formatter' => function($d, $row){
-                    $link = base_url('admin/detail_upgrade/'.$d);
+                    $link = base_url('admin/upgrade?action=licence&id='.$d);
                     return '
                     <center>
                         <a href="'.$link.'">
@@ -471,7 +495,8 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'name',  'dt' => 0,
                 'formatter' => function($d, $row){
-                    return $d;
+                    $link = base_url('admin/members?action=detail&id='.$row[8]);
+                    return '<a href="'.$link.'">'.$d.'</a>';
                 }
             ),
             array(
@@ -546,11 +571,10 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'lisensi_name',  'dt' => 6,
                 'formatter' => function($d, $row){
-                    if($d == null){
+                    if($row[9] == 0 || $row[9] == null){
                         $result = '<a style="color: red">not have licence</a>';
                     }else{
                         $result = '<a style="color: green">'.$d.'</a>';
-
                     }
                     return $result;
                 }
@@ -564,18 +588,24 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 8,
                 'formatter' => function($d, $row){
-                    $link = base_url('admin/delete_member/'.$d);
+                    $link = 'deactivate('.$d.')';//base_url('admin/delete_member/'.$d);
                     return '
                     <center>
-                        <a href="'.$link.'">
-                            <i title="delete" class="fa fa-trash"></i>
-                        </a>
+                        <button class="btn btn-danger"  onclick="'.$link.'">
+                            Deactivate
+                        </button>
                     </center>
                     ';
                 }
             ),
+            array(
+                'db' => 'is_active_licence',  'dt' => 9,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
           );
-          $ssptable='customer_complate_data';
+          $ssptable='customer_complate_date';
           $sspprimary='id';
           $sspjoin='';
           $sspwhere='role = "customer"';
@@ -599,13 +629,13 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'lisensi_name',  'dt' => 2,
+                'db' => 'licence_name',  'dt' => 2,
                 'formatter' => function($d, $row){
                     return $d;
                 }
             ),
             array(
-                'db' => 'belance',  'dt' => 3,
+                'db' => 'balance_detail',  'dt' => 3,
                 'formatter' => function($d, $row){
                     return $d;
                 }
@@ -627,7 +657,7 @@ class Datatable extends CI_Controller {
           $ssptable='sponsor_code_bonus_details_complate_data';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='sponsor_code_bonus_id ='.$id;
+          $sspwhere='owner_id ='.$id;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
@@ -896,9 +926,9 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'status',  'dt' => 4,
                 'formatter' => function($d, $row){
-                    if($d=1){
-                        $v='<strong style="color:yellow">PENDING</strong>';
-                    }else if($d=2){
+                    if($d==1){
+                        $v='<strong style="color:#ff6600">PENDING</strong>';
+                    }else if($d==2){
                         $v='<strong style="color:green">SUCCESS</strong>';
                     }else{
                         $v='<strong style="color:red">REJECT</strong>';

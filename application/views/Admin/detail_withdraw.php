@@ -32,7 +32,8 @@
                                     <b>Date</b> <a id="date" class="float-right"></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Requested By</b> <a id="name" class="float-right"></a>
+                                    <b>Requested By</b> <a id="name" href="#" onclick="member_detail()" class="float-right"></a>
+                                    <p hidden id="user_id"></p>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Amount to transfer</b> <a id="withdraw_amount" class="float-right"></a>
@@ -127,6 +128,7 @@
             document.getElementById('date').innerHTML = d.data.withdraw['date'];
             document.getElementById('withdraw_amount').innerHTML = d.data.transfer['withdraw_amount'];
             document.getElementById('name').innerHTML = d.data.user['name'];
+            document.getElementById('user_id').innerHTML = d.data.user['id'];
             document.getElementById('auto_amount').innerHTML = d.data.transfer['auto_amount'];
             if (d.data.withdraw['status'] == 1) {
                 document.getElementById('status').innerHTML = 'PENDING';
@@ -164,5 +166,9 @@
         /* Alert the copied text */
         Swal.fire('Copied', '', 'success')
         // alert("Copied the text: " + copyText.value);
+    }
+    function member_detail(){
+        var user_id = document.getElementById('user_id').innerHTML
+        window.location.replace(document.getElementById('base_url').innerHTML+'admin/members?action=detail&id='+user_id)
     }
 </script>
