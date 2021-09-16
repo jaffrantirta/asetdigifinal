@@ -411,32 +411,50 @@ class Customer extends CI_Controller {
 					$data['how_to_buy'] = $this->api_model->get_data_by_where('settings', array('key'=>'payment_tutorial'))->result()[0]->content;
 					$data['page'] = 'Upgrade Licence';
 					$data['get_lisensies'] = $this->api_model->get_data_by_where('user_lisensies_complate_data', array('owner'=>$this->session->userdata('data')->id))->result();
-					switch($data['get_lisensies'][0]->lisensi_id){
-						case "1":
-							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 2 OR a.id = 3")->result();
-							$this->load->view('Customer/Template/header', $data);
-							$this->load->view('Customer/upgrade_licence', $data);
-							$this->load->view('Customer/Template/footer', $data);
-							break;
-						case "2":
-							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 3")->result();
-							$this->load->view('Customer/Template/header', $data);
-							$this->load->view('Customer/upgrade_licence', $data);
-							$this->load->view('Customer/Template/footer', $data);
-							break;
-						case "3":
+					if(count($data['get_lisensies']) > 0){
+						switch($data['get_lisensies'][0]->lisensi_id){
+							case "1":
+								$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 2 OR a.id = 3")->result();
+								$this->load->view('Customer/Template/header', $data);
+								$this->load->view('Customer/upgrade_licence', $data);
+								$this->load->view('Customer/Template/footer', $data);
+								break;
+							case "2":
+								$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 3")->result();
+								$this->load->view('Customer/Template/header', $data);
+								$this->load->view('Customer/upgrade_licence', $data);
+								$this->load->view('Customer/Template/footer', $data);
+								break;
+							case "3":
+								$data2 = array(
+									'status'=>true,
+									'title'=>'You are cannot Upgrade',
+									'message'=>'You are on Latest Licence',
+									'link_redirect'=>base_url(),
+									'button_text'=>'Back to Home'
+								);
+								$this->load->view('Message/index', $data2);
+								break;
+							default :
 							$data2 = array(
-								'status'=>true,
-								'title'=>'You are cannot Upgrade',
-								'message'=>'You are on Latest Licence',
+								'status'=>false,
+								'title'=>'You have to buy a Upgrade',
+								'message'=>'You not have Licence',
 								'link_redirect'=>base_url(),
 								'button_text'=>'Back to Home'
 							);
 							$this->load->view('Message/index', $data2);
-							break;
+						}
+					}else{
+						$data2 = array(
+							'status'=>false,
+							'title'=>'You have to buy a Upgrade',
+							'message'=>'You not have a Licence',
+							'link_redirect'=>base_url(),
+							'button_text'=>'Back to Home'
+						);
+						$this->load->view('Message/index', $data2);
 					}
-					
-					// echo json_encode($data);
 					break;
 				default :
 					echo "404";
