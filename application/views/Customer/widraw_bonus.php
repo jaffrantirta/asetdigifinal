@@ -15,7 +15,7 @@
       </div>
       <!-- /.content-header -->
       <div class="container">
-          <div class="card card-primary">
+          <div class="card card-warning">
               <div class="card-header">
                   <h3 class="card-title">WIDRAW</h3>
               </div>
@@ -59,7 +59,7 @@
                       </div>
                   </div>
                   <div class="form-group">
-                      <button class="col-12 col-md-6 btn btn-primary" onclick="request()">Submit</button>
+                      <button class="col-12 col-md-6 btn btn-warning" onclick="request()">Submit</button>
                   </div>
               </div>
           </div>

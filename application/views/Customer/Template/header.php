@@ -552,7 +552,7 @@
           </a>
           <ul class="nav nav-treeview">
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <?php if ($page == 'History Lisensi') { ?>
                 <a href="<?php echo base_url('customer/lisensi?action=history') ?>" class="nav-link active">
                 <?php } else { ?>
@@ -561,7 +561,7 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Referrals</p>
                   </a>
-            </li>
+            </li> -->
            
             <li class="nav-item">
               <?php if ($page == 'Structure') { ?>

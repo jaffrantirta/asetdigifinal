@@ -15,7 +15,7 @@
     </div>
     <!-- /.content-header -->
     <div class="container">
-    <div class="card card-primary">
+    <div class="card card-warning">
               <div class="card-header">
                 <h3 class="card-title">Structure</h3>
               </div>

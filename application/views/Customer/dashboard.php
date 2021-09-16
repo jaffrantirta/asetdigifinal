@@ -217,7 +217,7 @@
 
         <!-- <div class="row">
 
-          <div class="col-md-4 card card-primary">
+          <div class="col-md-4 card card-warning">
             <div class="card-header">
               <h3 class="card-title">Pengguna terdaftar berdasarkan pekerjaan</h3>
               <div class="card-tools">
