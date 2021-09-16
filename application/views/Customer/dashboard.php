@@ -246,12 +246,12 @@
         <div class="row">
         <div class="col-6 col-lg-6">
               <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/8QxxzB6TYpo"></iframe>
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=Fg1X2obC3_8"></iframe>
             </div>
           </div>
           <div class="col-6 col-lg-6">
               <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/8QxxzB6TYpo"></iframe>
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=4BZxYghlmeg"></iframe>
             </div>
           </div>
           </div>
