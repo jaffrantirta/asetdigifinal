@@ -116,9 +116,9 @@
             <button onclick="register_customer()" class="btn btn-warning btn-block">Register</button>
           </div>
         </div>
-        <p style="margin-top: 1em" class="col-12 row">
+        <!-- <p style="margin-top: 1em" class="col-12 row">
           <a class="col-12" href="<?php echo base_url() ?>">Login</a>
-        </p>
+        </p> -->
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

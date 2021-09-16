@@ -32,7 +32,7 @@ function register_customer(){
                                         // console.log('data : '+result);
                                         var data = JSON.parse(result);
                                         show_message('success', data.response['message']['english'], '');
-                                        window.location.href = document.getElementById('base_url').innerHTML;
+                                        window.location.href = document.getElementById('base_url').innerHTML+'customer';
                                     },
                                     error: function (result, ajaxOptions, thrownError) {
                                         Swal.close();
