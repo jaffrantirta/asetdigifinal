@@ -724,10 +724,10 @@ class Api extends CI_Controller {
                     $turnover_id = $turnover[0]->id;
                     if($position == 1){
                       $new_belance = $turnover[0]->left_belance + $lisensi_price;
-                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('left_belance'=>$new_belance));
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('left_belance'=>$new_belance, 'is_active'=>false));
                     }else{
                       $new_belance = $turnover[0]->right_belance + $lisensi_price;
-                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('right_belance'=>$new_belance));
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('right_belance'=>$new_belance, 'is_active'=>false));
                     }
                   }else{
                     if($position == 1){
@@ -807,10 +807,10 @@ class Api extends CI_Controller {
                     $turnover_id = $turnover[0]->id;
                     if($position == 1){
                       $new_belance = $turnover[0]->left_belance + $lisensi_price;
-                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('left_belance'=>$new_belance));
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('left_belance'=>$new_belance, 'is_active'=>false));
                     }else{
                       $new_belance = $turnover[0]->right_belance + $lisensi_price;
-                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('right_belance'=>$new_belance));
+                      $this->api_model->update_data(array('owner'=>$top_id), 'turnovers', array('right_belance'=>$new_belance, 'is_active'=>false));
                     }
                   }else{
                     if($position == 1){
