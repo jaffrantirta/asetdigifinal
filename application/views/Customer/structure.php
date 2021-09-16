@@ -22,7 +22,7 @@
               <div class="card-body table-responsive">
               <div class="tree">
                 <ul>
-                    <li><a class='link' href='#'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['data']!=null){echo $parent_1['data']->name.' - '.$parent_1['data']->lisensi_name;}else{echo 'ADD';} ?></a>
+                    <li><a class='link' href='#'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['data']!=null){echo $parent_1['data']->username.' - '.$parent_1['data']->lisensi_name;}else{echo 'ADD';} ?></a>
                         <ul>
                             <li>
                                 <a class='link' href='<?php if($parent_1['left']!=null){echo base_url('customer/structure/'.$parent_1['left']->bottom);}else{echo base_url('customer/register?top='.$parent_1['data']->id.'&position=1');} ?>'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['left']!=null){echo $parent_1['left']->bottom_name.' - '.$parent_1['left']->lisensi_name;}else{echo 'ADD';} ?></a>
