@@ -240,7 +240,16 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <img width="1140" height="100" class="rounded img-fluid" src="https://lintasdaerah.com/wp-content/uploads/2018/09/3-poin-utama-crypto-mata-uang-komoditas-token.jpg" alt="Los Angeles">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img width="1140" height="100" src="<?php echo base_url() ?>upload/banner.PNG" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img width="1140" height="100" src="<?php echo base_url() ?>upload/banner2.PNG" class="d-block w-100" alt="...">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
