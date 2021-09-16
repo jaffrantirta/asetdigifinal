@@ -414,19 +414,28 @@ class Customer extends CI_Controller {
 					switch($data['get_lisensies'][0]->lisensi_id){
 						case "1":
 							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 2 OR a.id = 3")->result();
+							$this->load->view('Customer/Template/header', $data);
+							$this->load->view('Customer/upgrade_licence', $data);
+							$this->load->view('Customer/Template/footer', $data);
 							break;
 						case "2":
 							$data['lisensies'] = $this->db->query("SELECT * FROM lisensies a WHERE a.is_active = true AND a.id = 3")->result();
+							$this->load->view('Customer/Template/header', $data);
+							$this->load->view('Customer/upgrade_licence', $data);
+							$this->load->view('Customer/Template/footer', $data);
 							break;
 						case "3":
-							$data['lisensies'][0]['id'] = '99';
-							$data['lisensies'][0]['name'] = 'You are at latest Licence level';
-							$data['lisensies'][0]['price'] = '';
+							$data2 = array(
+								'status'=>true,
+								'title'=>'You are cannot Upgrade',
+								'message'=>'You are on Latest Licence',
+								'link_redirect'=>base_url(),
+								'button_text'=>'Back to Home'
+							);
+							$this->load->view('Message/index', $data2);
 							break;
 					}
-					$this->load->view('Customer/Template/header', $data);
-					$this->load->view('Customer/upgrade_licence', $data);
-					$this->load->view('Customer/Template/footer', $data);
+					
 					// echo json_encode($data);
 					break;
 				default :

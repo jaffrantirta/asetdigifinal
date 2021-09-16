@@ -389,9 +389,9 @@
             </li>
             <li class="nav-item">
               <?php if ($page == 'Upgrade Licence') { ?>
-                <a href="<?php echo base_url('customer/under') ?>" class="nav-link active">
+                <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link active">
                 <?php } else { ?>
-                  <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
+                  <a href="<?php echo base_url('customer/lisensi?action=upgrade') ?>" class="nav-link">
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Upgrade Licence</p>

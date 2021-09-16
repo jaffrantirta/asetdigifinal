@@ -1364,5 +1364,96 @@ class Api extends CI_Controller {
     {
       // $turnover = $this->db->qr
     }
+    public function upgrade_licence_update_status()
+    {
+      $order_id = $this->input->post('order_id');
+      $status = $this->input->post('status');
+      $lisensi_id = $this->input->post('lisensi_id');
+      $user_id = $this->input->post('user_id');
+      if($order_id != null){
+        if($status != null){
+          switch($status){
+            case 1:
+              $this->db->trans_start();
+              $this->api_model->update_data(array('id'=>$order_id), 'lisensi_upgrades', array('is_finish'=>1));
+              $this->api_model->update_data(array('owner'=>$user_id), 'user_lisensies', array('lisensi_id'=>$lisensi_id));
+              $this->db->trans_complete();
+              if($this->db->trans_status()){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Lisensi Terupdate', 'english'=>'Licence Upgraded'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal', 'english'=>'Failed'));
+                $this->output->set_status_header(500);
+              }
+              break;
+            case 2:
+              $this->db->trans_start();
+              $this->api_model->update_data(array('order_id'=>$order_id), 'lisensi_upgrades', array('is_finish'=>2));
+              $this->db->trans_complete();
+              if($this->db->trans_status()){
+                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Lisensi Ditolak', 'english'=>'Licence Rejected'));
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal', 'english'=>'Failed'));
+                $this->output->set_status_header(500);
+              }
+              break;
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Status kosong', 'english'=>'Status required'));
+          $this->output->set_status_header(500);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID dibutuhkan', 'english'=>'ID required'));
+        $this->output->set_status_header(500);
+      }
+      echo json_encode($result);
+    }
+    public function upgrade_licence_with_balance()
+    {
+      $id = $this->input->post('id');
+      $lisensi_id = $this->input->post('lisensi_id');
+      $secure_pin = $this->input->post('secure_pin');
+
+      if($id != null){
+        if($lisensi_id != null){
+          $balance = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$id))->result();
+          if(count($balance) > 0){
+            $lisensi = $this->api_model->get_data_by_where('lisensies', array('id'=>$lisensi_id))->result();
+            if(count($lisensi) > 0){
+              $user_lisensi = $this->db->query("SELECT a.*, b.price AS price, c.secure_pin AS secure_pin FROM user_lisensies a INNER JOIN lisensies b ON b.id=a.lisensi_id INNER JOIN users c ON c.id=a.owner WHERE a.owner = $id AND a.is_active = true")->result();
+              if(count($user_lisensi) > 0 && $user_lisensi[0]->secure_pin == md5($secure_pin)){
+                $diff_balance = $lisensi[0]->price - $user_lisensi[0]->price;
+                if($balance[0]->balance >= $diff_balance){
+                  if($this->api_model->update_data(array('owner'=>$id), 'user_lisensies', array('lisensi_id'=>$lisensi_id))){
+                    $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Lisensi Terupdate', 'english'=>'Licence Upgraded'));
+                  }else{
+                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal', 'english'=>'Failed'));
+                    $this->output->set_status_header(500);
+                  }
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Saldo Bonus Tidak Cukup', 'english'=>'Balance Enough'));
+                  $this->output->set_status_header(402);
+                }
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Lisensi Anda Tidak Ditemukan atau Secure PIN salah', 'english'=>'Your Licence Not Found or Secure PIN is wrong'));
+                $this->output->set_status_header(404);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Lisensi Dipilih Tidak Ditemukan', 'english'=>'Selected Licence Not Found'));
+              $this->output->set_status_header(404);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Saldo Bonus Tidak Ada', 'english'=>'Balance Not Found'));
+            $this->output->set_status_header(402);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Lisensi Diperlukan', 'english'=>'Licence Required'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'ID kosong', 'english'=>'ID Required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
 }
 

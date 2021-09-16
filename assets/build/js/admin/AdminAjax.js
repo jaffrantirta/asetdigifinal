@@ -36,6 +36,52 @@ function update_status_order(act){
         }
       })
     }
+    function update_status_order_upgrade(status){
+      $('.loader').attr('hidden', false);
+      var vStatus = status;
+        var order_id = document.getElementById('order_id').innerHTML;
+        var lisensi_id = document.getElementById('lisensi_id').innerHTML;
+        var user_id = document.getElementById('user_id').innerHTML;
+        $.ajax({
+          url: document.getElementById('base_url').innerHTML + 'api/upgrade_licence_update_status',
+          type: 'post',
+          data: {'order_id': order_id,'status': vStatus,'lisensi_id': lisensi_id,'user_id': user_id},
+          success: function(result){
+              $('.loader').attr('hidden', true);
+              var d = JSON.parse(result);
+              show_message('success', d.response.message['english'], '');
+              location.reload();
+          },
+          error: function(error, x, y){
+              $('.loader').attr('hidden', true);
+              show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+              var msg = JSON.parse(error.responseText);
+              show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+          }
+        })
+      }
+      function upgrade_licence_with_balance(){
+        $('.loader').attr('hidden', false);
+          var lisensi_id = document.getElementById('lisensi_id').innerHTML;
+          var user_id = document.getElementById('user_id').innerHTML;
+          $.ajax({
+            url: document.getElementById('base_url').innerHTML + 'api/upgrade_licence_with_balance',
+            type: 'post',
+            data: {'lisensi_id': lisensi_id,'id': user_id},
+            success: function(result){
+                $('.loader').attr('hidden', true);
+                var d = JSON.parse(result);
+                show_message('success', d.response.message['english'], '');
+                location.reload();
+            },
+            error: function(error, x, y){
+                $('.loader').attr('hidden', true);
+                show_message('error', 'Oops! sepertinya ada kesalahan', 'kesalahan tidak diketahui');
+                var msg = JSON.parse(error.responseText);
+                show_message('error', 'Oops! sepertinya ada kesalahan', msg.response.message['english']);
+            }
+          })
+        }
 
     function update_status_order_pin(act){
         $('.loader').attr('hidden', false);

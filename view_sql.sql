@@ -81,3 +81,5 @@ LEFT JOIN lisensies h ON h.id=g.lisensi_id;
 
 ALTER TABLE turnovers ADD is_active BOOLEAN NOT NULL DEFAULT FALSE AFTER updated_at;
 
+ALTER TABLE `lisensi_upgrades` CHANGE `is_finish` `is_finish` INT(1) NOT NULL DEFAULT '0' COMMENT '0=pending 1=finish 2=reject';
+
