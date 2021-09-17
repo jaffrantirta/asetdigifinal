@@ -873,8 +873,11 @@ class Api extends CI_Controller {
         case "finish":
           break;
         case "reject":
-          $update = $this->db->query("UPDATE `orders` SET `is_open` = '0', `is_pending` = '0', `is_finish` = '0', `is_reject` = '1' WHERE `orders`.`id` = $id");
-          if($update){
+          $this->db->trans_start();
+          $this->db->query("UPDATE `orders` SET `is_open` = '0', `is_pending` = '0', `is_finish` = '0', `is_reject` = '1' WHERE `orders`.`id` = $id");
+          $this->db->query("DELETE FROM `user_lisensies` WHERE `user_lisensies`.`order_id` = $id");
+          $this->db->trans_complete();
+          if($this->db->trans_status()){
             $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
           }else{
             $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
