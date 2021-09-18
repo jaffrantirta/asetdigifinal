@@ -694,7 +694,7 @@ class Api extends CI_Controller {
           $lisensi_price = $lisensi[0]->lisensi_price;
           $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
           $owner_id = $this->db->query("SELECT a.*, c.id AS owner_id FROM sponsor_code_uses a INNER JOIN sponsor_codes b ON b.id=a.sponsor_id INNER JOIN users c ON c.id=b.owner WHERE a.used_by = $order->requested_by")->result()[0]->owner_id;
-          $percentage = $this->db->query("SELECT * FROM settings WHERE key = 'percentage_sponsor_bonus'")->result()[0]->content;
+          $percentage = $this->db->query("SSELECT * FROM settings a WHERE a.key = 'percentage_sponsor_bonus'")->result()[0]->content;
           $bonus_sponsor_fix = $lisensi_price / 100 * $percentage;
           if(count($sponsor_code_bonuses = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$owner_id))->result()) == 0){
             $insert_sponsor_bonus = array(
