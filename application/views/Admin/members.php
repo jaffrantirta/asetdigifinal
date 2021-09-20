@@ -13,7 +13,8 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <p hidden id='link'>datatable/get_all_members</p><a href="" class="btn btn-success">export member</a>
+    <p hidden id='link'>datatable/get_all_members</p>
+    <a href="<?php echo base_url("index.php/admin/export"); ?>" class="btn btn-success">export member</a>
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">All members registered are <?php echo $members_count ?></h3>
