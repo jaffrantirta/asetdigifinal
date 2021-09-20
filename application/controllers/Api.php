@@ -1459,5 +1459,49 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function update_video_tutorial()
+    {
+      $link = $this->input->post('link');
+      if($link != null){
+        $embed = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link);
+        $json['video 1'] = $embed;
+        if($this->api_model->update_data(array('key'=>'video_tutorial_link'), 'settings', array('content'=>json_encode($json)))){
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Link Kosong', 'english'=>'Link Required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function update_video_dashboard()
+    {
+      $link1 = $this->input->post('link1');
+      $link2 = $this->input->post('link2');
+      if($link1 != null){
+        if($link2 != null){
+          $embed1 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link1);
+          $embed2 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link2);
+          $json['video 1'] = $embed1;
+          $json['video 2'] = $embed2;
+          if($this->api_model->update_data(array('key'=>'dashboard_video_link'), 'settings', array('content'=>json_encode($json)))){
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Link 2 Kosong', 'english'=>'Link 2 Required'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Link 1 Kosong', 'english'=>'Link 1 Required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
 }
 
