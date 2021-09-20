@@ -240,18 +240,28 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <img width="1140" height="100" class="rounded img-fluid" src="https://lintasdaerah.com/wp-content/uploads/2018/09/3-poin-utama-crypto-mata-uang-komoditas-token.jpg" alt="Los Angeles">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="<?php echo base_url() ?>upload/banner.png" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                <img src="<?php echo base_url() ?>upload/banner2.png" class="d-block w-100" alt="...">
+                </div>
+               
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
         <div class="col-6 col-lg-6">
               <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=Fg1X2obC3_8"></iframe>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/Fg1X2obC3_8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           <div class="col-6 col-lg-6">
               <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=4BZxYghlmeg"></iframe>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           </div>
