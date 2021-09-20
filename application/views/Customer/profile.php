@@ -51,7 +51,17 @@
                       <div class="card">
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
-                                  <li class="nav-item mr-1"><a class="nav-link profil" href="" data-toggle="tab">Profil</a></li>
+                              <li class="nav-item mr-1">
+                              <?php $id = $session['data']->id ?>
+                              <?php if ($page == 'Profile') { ?>
+                                    <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link active">
+                                <?php } else { ?>
+                                    <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link">
+                                <?php } ?>
+                                    Profil
+                                      
+                                  </a>
+                            </li>
                                   <li class="nav-item mr-1">
                                       <?php if ($page == 'Change Password') { ?>
                                           <a href="<?php echo base_url('customer/change_password') ?>" class="nav-link active">

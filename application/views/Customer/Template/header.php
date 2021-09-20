@@ -262,18 +262,18 @@
           <?php } ?>
 
 
-          <!-- <li class="nav-item">
-          <?php if ($page == 'Pengguna') { ?>
-            <a href="<?php echo base_url('admin/users') ?>" class="nav-link active">
+          <li class="nav-item">
+          <?php if ($page == 'Profile') { ?>
+            <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link active">
           <?php } else { ?>
-            <a href="<?php echo base_url('admin/users') ?>" class="nav-link">
+            <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link">
           <?php } ?>
               <i class="nav-icon fas fa-user"></i>
               <p>
-                test
+                Profile
               </p>
             </a>
-          </li> -->
+          </li>
 
 
           <li class="nav-item">
