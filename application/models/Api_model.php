@@ -35,6 +35,11 @@ class Api_model extends CI_Model {
     function update_data($whare_clouse, $table, $data){
         return $this->db->update($table, $data, $whare_clouse);
     }
+    function get_customer(){
+        $this->db->select('*');
+        $this->db->from('users');
+        return $this->db->get();
+    }
   
 }
 

@@ -391,7 +391,7 @@ class Admin extends CI_Controller {
 		$excel->getActiveSheet()->getStyle('D3')->applyFromArray($style_col);
 		$excel->getActiveSheet()->getStyle('E3')->applyFromArray($style_col);
 		// Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
-		$member = $this->count($this->api_model->get_data_by_where('users', array('role'=>'customer'))->result());
+		$member = $this->api_model->get_customer();
 		$no = 1; // Untuk penomoran tabel, di awal set dengan 1
 		$numrow = 4; // Set baris pertama untuk isi tabel adalah baris ke 4
 		foreach($member as $data){ // Lakukan looping pada variabel siswa
