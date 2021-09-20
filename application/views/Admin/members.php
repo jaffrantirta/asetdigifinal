@@ -29,12 +29,8 @@
               <th>Register Date</th>
               <th>Sponsor Code</th>
               <th>Sponsor Code Bonus</th>
-              <th>
-                <p class="text-danger">Under Development</p>
-              </th>
-              <th>
-                <p class="text-danger">Under Development</p>
-              </th>
+              <th>Total Omset</th>
+              <th>Total Bonus</th>
               <th>Licence</th>
               <th>id</th>
               <th>Action</th>

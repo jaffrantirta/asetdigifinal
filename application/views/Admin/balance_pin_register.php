@@ -27,10 +27,11 @@
                     <th>Date</th>
                     <th>Amount</th>
                     <th>Total Payment</th>
-                    <th>Currency</th>
+                    <th>Requested By</th>
                     <th>Reject</th>
                     <th>Status</th>
                     <th>Action</th>
+                    <th>requested_by</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -62,5 +63,6 @@
             }
         });
         table.column( 5 ).visible( false );
+        table.column( 8 ).visible( false );
     });
 </script>
