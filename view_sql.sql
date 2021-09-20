@@ -79,9 +79,18 @@ LEFT JOIN lisensies f ON f.id=e.lisensi_id
 LEFT JOIN user_lisensies g ON g.owner=d.id
 LEFT JOIN lisensies h ON h.id=g.lisensi_id;
 
+//-----> new 20/09
+
 CREATE VIEW order_complete_data AS
 SELECT a.*, b.name AS user_name FROM orders a
 LEFT JOIN users b ON b.id=a.requested_by;
+
+INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'dashboard_video_link', '{\"video 1\":\"xxxx\", \"video 2\":\"yyy\"}');
+INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'dashboard_video_link', '{\"video 1\":\"xxxx\", \"video 2\":\"yyy\"}');
+
+INSERT INTO `banners` (`id`, `name`, `picture`, `date`, `is_active`) VALUES (NULL, 'banner 1', 'banner.PNG', current_timestamp(), '1'), (NULL, 'banner 2', 'banner2.PNG', current_timestamp(), '1');
+
+//--------> not
 
 ALTER TABLE turnovers ADD is_active BOOLEAN NOT NULL DEFAULT FALSE AFTER updated_at;
 
