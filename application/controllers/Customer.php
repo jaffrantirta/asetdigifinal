@@ -13,6 +13,7 @@ class Customer extends CI_Controller {
 		$this->load->library('pdf');
 		$this->load->library('pdf2');
 		$this->load->library('bonus');
+		$this->load->model('setting_model', 'setting');
 	}
 	public function index(){
         if($this->session->userdata('authenticated_customer')){
@@ -610,6 +611,21 @@ class Customer extends CI_Controller {
 			$data['page'] = 'Vidio Tutorial';
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/vidio_tutorial', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function profile($id)
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Profile';
+			$dataa = $this->setting->get_profile($id);
+            $users['users'] = $dataa;
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/profile', $users);
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
