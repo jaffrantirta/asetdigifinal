@@ -173,8 +173,8 @@ class Bonus extends CI_Controller {
                             $update_right = $right - $left;
                         }
                         $vbonus = $smaller / 100 * $percentage;
-                        if($vbonus > $turnover[0]->max_bonus){
-                            $bonus = $turnover[0]->max_bonus;
+                        if($vbonus >= $data->max_bonus){
+                            $bonus = $data->max_bonus;
                         }else{
                             $bonus = $vbonus;
                         }
@@ -182,6 +182,7 @@ class Bonus extends CI_Controller {
                         if(count($x) > 0){
                             $balance = $x[0]->balance + $bonus;
                             $id_inout = 'BI'.time().'-'.$data->owner;
+                            // $data2['balance'][] = $bonus;
                             $this->db->trans_start();
                             $this->api_model->update_data(array('id'=>$x[0]->id), 'total_bonuses', array('balance'=>$balance));
                             $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus, 'note'=>'pairing bonus', 'total_bonus_id'=>$x[0]->id));
@@ -195,6 +196,7 @@ class Bonus extends CI_Controller {
                         }else{
                             $balance = $bonus;
                             $id_inout = 'BI'.time().'-'.$data->owner;
+                            // $data2['balance'][] = $bonus;
                             $this->db->trans_start();
                             $this->api_model->insert_data('total_bonuses', array('owner_id'=>$data->owner, 'balance'=>$balance));
                             $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus, 'note'=>'pairing bonus', 'total_bonus_id'=>$this->db->insert_id()));
@@ -206,7 +208,9 @@ class Bonus extends CI_Controller {
                                 echo false;
                             }
                         }
+                        // echo json_encode($bonus);
                     }
+                    // echo json_encode($data2);
                 }else{
                     echo false;
                 }
