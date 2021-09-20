@@ -593,9 +593,11 @@
           </ul>
           </li>
           <li class="nav-item">
-
-            <a href="<?php echo base_url('customer/under') ?>" class="nav-link">
-
+          <?php if ($page == 'Vidio Tutorial') { ?>
+              <a href="<?php echo base_url('customer/tutorial') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('customer/tutorial') ?>" class="nav-link">
+                <?php } ?>
               <i class="nav-icon fa fa-film"></i>
               <p>
                 Video Tutorial
