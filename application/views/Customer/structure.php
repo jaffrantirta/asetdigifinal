@@ -15,6 +15,10 @@
     </div>
     <!-- /.content-header -->
     <div class="container">
+    <div class="embed-responsive embed-responsive-16by9">
+  <iframe class="embed-responsive-item" src="<?php echo base_url('customer/structure/' . $session['data']->id) ?>"></iframe>
+</div>
+
     <div class="card card-warning">
               <div class="card-header">
                 <h3 class="card-title">Structure</h3>

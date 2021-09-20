@@ -258,6 +258,16 @@
                   <p>Change Instructions Payment</p>
                   </a>
             </li>
+            <li class="nav-item">
+              <?php if ($page == 'Banner') { ?>
+                <a href="<?php echo base_url('admin/settings?action=banner') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=banner') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner</p>
+                  </a>
+            </li>
           </ul>
           </li>
 

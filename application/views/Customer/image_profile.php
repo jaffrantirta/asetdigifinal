@@ -72,8 +72,7 @@
                                               <a href="<?php echo base_url('customer/upload_image') ?>" class="nav-link">
                                                   <?php } ?>Profile Image</a>
                                   </li>
-                                  <li class="nav-item ml-1"><a class="nav-link logout btn btn-danger btn-sm text-white font-weight-bold" href="<?php echo base_url('customer/logout') ?>">Log Out</a></li>
-                              </ul>
+                                  </ul>
                           </div><!-- /.card-header -->
                           <div class="card-body">
                               <div class="tab-content">
@@ -85,9 +84,8 @@
                                           <label>Upload Profile</label><br>
                                           <div class="m-1 input-group">
                                               <div class="custom-file">
-                                                  <input type="file" id="file" class="custom-file-input">
-                                                  <label id="file_name_view" class="custom-file-label" for="exampleInputFile">Choose file profile</label>
-                                              </div>
+                                              <input id="file" type="file" class="form-control" value="">
+                                                  </div>
                                           </div>
                                       </div>
 

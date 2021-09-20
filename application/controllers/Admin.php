@@ -169,11 +169,27 @@ class Admin extends CI_Controller {
 				case "instruction":
 					$this->instruction();
 					break;
+				case "banner":
+					$this->banner();
+					break;
 				default :
 					echo "404";
 			}
 		}
 	}
+	public function banner()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Banner';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/banner', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}	
 	public function licences()
 	{
 		if(!$this->session->userdata('authenticated_admin')){
