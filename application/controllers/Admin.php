@@ -190,6 +190,45 @@ class Admin extends CI_Controller {
 			$this->load->view('Admin/Template/footer', $data);
 		}
 	}	
+	public function reward()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Reward';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/reward', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}	
+	public function vdasboard()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Vidio dashboard';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/vidio_dashboard', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}	
+	public function icon()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Icon';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/icon_wa', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}	
 	public function licences()
 	{
 		if(!$this->session->userdata('authenticated_admin')){
