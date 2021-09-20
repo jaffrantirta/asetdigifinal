@@ -155,9 +155,10 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'currency',  'dt' => 4,
+                'db' => 'user_name',  'dt' => 4,
                 'formatter' => function($d, $row){
-                    return $d;
+                    $link = base_url('admin/members?action=detail&id='.$row[8]);
+                    return '<a href="'.$link.'">'.$d.'</a>';
                 }
             ),
             array(
@@ -192,11 +193,17 @@ class Datatable extends CI_Controller {
                     ';
                 }
             ),
+            array(
+                'db' => 'requested_by',  'dt' => 8,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
           );
-          $ssptable='orders';
+          $ssptable='order_complete_data';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='orders.order_number LIKE "%PR%"';
+          $sspwhere='order_number LIKE "PR%"';
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
@@ -228,9 +235,10 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'currency',  'dt' => 4,
+                'db' => 'user_name',  'dt' => 4,
                 'formatter' => function($d, $row){
-                    return $d;
+                    $link = base_url('admin/members?action=detail&id='.$row[8]);
+                    return '<a href="'.$link.'">'.$d.'</a>';
                 }
             ),
             array(
@@ -265,11 +273,17 @@ class Datatable extends CI_Controller {
                     ';
                 }
             ),
+            array(
+                'db' => 'requested_by',  'dt' => 8,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
           );
-          $ssptable='orders';
+          $ssptable='order_complete_data';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='orders.order_number LIKE "%L%"';
+          $sspwhere='order_number LIKE "L%"';
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }

@@ -8,8 +8,8 @@ LEFT JOIN users b ON b.id=a.user_id;
 
 CREATE VIEW lisensi_upgrades_complate_data AS
 select `a`.`id` AS `id`,`a`.`order_number` AS `order_number`,`a`.`date` AS `date`,`a`.`request_by` AS `request_by`,`a`.`current_lisensi` AS `current_lisensi`,`a`.`upgrade_to` AS `upgrade_to`,`a`.`diff_payment` AS `diff_payment`,`a`.`is_finish` AS `is_finish`,`a`.`payment_method` AS `payment_method`,`a`.`receipt_of_payment` AS `receipt_of_payment`,`b`.`name` AS `current_licence_name`,`c`.`name` AS `upgrade_to_name`,`d`.`name` AS `user_name` 
-from lisensi_upgrades a
-LEFT JOIN `lisensies` `b` ON b.id=a.current_lisensi
+from (((`lisensi_upgrades` `a` 
+left join `lisensies` `b` on(`b`.`id` = `a`.`current_lisensi`)) 
 left join `lisensies` `c` on(`c`.`id` = `a`.`upgrade_to`)) 
 left join `users` `d` on(`d`.`id` = `a`.`request_by`));
 
@@ -78,6 +78,10 @@ LEFT JOIN user_lisensies e ON e.owner=b.owner
 LEFT JOIN lisensies f ON f.id=e.lisensi_id 
 LEFT JOIN user_lisensies g ON g.owner=d.id
 LEFT JOIN lisensies h ON h.id=g.lisensi_id;
+
+CREATE VIEW order_complete_data AS
+SELECT a.*, b.name AS user_name FROM orders a
+LEFT JOIN users b ON b.id=a.requested_by;
 
 ALTER TABLE turnovers ADD is_active BOOLEAN NOT NULL DEFAULT FALSE AFTER updated_at;
 
