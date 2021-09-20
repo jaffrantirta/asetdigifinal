@@ -243,10 +243,10 @@
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img width="1140" height="100" src="<?php echo base_url() ?>assets/img-banner/banner.png" class="d-block w-100" alt="...">
+                    <img width="1140" height="150" src="<?php echo base_url() ?>assets/img-banner/banner.png" class="d-block w-100 rounded-lg" alt="...">
                 </div>
                 <div class="carousel-item">
-                <img width="1140" height="100" src="<?php echo base_url() ?>assets/img-banner/banner2.png" class="d-block w-100" alt="...">
+                <img width="1140" height="150" src="<?php echo base_url() ?>assets/img-banner/banner2.png" class="d-block w-100 rounded-lg" alt="...">
                 </div>
                
               </div>
@@ -256,12 +256,12 @@
         <div class="row">
         <div class="col-6 col-lg-6">
               <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/Fg1X2obC3_8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe class="rounded-lg" width="560" height="315" src="https://www.youtube.com/embed/Fg1X2obC3_8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           <div class="col-6 col-lg-6">
               <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe class="rounded-lg" width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           </div>
