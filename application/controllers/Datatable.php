@@ -334,6 +334,43 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_banner()
+    {
+        $columns = array(
+            array(
+                'db' => 'name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'picture',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/banner_detail/'.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            )
+          );
+          $ssptable='banners';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='id >= 0 AND is_active = true ';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_lisensi($id)
     {
         $columns = array(

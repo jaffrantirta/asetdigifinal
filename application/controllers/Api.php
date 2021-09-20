@@ -1503,5 +1503,89 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function add_banner()
+    {
+        if(isset($_FILES['file']['name'])){
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = 'BANNER_'.time().$remove_char.'.jpg';
+        
+            $location = "asstes/img-banner/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              if($this->api_model->insert_data('banners', array('name'=>$file, 'picture'=>$filename))){
+                if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                  $response = $location;
+                }
+              }else{
+                echo 0;
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
+    }
+    public function update_banner()
+    {
+        if(isset($_FILES['file']['name'])){
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = 'BANNER_'.time().$remove_char.'.jpg';
+        
+            $location = "asstes/img-banner/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              if($this->api_model->insert_data('banners', array('name'=>$file, 'picture'=>$filename))){
+                if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                  $response = $location;
+                }
+              }else{
+                echo 0;
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
+    }
+    public function update_icon_wa()
+    {
+        if(isset($_FILES['file']['name'])){
+            $file = $_FILES['file']['name'];
+            $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
+            $filename = 'ICON_'.time().$remove_char.'.png';
+        
+            $location = "asstes/icon-wa/".$filename;
+            $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+            $imageFileType = strtolower($imageFileType);
+        
+            $valid_extensions = array("jpg","jpeg","png");
+        
+            $response = 0;
+            if(in_array(strtolower($imageFileType), $valid_extensions)) {
+              if($this->api_model->update_data(array('key'=>'icon_wa'), 'settings', array('content'=>$filename))){
+                if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+                  $response = $location;
+                }
+              }else{
+                echo 0;
+              }
+            }
+            echo $response;
+            exit;
+        }
+        echo 0;
+    }
 }
 

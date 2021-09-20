@@ -90,6 +90,8 @@ INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'dashboard_video_l
 
 INSERT INTO `banners` (`id`, `name`, `picture`, `date`, `is_active`) VALUES (NULL, 'banner 1', 'banner.PNG', current_timestamp(), '1'), (NULL, 'banner 2', 'banner2.PNG', current_timestamp(), '1');
 
+INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'icon_wa', 'xxx');
+
 //--------> not
 
 ALTER TABLE turnovers ADD is_active BOOLEAN NOT NULL DEFAULT FALSE AFTER updated_at;
