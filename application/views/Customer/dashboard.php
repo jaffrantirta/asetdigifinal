@@ -243,10 +243,10 @@
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="<?php echo base_url() ?>assets/img-banner/banner.png" class="d-block w-100" alt="...">
+                    <img width="1140" height="100" src="<?php echo base_url() ?>assets/img-banner/banner.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                <img src="<?php echo base_url() ?>assets/img-banner/banner2.png" class="d-block w-100" alt="...">
+                <img width="1140" height="100" src="<?php echo base_url() ?>assets/img-banner/banner2.png" class="d-block w-100" alt="...">
                 </div>
                
               </div>
