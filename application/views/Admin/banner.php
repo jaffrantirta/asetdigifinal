@@ -20,12 +20,12 @@
               </div>
               <div class="card-body">
                 <div class="form-group">
-                  <label>slider</label><br>
+                  <label>name</label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                     </div>
-                    <input autocomplete="off" id="slider" type="file" class="form-control" value="">
+                    <input autocomplete="off" id="slider" type="text" class="form-control" value="">
                   </div>
                 </div>
 
@@ -38,39 +38,8 @@
                     <input autocomplete="off" id="currency" type="file" class="form-control" value="">
                   </div>
                 </div>
-
                 <div class="form-group">
-                  <label>vidio tutorial</label><br>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
-                    </div>
-                    <input autocomplete="off" id="linkvidiotutor" type="text" placeholder="link youtube"  class="form-control" value="">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>vidio dashboard right</label><br>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
-                    </div>
-                    <input autocomplete="off" id="linkvidioright" type="text" placeholder="link youtube"  class="form-control" value="">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>vidio dashboard left</label><br>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
-                    </div>
-                    <input autocomplete="off" id="linkvidioleft" type="text" placeholder="link youtube"  class="form-control" value="">
-                  </div>
-                </div>
-
-
-
-                <div class="form-group">
-                  <button class="col-12 col-md-4 btn btn-primary"onclick="update_pin_register_settings()">Submit</button>
+                  <button class="col-12 col-md-4 btn btn-primary"onclick="">Submit</button>
                 </div>
               </div>
             </div>

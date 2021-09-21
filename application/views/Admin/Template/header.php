@@ -209,7 +209,7 @@
               <?php } else { ?>
                 <a href="<?php echo base_url('admin/reward') ?>" class="nav-link">
                 <?php } ?>
-                <i class="nav-icon fas fa-star"></i>
+                <i class="nav-icon fas fa-film"></i>
                 <p>
                   Vidio tutorial
                 </p>
@@ -221,7 +221,7 @@
               <?php } else { ?>
                 <a href="<?php echo base_url('admin/vdasboard') ?>" class="nav-link">
                 <?php } ?>
-                <i class="nav-icon fas fa-star"></i>
+                <i class="nav-icon fas fa-film"></i>
                 <p>
                   Vidio dashboard
                 </p>
@@ -233,7 +233,7 @@
               <?php } else { ?>
                 <a href="<?php echo base_url('admin/icon') ?>" class="nav-link">
                 <?php } ?>
-                <i class="nav-icon fas fa-star"></i>
+                <i class="nav-icon fas fa-rocket"></i>
                 <p>
                   Icon Wa
                 </p>
@@ -302,6 +302,16 @@
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Banner</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Minimum Widthdraw') { ?>
+                <a href="<?php echo base_url('admin/settings?action=minwidtraw') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=minwidtraw') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Minimum Withdraw</p>
                   </a>
             </li>
           </ul>

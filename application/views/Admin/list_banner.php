@@ -14,15 +14,16 @@
     </div>
     <!-- /.content-header -->
     <p hidden id='link'>datatable/get_all_members</p>
-    <a href="<?php echo base_url("index.php/admin/export"); ?>" class="btn btn-success">export member</a>
+ 
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">All members registered are <?php echo $members_count ?></h3>
+        <h3 class="card-title">All members registered are <?php //echo $members_count ?></h3>
       </div>
 
       <!-- /.card-header -->
       <div class="card-body table-responsive">
-        <a class="btn btn-primary" href="">add banner</a>
+
+        <a class="btn btn-primary mb-2" href="<?php echo base_url('admin/addbanner') ?>">add banner</a>
         <table id="table" class="table table-bordered table-striped">
           <thead>
             <tr>

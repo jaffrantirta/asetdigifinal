@@ -172,12 +172,40 @@ class Admin extends CI_Controller {
 				case "banner":
 					$this->banner();
 					break;
+				case "minwidtraw":
+					$this->minwid();
+					break;
 				default :
 					echo "404";
 			}
 		}
 	}
+	public function minwid(){
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Minimum Widthdraw';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/minimum_widthdraw', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
 	public function banner()
+	{
+		if(!$this->session->userdata('authenticated_admin')){
+			$this->login();
+		}else{
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Banner';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/list_banner', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}	
+	public function addbanner()
 	{
 		if(!$this->session->userdata('authenticated_admin')){
 			$this->login();
