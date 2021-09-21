@@ -218,17 +218,22 @@ class Admin extends CI_Controller {
 			$this->load->view('Admin/Template/footer', $data);
 		}
 	}	
-	public function detailbanner()
+	public function detailbanner($id)
 	{
 		if(!$this->session->userdata('authenticated_admin')){
 			$this->login();
 		}else{
-			$data['sistem_name'] = $this->api_model->sistem_name();
-			$data['session'] = $this->session->all_userdata();
-			$data['page'] = 'Reward';
-			$this->load->view('Admin/Template/header', $data);
-			$this->load->view('Admin/detail_banner', $data);
-			$this->load->view('Admin/Template/footer', $data);
+			$data['banner'] = $this->api_model->get_data_by_where('banners', array('id'=>$id))->result();
+			if(count($data['banner'])){
+				$data['sistem_name'] = $this->api_model->sistem_name();
+				$data['session'] = $this->session->all_userdata();
+				$data['page'] = 'Reward';
+				$this->load->view('Admin/Template/header', $data);
+				$this->load->view('Admin/detail_banner', $data);
+				$this->load->view('Admin/Template/footer', $data);
+			}else{
+				echo "detail not found";
+			}
 		}
 	}
 	public function reward()

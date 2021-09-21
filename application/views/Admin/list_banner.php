@@ -61,4 +61,18 @@
             }
         });
     });
+    function delete_banner(id) {
+        var vID = id
+        Swal.fire({
+          title: 'Do you want to delete this banner ?',
+          showDenyButton: true,
+          showCancelButton: true,
+          showConfirmButton: false,
+          denyButtonText: `Delete`,
+        }).then((result) => {
+          if (result.isDenied) {
+            window.location.replace(document.getElementById('base_url').innerHTML + 'api/delete_banner/' + vID);
+          }
+        })
+      }
 </script>

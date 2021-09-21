@@ -1603,5 +1603,17 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function delete_banner($id)
+    {
+      if($this->session->userdata('authenticated_admin')){
+        if($this->api_model->update_data(array('id'=>$id), 'banners', array('is_active'=>false))){
+          echo "Success delete, <a href='".base_url('admin/settings?action=banner')."'>back</a>";
+        }else{
+          echo "Failed delete, <a href='".base_url('admin/settings?action=banner')."'>back</a>";
+        }
+      }else{
+        $this->login();
+      }
+    }
 }
 

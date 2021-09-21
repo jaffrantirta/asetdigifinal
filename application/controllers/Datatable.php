@@ -352,11 +352,15 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 2,
                 'formatter' => function($d, $row){
-                    $link = base_url('admin/banner_detail/'.$d);
+                    $link = base_url('admin/detailbanner/'.$d);
+                    $delete = 'delete_banner('.$d.')';
                     return '
                     <center>
-                        <a href="'.$link.'">
+                        <a class="btn btn-warning" href="'.$link.'">
                             <i title="detail" class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger" onclick="'.$delete.'">
+                            <i title="delete" class="fa fa-trash" ></i>
                         </a>
                     </center>
                     ';
