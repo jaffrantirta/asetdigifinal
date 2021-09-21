@@ -215,7 +215,19 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo base_url() ?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="User Image">
+        <?php
+                                if($session['data']->profile_picture == null){
+                                    $thumb = base_url('assets/dist/img/user2.png');
+                                }else{
+                                    if (file_exists(base_url('upload/members/'.$session['data']->profile_picture))) {
+                                        $thumb = base_url('assets/dist/img/user2.png');
+                                    }else{
+                                        $thumb = base_url('upload/members/'.$session['data']->profile_picture);
+                                    }
+                                }
+                                ?>
+                                <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
+          <!-- <img src="<?php echo base_url() ?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
           <p id="id" hidden><?php echo $session['data']->id ?></p>

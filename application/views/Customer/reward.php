@@ -16,22 +16,27 @@
     <p hidden id='link'>datatable/get_pairing/<?php echo $session['data']->id ?></p>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Rumusan Untuk Reward</h3>
+            <h3 class="card-title">Reward</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive">
-            <table id="table" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Reward</th>
-                        <th>Kiri</th>
-                        <th>Kanan</th>
-                        <th>Bonus Reward</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img width="1140" height="150" src="<?php echo base_url() ?>assets/img-banner/banner.png" class="d-block w-100 rounded-lg" alt="...">
+                </div>
+                <div class="carousel-item">
+                <img width="1140" height="150" src="<?php echo base_url() ?>assets/img-banner/banner2.png" class="d-block w-100 rounded-lg" alt="...">
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
         </div>
         <!-- /.card-body -->
     </div>
