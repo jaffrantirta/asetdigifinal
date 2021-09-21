@@ -30,7 +30,7 @@
                 </div> -->
 
                 <div class="form-group">
-                  <label>Picture</label><br>
+                  <label>Picture <p style="color: red">*Please select picture resolution 1140px x 300px</p></p></label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>

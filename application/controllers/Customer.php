@@ -34,6 +34,8 @@ class Customer extends CI_Controller {
 			$data['session'] = $this->session->all_userdata();
 			$id = $this->session->userdata('data')->id;
 			$turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+			$data['video'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'dashboard_video_link'))->result()[0]->content);
+			$data['banner'] = $this->api_model->get_data_by_where('banners', array('is_active'=>true))->result();
 			if(count($bonus_sponsor = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$id))->result()) > 0){
 				$data['bonus_sponsor_code'] = $bonus_sponsor[0]->balance;
 			}else{
@@ -609,6 +611,8 @@ class Customer extends CI_Controller {
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Vidio Tutorial';
+			$data['video_tutorial'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'video_tutorial_link'))->result()[0]->content);
+			$data['video_dashboard'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'dashboard_video_link'))->result()[0]->content);
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/vidio_tutorial', $data);
 			$this->load->view('Customer/Template/footer', $data);
