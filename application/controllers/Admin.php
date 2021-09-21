@@ -238,7 +238,7 @@ class Admin extends CI_Controller {
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['session'] = $this->session->all_userdata();
-			$data['page'] = 'Reward';
+			$data['page'] = 'Vidio Tutorial';
 			$this->load->view('Admin/Template/header', $data);
 			$this->load->view('Admin/reward', $data);
 			$this->load->view('Admin/Template/footer', $data);

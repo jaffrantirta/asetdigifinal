@@ -204,7 +204,7 @@
                 </a>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Reward') { ?>
+            <?php if ($page == 'Vidio Tutorial') { ?>
               <a href="<?php echo base_url('admin/reward') ?>" class="nav-link active">
               <?php } else { ?>
                 <a href="<?php echo base_url('admin/reward') ?>" class="nav-link">
