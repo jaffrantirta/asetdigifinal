@@ -346,8 +346,7 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'picture',  'dt' => 1,
                 'formatter' => function($d, $row){
-                    $date = date_create($d);
-                    return date_format($date,"l, d M Y H:m:s");
+                    return $d;
                 }
             ),
             array(

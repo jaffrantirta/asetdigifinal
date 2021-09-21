@@ -13,7 +13,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <p hidden id='link'>datatable/get_all_members</p>
+    <p hidden id='link'>datatable/get_banner</p>
  
     <div class="card">
       <div class="card-header">
@@ -23,13 +23,12 @@
       <!-- /.card-header -->
       <div class="card-body table-responsive">
 
-        <a class="btn btn-primary mb-2" href="<?php echo base_url('admin/addbanner') ?>">add banner</a>
+        <a class="btn btn-primary mb-2" href="<?php echo base_url('admin/addbanner') ?>">Add Banner</a>
         <table id="table" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Name</th>
               <th>Picture</th>
-              <th>Date</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -39,3 +38,27 @@
       </div>
       <!-- /.card-body -->
     </div>
+    <script src="<?php echo base_url() ?>assets/build/js/customer/Jquery3Offline.js"></script>
+<script>
+    $(document).ready(function() {
+        var link = document.getElementById('base_url').innerHTML + document.getElementById('link').innerHTML;
+        console.log(link);
+        table = $('#table').DataTable({
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": link,
+            "bSort":true,
+            "bPaginate": true,
+            "iDisplayLength": 10,
+            "order": [[ 2, "desc" ]],
+            "language": {
+                "searchPlaceholder": "Search...",
+                "search":""
+            },
+            "fnInitComplete": function(oSettings, json) {
+                $('#table_filter :input').addClass('form-control').css({'width':'10em'});
+            }
+        });
+    });
+</script>

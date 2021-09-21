@@ -1510,7 +1510,7 @@ class Api extends CI_Controller {
             $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
             $filename = 'BANNER_'.time().$remove_char.'.jpg';
         
-            $location = "asstes/img-banner/".$filename;
+            $location = "assets/img-banner/".$filename;
             $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
             $imageFileType = strtolower($imageFileType);
         
@@ -1538,7 +1538,7 @@ class Api extends CI_Controller {
             $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
             $filename = 'BANNER_'.time().$remove_char.'.jpg';
         
-            $location = "asstes/img-banner/".$filename;
+            $location = "assets/img-banner/".$filename;
             $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
             $imageFileType = strtolower($imageFileType);
         
