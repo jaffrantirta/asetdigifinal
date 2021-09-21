@@ -92,6 +92,8 @@ INSERT INTO `banners` (`id`, `name`, `picture`, `date`, `is_active`) VALUES (NUL
 
 INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'icon_wa', 'xxx');
 
+INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'minimum_withdraw', '25');
+
 //--------> not
 
 ALTER TABLE turnovers ADD is_active BOOLEAN NOT NULL DEFAULT FALSE AFTER updated_at;

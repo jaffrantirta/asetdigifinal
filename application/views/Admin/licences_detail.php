@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Price</label><br>
+                  <label>Price (USDT)</label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
@@ -47,12 +47,12 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Percentage (%)</label><br>
+                  <label>Max. Bonus per Day (USDT)</label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                     </div>
-                    <input autocomplete="off" id="percentage" type="number" class="form-control" placeholder="enter percentage .." value="<?php echo $licence->percentage ?>">
+                    <input autocomplete="off" id="max_bonus" type="number" class="form-control" placeholder="enter percentage .." value="<?php echo $licence->max_bonus ?>">
                     <input id="id_licence" type="hidden" value="<?php echo $licence->id ?>">
                   </div>
                 </div>

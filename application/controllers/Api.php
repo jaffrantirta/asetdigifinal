@@ -993,8 +993,8 @@ class Api extends CI_Controller {
     $name = $this->input->post('name');
     $id = $this->input->post('id');
     $price = $this->input->post('price');
-    $percentage = $this->input->post('percentage');
-    if($this->api_model->update_data(array('id'=>$id), 'lisensies', array('name'=>$name, 'price'=>$price, 'percentage'=>$percentage))){
+    $max_bonus = $this->input->post('max_bonus');
+    if($this->api_model->update_data(array('id'=>$id), 'lisensies', array('name'=>$name, 'price'=>$price, 'max_bonus'=>$max_bonus))){
       $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
     }else{
       $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
@@ -1466,7 +1466,7 @@ class Api extends CI_Controller {
         $embed = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link);
         $json['video 1'] = $embed;
         if($this->api_model->update_data(array('key'=>'video_tutorial_link'), 'settings', array('content'=>json_encode($json)))){
-          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
         }else{
           $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
           $this->output->set_status_header(401);
@@ -1488,7 +1488,7 @@ class Api extends CI_Controller {
           $json['video 1'] = $embed1;
           $json['video 2'] = $embed2;
           if($this->api_model->update_data(array('key'=>'dashboard_video_link'), 'settings', array('content'=>json_encode($json)))){
-            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
+            $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
           }else{
             $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
             $this->output->set_status_header(401);
@@ -1586,6 +1586,22 @@ class Api extends CI_Controller {
             exit;
         }
         echo 0;
+    }
+    public function update_min_withdraw()
+    {
+      $min = $this->input->post('min');
+      if($min != null){
+        if($this->api_model->update_data(array('key'=>'minimum_withdraw'), 'settings', array('content'=>$min))){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasi', 'english'=>'Updated'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Mohon Masukan Nilai', 'english'=>'Please Input Value'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
     }
 }
 

@@ -181,16 +181,16 @@ function update_status_order(act){
     function update_licence_setting(){
       var name = document.getElementById('name').value
       var price = document.getElementById('price').value
-      var percentage = document.getElementById('percentage').value
+      var max_bonus = document.getElementById('max_bonus').value
       var id = document.getElementById('id_licence').value
       // console.log(id);
       if(name != ''){
           if(price != ''){
-            if(percentage != ''){
+            if(max_bonus != ''){
               $.ajax({
                 url: document.getElementById('base_url').innerHTML + 'api/update_licence_setting',
                 type: 'post',
-                data: {'price':price, 'percentage':percentage, 'name':name, 'id':id},
+                data: {'price':price, 'max_bonus':max_bonus, 'name':name, 'id':id},
                 success: function(result){
                     $('.loader').attr('hidden', true);
                     var data = JSON.parse(result);

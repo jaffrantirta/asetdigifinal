@@ -17,6 +17,7 @@ function upload_process(fd, order_number, data){
                 document.getElementById('amount').value = '';
                 document.getElementById('secure_pin').value = '';
                 document.getElementById('total_payment').value = '';
+                document.getElementById('file_name_view').innerHTML = 'Choose file receipt';
             }else{
                 Swal.fire(
                     'File not upload',

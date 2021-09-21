@@ -419,14 +419,12 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'price',  'dt' => 1,
                 'formatter' => function($d, $row){
-                    $date = date_create($d);
                     return number_format($d);
                 }
             ),
             array(
-                'db' => 'percentage',  'dt' => 2,
+                'db' => 'max_bonus',  'dt' => 2,
                 'formatter' => function($d, $row){
-                    $date = date_create($d);
                     return $d;
                 }
             ),
