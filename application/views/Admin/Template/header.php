@@ -211,7 +211,7 @@
                 <?php } ?>
                 <i class="nav-icon fas fa-film"></i>
                 <p>
-                  Vidio tutorial
+                  Video tutorial
                 </p>
                 </a>
           </li>
@@ -223,7 +223,7 @@
                 <?php } ?>
                 <i class="nav-icon fas fa-film"></i>
                 <p>
-                  Vidio dashboard
+                  Video dashboard
                 </p>
                 </a>
           </li>

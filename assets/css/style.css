@@ -1,12 +1,21 @@
-/**
-* Template Name: WeBuild - v4.3.0
-* Template URL: https://bootstrapmade.com/free-bootstrap-coming-soon-template-countdwon/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-/*--------------------------------------------------------------
-# General
+/**
+
+* Template Name: WeBuild - v4.3.0
+
+* Template URL: https://bootstrapmade.com/free-bootstrap-coming-soon-template-countdwon/
+
+* Author: BootstrapMade.com
+
+* License: https://bootstrapmade.com/license/
+
+*/
+
+
+
+/*--------------------------------------------------------------
+
+# General
+
 --------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
@@ -27,8 +36,10 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   font-family: "Raleway", sans-serif;
 }
 
-/*--------------------------------------------------------------
-# Header
+/*--------------------------------------------------------------
+
+# Header
+
 --------------------------------------------------------------*/
 #header {
   height: 80px;
@@ -76,8 +87,10 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   }
 }
 
-/*--------------------------------------------------------------
-# Hero Section
+/*--------------------------------------------------------------
+
+# Hero Section
+
 --------------------------------------------------------------*/
 #hero {
   width: 100%;
@@ -111,6 +124,9 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   line-height: 56px;
   text-transform: uppercase;
   color: #fff;
+}
+.orange{
+  background-color: #ff800b;
 }
 
 #hero h2 {
@@ -243,8 +259,10 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   }
 }
 
-/*--------------------------------------------------------------
-# Sections General
+/*--------------------------------------------------------------
+
+# Sections General
+
 --------------------------------------------------------------*/
 section {
   padding: 60px 0;
@@ -270,8 +288,10 @@ section {
   margin-bottom: 0;
 }
 
-/*--------------------------------------------------------------
-# Contact Us
+/*--------------------------------------------------------------
+
+# Contact Us
+
 --------------------------------------------------------------*/
 .contact .contact-info {
   margin-bottom: 20px;
@@ -401,8 +421,10 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
-# Footer
+/*--------------------------------------------------------------
+
+# Footer
+
 --------------------------------------------------------------*/
 #footer {
   background: #0d182d;
