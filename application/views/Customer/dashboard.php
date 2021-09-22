@@ -243,11 +243,11 @@
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img width="1140" height="300" src="<?php echo base_url('assets/img-banner/'.$banner[0]->picture) ?>" class="d-block w-100 rounded-lg" alt="...">
+                    <img width="1140" height="300" src="<?php echo base_url('assets/img-banner/'.$banner[0]->picture) ?>" class="img-fluid d-block w-100 rounded-lg" alt="...">
                 </div>
                 <?php for($i=1;$i<count($banner);$i++){ ?>
                   <div class="carousel-item">
-                    <img width="1140" height="300" src="<?php echo base_url('assets/img-banner/'.$banner[$i]->picture) ?>" class="d-block w-100 rounded-lg" alt="...">
+                    <img width="1140" height="300" src="<?php echo base_url('assets/img-banner/'.$banner[$i]->picture) ?>" class="img-fluid d-block w-100 rounded-lg" alt="...">
                   </div>
                 <?php } ?>
                
