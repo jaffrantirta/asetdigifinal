@@ -36,8 +36,8 @@
                                 <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
                             </div>
 
-                              <h3 class="profile-username text-center"><?php echo $session['data']->name; ?></h3>
-                              <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $session['data']->email; ?></p>
+                              <h3 class="profile-username text-center"><?php echo $user[0]->name; ?></h3>
+                              <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $user[0]->email; ?></p>
 
 
                           </div>

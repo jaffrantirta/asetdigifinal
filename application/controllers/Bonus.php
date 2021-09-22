@@ -26,6 +26,7 @@ class Bonus extends CI_Controller {
                 header("location:".base_url());
             }else{
                 $data['icon_wa'] = $this->api_model->get_icon();
+                $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
                 $role = base64_decode($hash);
                 $token = explode("/", base64_decode($this->input->get('token')));
                 $data['sponsor_code_bonus_id'] = $token[0];
@@ -49,6 +50,7 @@ class Bonus extends CI_Controller {
             $role = base64_decode($hash);
             $token = explode("/", base64_decode($this->input->get('token')));
             $data['icon_wa'] = $this->api_model->get_icon();
+            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
             $data['sponsor_code_bonus_id'] = $token[0];
             $data['sponsor_code_name'] = $token[1];
             $data['page'] = 'Detail Bonus';
@@ -74,6 +76,7 @@ class Bonus extends CI_Controller {
                 header("location:".base_url());
             }else{
                 $data['icon_wa'] = $this->api_model->get_icon();
+                $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
                 $role = base64_decode($hash);
                 $token = explode("/", base64_decode($this->input->get('token')));
                 $data['sponsor_code_bonus_id'] = $token[0];
@@ -97,6 +100,7 @@ class Bonus extends CI_Controller {
             $role = base64_decode($hash);
             $token = explode("/", base64_decode($this->input->get('token')));
             $data['icon_wa'] = $this->api_model->get_icon();
+            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
             $data['sponsor_code_bonus_id'] = $token[0];
             $data['sponsor_code_name'] = $token[1];
             $data['page'] = 'Pairing Bonus';
@@ -124,6 +128,7 @@ class Bonus extends CI_Controller {
                 $role = base64_decode($hash);
                 $token = explode("////", base64_decode($this->input->get('token')));
                 $data['icon_wa'] = $this->api_model->get_icon();
+                $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
                 $data['id_and_position'] = $token[0];
                 $data['position_turnover'] = $token[1];
                 $data['session'] = $this->session->all_userdata();
@@ -133,6 +138,7 @@ class Bonus extends CI_Controller {
                     $this->load->view('Customer/Template/header', $data);
                     $this->load->view('Customer/bonus_detail_turnover', $data);
                     $this->load->view('Customer/Template/footer', $data);
+                    // echo json_encode($data);
                 }else if($role == 'admin'){
                     $data['page'] = 'Detail Omset '.$token[1];
                     $this->load->view('Admin/Template/header', $data);
@@ -147,6 +153,7 @@ class Bonus extends CI_Controller {
             $data['position_turnover'] = $token[1];
             $data['session'] = $this->session->all_userdata();
             $data['icon_wa'] = $this->api_model->get_icon();
+            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
             $data['sistem_name'] = $this->api_model->sistem_name();
             if($role == 'customer'){
                 $data['page'] = 'Detail Omset '.$token[1];
