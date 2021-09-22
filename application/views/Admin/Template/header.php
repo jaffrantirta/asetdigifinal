@@ -204,10 +204,10 @@
                 </a>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Vidio Tutorial') { ?>
-              <a href="<?php echo base_url('admin/reward') ?>" class="nav-link active">
+            <?php if ($page == 'Video Tutorial') { ?>
+              <a href="<?php echo base_url('admin/video_tutorial') ?>" class="nav-link active">
               <?php } else { ?>
-                <a href="<?php echo base_url('admin/reward') ?>" class="nav-link">
+                <a href="<?php echo base_url('admin/video_tutorial') ?>" class="nav-link">
                 <?php } ?>
                 <i class="nav-icon fas fa-film"></i>
                 <p>

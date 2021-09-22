@@ -69,7 +69,7 @@ f.percentage AS owner_percentage,
 h.id AS user_lisensi_id,
 h.name AS user_lisensi_name, 
 h.price AS user_lisensi_price, 
-h.percentage AS user_percentage 
+h.percentage AS user_percentage
 FROM sponsor_code_uses a 
 LEFT JOIN sponsor_codes b ON b.id=a.sponsor_id 
 LEFT JOIN users c ON c.id=b.owner 
@@ -91,6 +91,32 @@ INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'dashboard_video_l
 INSERT INTO `banners` (`id`, `name`, `picture`, `date`, `is_active`) VALUES (NULL, 'banner 1', 'banner.PNG', current_timestamp(), '1'), (NULL, 'banner 2', 'banner2.PNG', current_timestamp(), '1');
 
 INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'icon_wa', 'xxx');
+
+INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'minimum_withdraw', '25');
+
+//---->new 22/09
+
+CREATE VIEW members AS
+SELECT 
+a.*,
+d.code AS code, 
+e.balance AS sponsor_bonus,
+(h.left_belance + h.right_belance) AS total_omset,
+g.name AS lisensi_name,
+g.is_active AS is_active_lisensi
+FROM users a 
+LEFT JOIN total_bonuses b ON b.owner_id=a.id 
+LEFT JOIN sponsor_codes d ON d.owner=a.id 
+LEFT JOIN sponsor_code_bonuses e ON e.owner_id=a.id 
+LEFT JOIN user_lisensies f ON f.owner=a.id 
+LEFT JOIN lisensies g ON g.id=f.lisensi_id
+LEFT JOIN turnovers h ON h.owner=a.id
+WHERE a.role = 'customer'
+
+-- SELECT
+-- sum(a.balance) AS total_pairing
+-- FROM inout_bonuses_complate_data a
+-- WHERE a.note = 'pairing bonus';
 
 //--------> not
 

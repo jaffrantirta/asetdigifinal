@@ -30,10 +30,13 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['page'] = 'Dashboard';
 			$data['session'] = $this->session->all_userdata();
 			$id = $this->session->userdata('data')->id;
 			$turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+			$data['video'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'dashboard_video_link'))->result()[0]->content);
+			$data['banner'] = $this->api_model->get_data_by_where('banners', array('is_active'=>true))->result();
 			if(count($bonus_sponsor = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$id))->result()) > 0){
 				$data['bonus_sponsor_code'] = $bonus_sponsor[0]->balance;
 			}else{
@@ -71,6 +74,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'total bonus';
 			$customer = base64_encode('customer');
@@ -98,6 +102,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'total bonus';
 			$this->load->view('Customer/Template/header', $data);
@@ -110,6 +115,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Auto Save Property';
 			$this->load->view('Customer/Template/header', $data);
@@ -123,6 +129,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Withdraw';
 			$this->load->view('Customer/Template/header', $data);
@@ -132,6 +139,7 @@ class Customer extends CI_Controller {
 	}
 	public function login(){
 		$data['sistem_name'] = $this->api_model->sistem_name();
+		$data['icon_wa'] = $this->api_model->get_icon();
 		$this->load->view('Customer/login', $data);
 	}
 	public function show_session(){
@@ -145,6 +153,7 @@ class Customer extends CI_Controller {
 	public function register()
 	{
 		$data['sistem_name'] = $this->api_model->sistem_name();
+		$data['icon_wa'] = $this->api_model->get_icon();
 		$data['top_id'] = $this->input->get('top');
 		$data['position'] = $this->input->get('position');
 		$this->load->view('Customer/register', $data);
@@ -155,6 +164,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Structure';
 			$id = $hash;//base64_decode($hash); 
@@ -302,6 +312,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$action = $this->input->get('action');
 			$data['session'] = $this->session->all_userdata();
 			switch($action){
@@ -359,6 +370,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$action = $this->input->get('action');
 			$data['session'] = $this->session->all_userdata();
 			switch($action){
@@ -469,6 +481,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Balance PIN Register';
 			$data['order'] = $this->api_model->get_data_by_where('orders', array('id'=>$order_id))->result()[0];
@@ -490,6 +503,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Balance Lisensi';
 			$data['order'] = $this->api_model->get_data_by_where('orders', array('id'=>$order_id))->result()[0];
@@ -520,6 +534,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		}else{
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$name = $this->input->post('name');
 			$email = $this->input->post('email');
 			$username = $this->input->post('username');
@@ -531,11 +546,13 @@ class Customer extends CI_Controller {
 	}
 	public function forgot_password(){
 		$data['sistem_name'] = $this->api_model->sistem_name();
+		$data['icon_wa'] = $this->api_model->get_icon();
 		$this->load->view('Customer/forgot_password', $data);
 	}
 	public function password()
 	{
 		$data['sistem_name'] = $this->api_model->sistem_name();
+		$data['icon_wa'] = $this->api_model->get_icon();
 		$token = base64_decode($this->input->get('token'));
 		$split = explode("/", $token);
 		$data['id'] = $split[0];
@@ -555,6 +572,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Change Password';
 			$this->load->view('Customer/Template/header', $data);
@@ -568,6 +586,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Change Pin';
 			$this->load->view('Customer/Template/header', $data);
@@ -581,6 +600,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Upload Image';
 			$this->load->view('Customer/Template/header', $data);
@@ -594,6 +614,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Reward';
 			$this->load->view('Customer/Template/header', $data);
@@ -607,8 +628,11 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Vidio Tutorial';
+			$data['video_tutorial'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'video_tutorial_link'))->result()[0]->content);
+			$data['video_dashboard'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'dashboard_video_link'))->result()[0]->content);
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/vidio_tutorial', $data);
 			$this->load->view('Customer/Template/footer', $data);
@@ -620,6 +644,7 @@ class Customer extends CI_Controller {
 			$this->login();
 		} else {
 			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Profile';
 			$dataa = $this->setting->get_profile($id);

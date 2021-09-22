@@ -24,8 +24,8 @@
                   <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Percentage</th>
+                    <th>Price (USDT)</th>
+                    <th>Maximum Bonus per Day (USDT)</th>
                     <th>Action</th>
                   </tr>
                   </thead>

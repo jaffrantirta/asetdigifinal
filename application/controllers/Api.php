@@ -993,8 +993,8 @@ class Api extends CI_Controller {
     $name = $this->input->post('name');
     $id = $this->input->post('id');
     $price = $this->input->post('price');
-    $percentage = $this->input->post('percentage');
-    if($this->api_model->update_data(array('id'=>$id), 'lisensies', array('name'=>$name, 'price'=>$price, 'percentage'=>$percentage))){
+    $max_bonus = $this->input->post('max_bonus');
+    if($this->api_model->update_data(array('id'=>$id), 'lisensies', array('name'=>$name, 'price'=>$price, 'max_bonus'=>$max_bonus))){
       $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Terupdate', 'english'=>'Updated'));
     }else{
       $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
@@ -1081,28 +1081,34 @@ class Api extends CI_Controller {
       $id = $this->input->post('id');
       $amount = $this->input->post('amount');
       $secure_pin = base64_decode($this->input->post('secure_pin'));
+      $min_withdraw = $this->api_model->get_data_by_where('settings', array('key'=>'minimum_withdraw'))->result()[0]->content;
       if($id != null){
         if($amount != null){
-          if($secure_pin != null){
-            if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
-              $insert = array(
-                'order_number'=>'W'.time().'-'.$id,
-                'user_id' => $id,
-                'amount' => $amount,
-                'status' => 1
-              );
-              if($this->withdraw->request($insert)){
-                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+          if($amount >= $min_withdraw){
+            if($secure_pin != null){
+              if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
+                $insert = array(
+                  'order_number'=>'W'.time().'-'.$id,
+                  'user_id' => $id,
+                  'amount' => $amount,
+                  'status' => 1
+                );
+                if($this->withdraw->request($insert)){
+                  $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
+                  $this->output->set_status_header(501);
+                }
               }else{
-                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
-                $this->output->set_status_header(501);
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
+                $this->output->set_status_header(401);
               }
             }else{
-              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
               $this->output->set_status_header(401);
             }
           }else{
-            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Minimal Penarikan Sebesar'.$min_withdraw, 'english'=>'Minimum Withdraw is '.$min_withdraw));
             $this->output->set_status_header(401);
           }
         }else{
@@ -1464,9 +1470,9 @@ class Api extends CI_Controller {
       $link = $this->input->post('link');
       if($link != null){
         $embed = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link);
-        $json['video 1'] = $embed;
+        $json['video_1'] = $embed;
         if($this->api_model->update_data(array('key'=>'video_tutorial_link'), 'settings', array('content'=>json_encode($json)))){
-          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
         }else{
           $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
           $this->output->set_status_header(401);
@@ -1485,10 +1491,10 @@ class Api extends CI_Controller {
         if($link2 != null){
           $embed1 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link1);
           $embed2 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link2);
-          $json['video 1'] = $embed1;
-          $json['video 2'] = $embed2;
+          $json['video_1'] = $embed1;
+          $json['video_2'] = $embed2;
           if($this->api_model->update_data(array('key'=>'dashboard_video_link'), 'settings', array('content'=>json_encode($json)))){
-            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
+            $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
           }else{
             $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
             $this->output->set_status_header(401);
@@ -1510,7 +1516,7 @@ class Api extends CI_Controller {
             $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
             $filename = 'BANNER_'.time().$remove_char.'.jpg';
         
-            $location = "asstes/img-banner/".$filename;
+            $location = "assets/img-banner/".$filename;
             $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
             $imageFileType = strtolower($imageFileType);
         
@@ -1538,7 +1544,7 @@ class Api extends CI_Controller {
             $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
             $filename = 'BANNER_'.time().$remove_char.'.jpg';
         
-            $location = "asstes/img-banner/".$filename;
+            $location = "assets/img-banner/".$filename;
             $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
             $imageFileType = strtolower($imageFileType);
         
@@ -1566,7 +1572,7 @@ class Api extends CI_Controller {
             $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
             $filename = 'ICON_'.time().$remove_char.'.png';
         
-            $location = "asstes/icon-wa/".$filename;
+            $location = "assets/icon-wa/".$filename;
             $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
             $imageFileType = strtolower($imageFileType);
         
@@ -1586,6 +1592,34 @@ class Api extends CI_Controller {
             exit;
         }
         echo 0;
+    }
+    public function update_min_withdraw()
+    {
+      $min = $this->input->post('min');
+      if($min != null){
+        if($this->api_model->update_data(array('key'=>'minimum_withdraw'), 'settings', array('content'=>$min))){
+          $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasi', 'english'=>'Updated'));
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Mohon Masukan Nilai', 'english'=>'Please Input Value'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
+    public function delete_banner($id)
+    {
+      if($this->session->userdata('authenticated_admin')){
+        if($this->api_model->update_data(array('id'=>$id), 'banners', array('is_active'=>false))){
+          echo "Success delete, <a href='".base_url('admin/settings?action=banner')."'>back</a>";
+        }else{
+          echo "Failed delete, <a href='".base_url('admin/settings?action=banner')."'>back</a>";
+        }
+      }else{
+        $this->login();
+      }
     }
 }
 

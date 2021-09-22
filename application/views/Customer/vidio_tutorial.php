@@ -17,17 +17,17 @@
         <div class="row">
             <div class="col-12 col-lg-12">
             <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="560" height="315" src="<?php echo $video_tutorial->video_1 ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             </div>
             <div class="col-6 col-lg-6">
             <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/Fg1X2obC3_8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+            <iframe width="560" height="315" src="<?php echo $video_dashboard->video_1 ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
         </div>
             </div>
             <div class="col-6 col-lg-6">
             <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/4BZxYghlmeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="560" height="315" src="<?php echo $video_dashboard->video_2 ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             </div>
         </div>

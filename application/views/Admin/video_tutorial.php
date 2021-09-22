@@ -26,7 +26,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                     </div>
-                    <input id="link1" type="text" placeholder="link youtube"  class="form-control" >
+                    <input id="link" type="text" placeholder="link youtube"  class="form-control" >
                   </div>
                 </div>
                 <div class="form-group">
@@ -39,21 +39,20 @@
           <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
       function request() {
-          var id = document.getElementById('id').innerHTML;
           var base_url = document.getElementById('base_url').innerHTML;
-          var link1 = document.getElementById('link1').value;
+          var link = document.getElementById('link').value;
 
           $.ajax({
               url: base_url + "api/update_video_tutorial",
               type: "post",
               data: {
-                  'id': id,
-                  'link1': link1,
+                  'link': link,
               },
               success: function(result) {
                   $('.loader').attr('hidden', true);
                   var d = JSON.parse(result);
                   show_message('success', d.response.message['english'], '');
+                  location.reload();
               },
               error: function(result, ajaxOptions, thrownError) {
                   $('.loader').attr('hidden', true);

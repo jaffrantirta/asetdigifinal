@@ -26,7 +26,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                     </div>
-                    <input id="fd" type="file" placeholder=""  class="form-control" >
+                    <input id="file" type="file" placeholder=""  class="form-control" >
                   </div>
                 </div>
                 <div class="form-group">
@@ -51,6 +51,7 @@
               success: function(response) {
                   if (response != 0) {
                       show_message('success', 'Updated', '');
+                      location.reload();
                   } else {
                       Swal.fire(
                           'File failed to upload',

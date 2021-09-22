@@ -65,6 +65,7 @@
                   $('.loader').attr('hidden', true);
                   var d = JSON.parse(result);
                   show_message('success', d.response.message['english'], '');
+                  location.reload();
               },
               error: function(result, ajaxOptions, thrownError) {
                   $('.loader').attr('hidden', true);
