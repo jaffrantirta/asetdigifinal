@@ -565,7 +565,7 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'balance',  'dt' => 3,
+                'db' => 'sponsor_bonus',  'dt' => 3,
                 'formatter' => function($d, $row){
                     $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
                     if($d!=null){
@@ -581,43 +581,53 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'left_belance',  'dt' => 4,
+                'db' => 'total_omset',  'dt' => 4,
                 'formatter' => function($d, $row){
-                    $turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
-                    $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
-                    if($d!=null){
-                        $y = ($d / 100) * $turnover_percentage;
-                        $x = $d;
-                    }else{
-                        $y = 0;
-                        $x = 0;
-                    }
-                    $admin = base64_encode('admin');
-                    $id_and_position = base64_encode($row[7].'/1');
-                    $hash = base64_encode($id_and_position.'////LEFT');
-                    $route = "bonus/turnover/$admin?token=$hash";
-                    $url = base_url($route);
-                    return '<a href="'.$url.'">'.$y.' '.$currency.' ('.$x.' '.$currency.')</a>';
+                    return $d.' USDT';
+                    // $turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+                    // $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+                    // if($d!=null){
+                    //     $y = ($d / 100) * $turnover_percentage;
+                    //     $x = $d;
+                    // }else{
+                    //     $y = 0;
+                    //     $x = 0;
+                    // }
+                    // $admin = base64_encode('admin');
+                    // $id_and_position = base64_encode($row[7].'/1');
+                    // $hash = base64_encode($id_and_position.'////LEFT');
+                    // $route = "bonus/turnover/$admin?token=$hash";
+                    // $url = base_url($route);
+                    // return '<a href="'.$url.'">'.$y.' '.$currency.' ('.$x.' '.$currency.')</a>';
                 }
             ),
             array(
-                'db' => 'right_belance',  'dt' => 5,
+                'db' => 'id',  'dt' => 5,
                 'formatter' => function($d, $row){
-                    $turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
-                    $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
-                    if($d!=null){
-                        $y = ($d / 100) * $turnover_percentage;
-                        $x = $d;
+                    $pairing_bonus = $this->db->query("SELECT
+                    sum(a.balance) AS total_pairing
+                    FROM inout_bonuses_complate_data a
+                    WHERE a.note = 'pairing bonus' AND a.owner_id = ".$d)->result();
+                    if(count($pairing_bonus) > 0){
+                        return $pairing_bonus[0]->total_pairing.' USDT';
                     }else{
-                        $y = 0;
-                        $x = 0;
+                        return '0 USDT';
                     }
-                    $admin = base64_encode('admin');
-                    $id_and_position = base64_encode($row[7].'/2');
-                    $hash = base64_encode($id_and_position.'////RIGHT');
-                    $route = "bonus/turnover/$admin?token=$hash";
-                    $url = base_url($route);
-                    return '<a href="'.$url.'">'.$y.' '.$currency.' ('.$x.' '.$currency.')</a>';
+                    // $turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
+                    // $currency = $this->api_model->get_data_by_where('settings', array('key'=>'lisensi_currency'))->result()[0]->content;
+                    // if($d!=null){
+                    //     $y = ($d / 100) * $turnover_percentage;
+                    //     $x = $d;
+                    // }else{
+                    //     $y = 0;
+                    //     $x = 0;
+                    // }
+                    // $admin = base64_encode('admin');
+                    // $id_and_position = base64_encode($row[7].'/2');
+                    // $hash = base64_encode($id_and_position.'////RIGHT');
+                    // $route = "bonus/turnover/$admin?token=$hash";
+                    // $url = base_url($route);
+                    // return '<a href="'.$url.'">'.$y.' '.$currency.' ('.$x.' '.$currency.')</a>';
                 }
             ),
             array(
@@ -651,16 +661,16 @@ class Datatable extends CI_Controller {
                 }
             ),
             array(
-                'db' => 'is_active_licence',  'dt' => 9,
+                'db' => 'is_active_lisensi',  'dt' => 9,
                 'formatter' => function($d, $row){
                     return $d;
                 }
             ),
           );
-          $ssptable='customer_complate_date';
+          $ssptable='members';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='role = "customer"';
+          $sspwhere='id >= 0';
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }

@@ -517,4 +517,81 @@ class Admin extends CI_Controller {
 		$write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
 		$write->save('php://output');
 	  }
+	  public function export_member()
+	  {
+		// $spreadsheet = new Spreadsheet();
+		// $sheet = $spreadsheet->getActiveSheet();
+
+		header("Content-type: application/vnd-ms-excel");
+		header("Content-Disposition: attachment; filename=Data Pegawai.xlsx");
+		$print = $this->api_model->get_data_by_where('members', array('id>='=>'0'))->result();
+		$i=1;
+		foreach($print as $data){ 
+			$content = '
+			<tr>
+				<th>'.$i++.'</th>
+				<th>'.$data->name.'</th>
+				<th>'.$data->code.'</th>
+				<th>'.$data->sponsor_bonus.'</th>
+				<th>'.$data->total_omset.'</th>
+				<th>'.$data->total_omset.'</th>
+				<th>'.$data->lisensi_name.'</th>
+			</tr>
+			';
+		}
+		$view = '
+		<center>
+			<h1>Export Data Ke Excel Dengan PHP <br/> www.malasngoding.com</h1>
+		</center>
+		<table border="1">
+			<tr>
+				<th>No</th>
+				<th>Name</th>
+				<th>Sponsor Code</th>
+				<th>Sponsor Code Bonus</th>
+				<th>Total Omset</th>
+				<th>Total Pairing Bonus</th>
+				<th>Licence</th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Name</th>
+				<th>Sponsor Code</th>
+				<th>Sponsor Code Bonus</th>
+				<th>Total Omset</th>
+				<th>Total Pairing Bonus</th>
+				<th>Licence</th>
+			</tr>
+		</table>
+		';
+
+		// $sheet->setCellValue('A1', 'Name');
+		// $sheet->setCellValue('A3', 'Register Date');
+		// $sheet->setCellValue('B3', 'Sponsor Code');
+		// $sheet->setCellValue('C3', 'Sponsor Code Bonus');
+		// $sheet->setCellValue('D3', 'Total Omset');
+		// $sheet->setCellValue('E3', 'Total Pairing Bonus');
+		// $sheet->setCellValue('F3', 'Licence');
+
+		// foreach($print as $data){ 
+		// 	$col = $i+4;
+		// 	$sheet->setCellValue('A'.$col, $data->kodepool);
+		// 	$sheet->setCellValue('B'.$col, $data->type);
+		// 	$sheet->setCellValue('C'.$col, $data->nama);
+		// 	$sheet->setCellValue('D'.$col, $data->lokasi_pool);
+		// 	$sheet->setCellValue('E'.$col, $data->keterangan);
+		// 	$sheet->setCellValue('F'.$col, $data->lat);
+		// }
+		
+		// $writer = new Xlsx($spreadsheet);
+		$filename = 'list-members-'.date('d-M-y');
+
+		// header('Content-Type: application/vnd.ms-excel');
+		// header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		// header('Cache-Control: max-age=0');
+
+		
+		
+		// $writer->save('php://output');
+	  }
 }

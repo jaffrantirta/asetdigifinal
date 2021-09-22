@@ -1,7 +1,7 @@
             <div class="text-right fixed-bottom">
               <div class="ml-5 mb-5">
                 <a href="https://api.whatsapp.com/send?phone=628113993499&amp;text=Halo%20admin,%20Saya%20mau%20bertanya?" target="_blank">
-                  <img width="170px" height="60px" src="<?php echo base_url() ?>upload/wa.png">
+                  <img width="170px" height="60px" src="<?php echo base_url('assets/icon-wa/'.$icon_wa) ?>">
                 </a>
               </div>
             </div>

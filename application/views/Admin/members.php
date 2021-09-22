@@ -30,7 +30,7 @@
               <th>Sponsor Code</th>
               <th>Sponsor Code Bonus</th>
               <th>Total Omset</th>
-              <th>Total Bonus</th>
+              <th>Total Pairing Bonus</th>
               <th>Licence</th>
               <th>id</th>
               <th>Action</th>

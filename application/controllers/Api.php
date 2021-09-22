@@ -1081,28 +1081,34 @@ class Api extends CI_Controller {
       $id = $this->input->post('id');
       $amount = $this->input->post('amount');
       $secure_pin = base64_decode($this->input->post('secure_pin'));
+      $min_withdraw = $this->api_model->get_data_by_where('settings', array('key'=>'minimum_withdraw'))->result()[0]->content;
       if($id != null){
         if($amount != null){
-          if($secure_pin != null){
-            if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
-              $insert = array(
-                'order_number'=>'W'.time().'-'.$id,
-                'user_id' => $id,
-                'amount' => $amount,
-                'status' => 1
-              );
-              if($this->withdraw->request($insert)){
-                $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+          if($amount >= $min_withdraw){
+            if($secure_pin != null){
+              if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
+                $insert = array(
+                  'order_number'=>'W'.time().'-'.$id,
+                  'user_id' => $id,
+                  'amount' => $amount,
+                  'status' => 1
+                );
+                if($this->withdraw->request($insert)){
+                  $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
+                  $this->output->set_status_header(501);
+                }
               }else{
-                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
-                $this->output->set_status_header(501);
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
+                $this->output->set_status_header(401);
               }
             }else{
-              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
               $this->output->set_status_header(401);
             }
           }else{
-            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Minimal Penarikan Sebesar'.$min_withdraw, 'english'=>'Minimum Withdraw is '.$min_withdraw));
             $this->output->set_status_header(401);
           }
         }else{
@@ -1566,7 +1572,7 @@ class Api extends CI_Controller {
             $remove_char = preg_replace("/[^a-zA-Z]/", "", $file);
             $filename = 'ICON_'.time().$remove_char.'.png';
         
-            $location = "asstes/icon-wa/".$filename;
+            $location = "assets/icon-wa/".$filename;
             $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
             $imageFileType = strtolower($imageFileType);
         
