@@ -575,6 +575,7 @@ class Customer extends CI_Controller {
 			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Change Password';
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/password_change', $data);
 			$this->load->view('Customer/Template/footer', $data);
@@ -585,6 +586,7 @@ class Customer extends CI_Controller {
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
 		} else {
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
@@ -599,6 +601,7 @@ class Customer extends CI_Controller {
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
 		} else {
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
@@ -643,6 +646,7 @@ class Customer extends CI_Controller {
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();
 		} else {
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();

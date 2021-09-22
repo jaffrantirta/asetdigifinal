@@ -24,6 +24,7 @@ class Profile extends CI_Controller
             $data['page'] = 'Profile';
             $data['sistem_name'] = $this->api_model->sistem_name();
             $data['session'] = $this->session->all_userdata();
+            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->user));
             $dataa = $this->setting->get_profile($id);
             $users['users'] = $dataa;
             // echo json_encode($data);
@@ -73,7 +74,7 @@ class Profile extends CI_Controller
         );
      
         $this->api_model->update_data($where,'users',$data);
-        redirect('profile/setting/'.$id);
+        redirect('customer/profile/'.$id);
     }
     public function change_password()
     {
@@ -82,10 +83,12 @@ class Profile extends CI_Controller
         } else {
             $data['sistem_name'] = $this->api_model->sistem_name();
             $data['session'] = $this->session->all_userdata();
+            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('id')))->result();
             $data['page'] = 'Change Password';
-            $this->load->view('Customer/Template/header', $data);
-            $this->load->view('Customer/password_change', $data);
-            $this->load->view('Customer/Template/footer', $data);
+            // $this->load->view('Customer/Template/header', $data);
+            // $this->load->view('Customer/password_change', $data);
+            // $this->load->view('Customer/Template/footer', $data);
+            echo json_encode($data);
         }
     }
   

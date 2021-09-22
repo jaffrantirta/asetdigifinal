@@ -23,13 +23,13 @@
                           <div class="card-body box-profile">
                           <div class="text-center">
                                 <?php
-                                if($session['data']->profile_picture == null){
+                                if($user[0]->profile_picture == null){
                                     $thumb = base_url('upload/no_image/no_image.png');
                                 }else{
-                                    if (file_exists(base_url('upload/members/'.$session['data']->profile_picture))) {
+                                    if (file_exists(base_url('upload/members/'.$user[0]->profile_picture))) {
                                         $thumb = base_url('upload/no_image/no_image.png');
                                     }else{
-                                        $thumb = base_url('upload/members/'.$session['data']->profile_picture);
+                                        $thumb = base_url('upload/members/'.$user[0]->profile_picture);
                                     }
                                 }
                                 ?>
