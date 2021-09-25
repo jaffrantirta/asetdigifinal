@@ -186,8 +186,13 @@ class Bonus extends CI_Controller {
                             $update_right = $right - $left;
                         }
                         $vbonus = $smaller / 100 * $percentage;
-                        if($vbonus >= $data->max_bonus){
-                            $bonus = $data->max_bonus;
+                        if($data->max_bonus != null){
+                            $max_bonus = $data->max_bonus;
+                        }else{
+                            $max_bonus = $this->api_model->get_data_by_where('lisensies', array('id'=>1))->result()[0]->max_bonus;
+                        }
+                        if($vbonus >= $max_bonus){
+                            $bonus = $max_bonus;
                         }else{
                             $bonus = $vbonus;
                         }
