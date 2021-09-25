@@ -32,6 +32,7 @@ class Customer extends CI_Controller {
 			$data['sistem_name'] = $this->api_model->sistem_name();
 			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
 			$data['icon_wa'] = $this->api_model->get_icon();
+			$data['logo'] = $this->api_model->get_logo();
 			$data['page'] = 'Dashboard';
 			$data['session'] = $this->session->all_userdata();
 			$id = $this->session->userdata('data')->id;

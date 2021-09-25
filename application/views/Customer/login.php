@@ -16,17 +16,18 @@
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page " background="<?php echo base_url() ?>upload/bg.jpg">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page " background="https://image.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1410.jpg">
 
   <p hidden id="base_url"><?php echo base_url() ?></p>
   <div class="login-box">
     <!-- /.login-logo -->
     <div class="card card-outline card-warning">
-      <div class="card-header text-center">
-        <a href="<?php echo base_url() ?>" class="h1"><b><?php echo $sistem_name ?></b></a>
+      <div class="card-header text-center" style="background-image:url('https://image.freepik.com/free-photo/yellow-wall-texture-with-scratches_1249-77.jpg');">
+        <a href="<?php echo base_url() ?>" class="h1"><img width="170px" height="60px" src="https://i.postimg.cc/nz6D6WC4/logo-panjang-2.png"></a>
+
       </div>
-      <div class="card-body">
-        <p class="login-box-msg">Masuk dengan username dan password</p>
+      <div class="card-body" style="background-image:url('https://image.freepik.com/free-photo/yellow-wall-texture-with-scratches_1249-77.jpg');">
+        <p class="login-box-msg text-light">Masuk dengan username dan password</p>
 
         <!-- <form action="../../index3.html" method="post"> -->
         <div class="input-group mb-3">
@@ -46,10 +47,10 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <button onClick="login()" class="btn btn-warning btn-block">Log In</button>
+          <button onClick="login()" class="btn btn-dark btn-block">Log In</button>
         </div>
         <p class="col-12 row">
-          <a class="col-6 text-center" href="<?php echo base_url('customer/forgot_password') ?>">Forgot Password</a>
+          <a class="col-6 text-center text-light" href="<?php echo base_url('customer/forgot_password') ?>">Forgot Password</a>
           <!-- <a class="col-6 text-center" href="<?php echo base_url('register') ?>">Register</a> -->
         </p>
 
@@ -64,7 +65,7 @@
 
   <div class="m-5 text-right">
     <a href="https://api.whatsapp.com/send?phone=628113993499&amp;text=Halo%20admin,%20Saya%20mau%20bertanya?" target="_blank">
-      <img width="205px" height="80px" src="<?php echo base_url('assets/icon-wa/'.$icon_wa) ?>">
+      <img width="205px" height="80px" src="<?php echo base_url('assets/icon-wa/' . $icon_wa) ?>">
     </a>
   </div>
   <!-- jQuery -->
