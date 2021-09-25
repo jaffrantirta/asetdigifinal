@@ -181,7 +181,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" style="color:#f9ab41;" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
     <!-- Right navbar links -->
@@ -208,34 +208,36 @@
       <h4 class="brand-text font-weight-light"><?php echo $sistem_name ?></h4>
     </a> -->
 
-
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="bg-black">
+      <div class="user-panel pb-3 pt-3 d-flex">
         <div class="image">
-        <?php
-                                if($user[0]->profile_picture == null){
-                                    $thumb = base_url('assets/dist/img/user2.png');
-                                }else{
-                                    if (file_exists(base_url('upload/members/'.$user[0]->profile_picture))) {
-                                        $thumb = base_url('assets/dist/img/user2.png');
-                                    }else{
-                                        $thumb = base_url('upload/members/'.$user[0]->profile_picture);
-                                    }
-                                }
-                                ?>
-                                <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
+          <?php
+          if ($user[0]->profile_picture == null) {
+            $thumb = base_url('assets/dist/img/user2.png');
+          } else {
+            if (file_exists(base_url('upload/members/' . $user[0]->profile_picture))) {
+              $thumb = base_url('assets/dist/img/user2.png');
+            } else {
+              $thumb = base_url('upload/members/' . $user[0]->profile_picture);
+            }
+          }
+          ?>
+          <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>" alt="User profile picture">
           <!-- <img src="<?php echo base_url() ?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
           <p id="id" hidden><?php echo $session['data']->id ?></p>
           <?php $id = $session['data']->id ?>
-          <a href="<?php echo base_url('profile/setting/' . $id) ?>" class="d-block"><?php echo $user[0]->name ?></a>
+          <a style="color:#f9ab41;" href="<?php echo base_url('profile/setting/' . $id) ?>" class="d-block"><?php echo $user[0]->name ?></a>
 
         </div>
       </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+
 
 
 
@@ -275,16 +277,16 @@
 
 
           <li class="nav-item">
-          <?php if ($page == 'Profile') { ?>
-            <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link active">
-          <?php } else { ?>
-            <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link">
-          <?php } ?>
-              <i class="nav-icon fas fa-user"></i>
-              <p>
-                Profile
-              </p>
-            </a>
+            <?php if ($page == 'Profile') { ?>
+              <a href="<?php echo base_url('customer/profile/' . $id) ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('customer/profile/' . $id) ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  Profile
+                </p>
+                </a>
           </li>
 
 
@@ -554,7 +556,7 @@
                   <p>Referrals</p>
                   </a>
             </li> -->
-           
+
             <li class="nav-item">
               <?php if ($page == 'Structure') { ?>
                 <a href="<?php echo base_url('customer/structure/' . $session['data']->id) ?>" class="nav-link active">
@@ -567,7 +569,7 @@
                   </p>
                   </a>
             </li>
-            
+
             <li class="nav-item">
               <?php
               $customer = base64_encode('customer');
@@ -578,12 +580,12 @@
               ?>
               <?php if ($page == 'Detail Omset LEFT') { ?>
                 <a href="<?php echo $url ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo $url ?>" class="nav-link">
-              <?php } ?>
-                <i class="far fa-circle nav-icon"></i>
-                <p>Left Group Omset</p>
-              </a>
+                <?php } else { ?>
+                  <a href="<?php echo $url ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Left Group Omset</p>
+                  </a>
             </li>
             <li class="nav-item">
               <?php
@@ -595,26 +597,26 @@
               ?>
               <?php if ($page == 'Detail Omset RIGHT') { ?>
                 <a href="<?php echo $url ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo $url ?>" class="nav-link">
-              <?php } ?>
-                <i class="far fa-circle nav-icon"></i>
-                <p>Right Group Omset</p>
-              </a>
+                <?php } else { ?>
+                  <a href="<?php echo $url ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Right Group Omset</p>
+                  </a>
 
           </ul>
           </li>
           <li class="nav-item">
-          <?php if ($page == 'Vidio Tutorial') { ?>
+            <?php if ($page == 'Vidio Tutorial') { ?>
               <a href="<?php echo base_url('customer/tutorial') ?>" class="nav-link active">
               <?php } else { ?>
                 <a href="<?php echo base_url('customer/tutorial') ?>" class="nav-link">
                 <?php } ?>
-              <i class="nav-icon fa fa-film"></i>
-              <p>
-                Video Tutorial
-              </p>
-            </a>
+                <i class="nav-icon fa fa-film"></i>
+                <p>
+                  Video Tutorial
+                </p>
+                </a>
           </li>
 
 
