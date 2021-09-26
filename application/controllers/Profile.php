@@ -24,12 +24,13 @@ class Profile extends CI_Controller
             $data['page'] = 'Profile';
             $data['sistem_name'] = $this->api_model->sistem_name();
             $data['session'] = $this->session->all_userdata();
-            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->user));
-            $dataa = $this->setting->get_profile($id);
-            $users['users'] = $dataa;
+            $data['icon_wa'] = $this->api_model->get_icon();
+            $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
+            // $dataa = $this->setting->get_profile($id);
+            // $users['users'] = $dataa;
             // echo json_encode($data);
             $this->load->view('Customer/Template/header', $data);
-            $this->load->view('Customer/profile', $users);
+            $this->load->view('Customer/profile', $data);
             $this->load->view('Customer/Template/footer', $data);
       
     }

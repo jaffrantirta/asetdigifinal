@@ -639,6 +639,7 @@ class Customer extends CI_Controller {
 			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
 			$data['page'] = 'Reward';
+			$data['banner'] = $this->api_model->get_data_by_where('banners', array('is_active'=>true))->result();
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/reward', $data);
 			$this->load->view('Customer/Template/footer', $data);

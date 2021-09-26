@@ -36,8 +36,8 @@
                                 <img class="profile-user-img img-fluid img-circle" src="<?php echo $thumb ?>"alt="User profile picture">
                             </div>
 
-                              <h3 class="profile-username text-center"><?php echo $session['data']->name; ?></h3>
-                              <p class="text-muted text-center"><?php echo $session['data']->username; ?> | <?php echo $session['data']->email; ?></p>
+                              <h3 class="profile-username text-center"><?php echo $user[0]->name; ?></h3>
+                              <p class="text-muted text-center"><?php echo $user[0]->username; ?> | <?php echo $user[0]->email; ?></p>
 
 
                           </div>
@@ -52,7 +52,7 @@
                           <div class="card-header p-2">
                               <ul class="nav nav-pills">
                               <li class="nav-item mr-1">
-                              <?php $id = $session['data']->id ?>
+                              <?php $id = $user[0]->id ?>
                               <?php if ($page == 'Profile') { ?>
                                     <a href="<?php echo base_url('customer/profile/'. $id) ?>" class="nav-link active">
                                 <?php } else { ?>
@@ -130,7 +130,7 @@
           var files = $('#file')[0].files;
           fd.append('file', files[0]);
           $.ajax({
-              url: document.getElementById('base_url').innerHTML + 'api/update_profile_picture/' + <?php echo $session['data']->id ?>,
+              url: document.getElementById('base_url').innerHTML + 'api/update_profile_picture/' + <?php echo $user[0]->id ?>,
               type: 'post',
               data: fd,
               contentType: false,

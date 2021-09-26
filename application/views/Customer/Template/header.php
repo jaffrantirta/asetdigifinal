@@ -171,7 +171,7 @@
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
     <lottie-player class="animation__shake" src="https://assets5.lottiefiles.com/packages/lf20_ObshHL.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-    <h3 class="text-center">Memuat ...</h3>
+    <h3 class="text-center">Loading ...</h3>
   </div>
 
 
