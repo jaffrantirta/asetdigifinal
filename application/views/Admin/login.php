@@ -14,15 +14,15 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page" background="<?php echo base_url() ?>upload/bg.jpg">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed text-sm login-page" background="https://image.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1410.jpg">
 <p hidden id="base_url"><?php echo base_url() ?></p>
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
-    <div class="card-header text-center">
+    <div class="card-header text-center" style="background-image:url('https://image.freepik.com/free-photo/yellow-wall-texture-with-scratches_1249-77.jpg');">
       <a href="<?php echo base_url() ?>" class="h1"><b><?php echo $sistem_name ?></b> Admin</a>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="background-image:url('https://image.freepik.com/free-photo/yellow-wall-texture-with-scratches_1249-77.jpg');">
       <p class="login-box-msg">masuk dengan username dan password</p>
 
       <!-- <form action="../../index3.html" method="post"> -->
@@ -43,10 +43,10 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <button onClick="login()" class="btn btn-primary btn-block">Log In</button>
+          <button onClick="login()" class="btn btn-dark btn-block">Log In</button>
         </div>
         <p class="col-12 row">
-          <a class="col-12 text-center" href="#">Forgot Password</a>
+          <a class="col-12 text-center text-light" href="#">Forgot Password</a>
         </p>
     </div>
     <!-- /.card-body -->

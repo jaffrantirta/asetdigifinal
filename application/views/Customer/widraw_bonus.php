@@ -17,17 +17,17 @@
       <div class="container">
           <div class="card card-warning">
               <div class="card-header">
-                  <h3 class="card-title">WIDRAW</h3>
+                  <h3 class="card-title">WITHDRAW</h3>
               </div>
               <div class="card-body">
                   <div class="form-group">
-                      <label>Widraw</label><br>
+                      <label>withdraw </label><br>
                   </div>
                   <section>
                       <div class="container-fluid">
                           <div class="row">
                               <div class="col-lg-12 col-12">
-                                  <div class="small-box bg-warning">
+                                  <div class="small-box" style="background-color:#9c743e;">
                                       <div class="inner">
                                           <h3 id="amount"></h3>
                                           <p>TOTAL BONUSES</p>
