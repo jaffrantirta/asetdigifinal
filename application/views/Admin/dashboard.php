@@ -13,6 +13,41 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4 col-4">
+            <div class="small-box" style="background-color:#9c743e;">
+              <div class="inner">
+                <h3 class="text-light" id="amount"></h3>
+                <p class="text-light">Total Member</p>
+              </div>
 
-    
+              <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <div class="col-lg-4 col-4">
+            <div class="small-box" style="background-color:#9c743e;">
+              <div class="inner">
+                <h3 class="text-light" id="amount"></h3>
+                <p class="text-light">Lisensi Request</p>
+              </div>
+
+              <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <div class="col-lg-4 col-4">
+            <div class="small-box" style="background-color:#9c743e;">
+              <div class="inner">
+                <h3 class="text-light" id="amount"></h3>
+                <p class="text-light">Pin Register Request</p>
+              </div>
+
+              <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
