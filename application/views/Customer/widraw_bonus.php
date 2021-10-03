@@ -29,8 +29,8 @@
                               <div class="col-lg-12 col-12">
                                   <div class="small-box" style="background-color:#9c743e;">
                                       <div class="inner">
-                                          <h3 id="amount"></h3>
-                                          <p>TOTAL BONUSES</p>
+                                          <h3 class="text-light" id="amount"></h3>
+                                          <p class="text-light">TOTAL BONUSES</p>
                                       </div>
 
                                       <!-- <a class="small-box-footer"></a><i class="fas fa-arrow-circle-right"></i></a> -->

@@ -172,6 +172,9 @@ class Admin extends CI_Controller {
 				case "banner":
 					$this->banner();
 					break;
+				case "reward":
+					$this->reward();
+					break;
 				case "minwidtraw":
 					$this->minwid();
 					break;
@@ -189,6 +192,19 @@ class Admin extends CI_Controller {
 			$data['page'] = 'Minimum Widthdraw';
 			$this->load->view('Admin/Template/header', $data);
 			$this->load->view('Admin/minimum_widthdraw', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
+	public function add_reward()
+	{
+		if (!$this->session->userdata('authenticated_admin')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'add reward';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/add_reward', $data);
 			$this->load->view('Admin/Template/footer', $data);
 		}
 	}
@@ -246,6 +262,19 @@ class Admin extends CI_Controller {
 			$data['page'] = 'Video Tutorial';
 			$this->load->view('Admin/Template/header', $data);
 			$this->load->view('Admin/video_tutorial', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
+	public function reward()
+	{
+		if (!$this->session->userdata('authenticated_admin')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Reward';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Admin/reward', $data);
 			$this->load->view('Admin/Template/footer', $data);
 		}
 	}	

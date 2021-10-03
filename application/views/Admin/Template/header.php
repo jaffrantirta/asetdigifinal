@@ -46,7 +46,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-  <lottie-player class="animation__shake" src="https://assets5.lottiefiles.com/packages/lf20_ObshHL.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+    <lottie-player class="animation__shake" src="https://assets5.lottiefiles.com/packages/lf20_ObshHL.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
     <h3 class="text-center">Loading ...</h3>
   </div>
 
@@ -302,6 +302,16 @@
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Banner</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Reward') { ?>
+                <a href="<?php echo base_url('admin/settings?action=reward') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('admin/settings?action=reward') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reward</p>
                   </a>
             </li>
             <li class="nav-item">

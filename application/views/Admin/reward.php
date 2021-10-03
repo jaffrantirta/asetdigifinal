@@ -23,7 +23,10 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
+             
+              <a class="btn btn-sm mb-3 btn-warning text-light" href="<?php echo base_url('admin/add_reward') ?>">Add Reward</a>
             <div class="card">
+                
               <div class="card-header">
                 <h3 class="card-title">Reward List</h3>
               </div>
