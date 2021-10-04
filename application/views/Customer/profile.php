@@ -118,11 +118,21 @@
                                           </div>
 
                                       </div>
-
-
                                       <div class="form-group row">
+                                          <label for="inputEmail" class="col-sm-2 col-form-label">Refferal linl</label>
+                                          <div class="col-sm-10">
+                                              <input disabled id="refferal_code"  type="text" class="form-control" value="<?php echo base_url('ref?code='.$this->session->userdata('sponsor_code')->code) ?>" required>
+                                          </div>
+
+                                      </div>
+
+
+                                      <div class="form-group COL-12 row">
                                           <div class="offset-sm-2 col-sm-10">
                                               <button type="submit" class="btn btn-danger">update</button>
+                                          </div>
+                                          <div class="offset-sm-2 col-sm-10">
+                                                <a style="margin-top: 1em" onclick="copy()" class="btn btn-info btn-block col-3"><b>Copy Refferal Link</b></a>
                                           </div>
                                       </div>
                                       <?php echo form_close(); ?>
@@ -142,3 +152,21 @@
       </section>
 
   </div>
+
+  <script>
+    function copy() {
+        /* Get the text field */
+        var copyText = document.getElementById("refferal_code");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+
+        /* Alert the copied text */
+        Swal.fire('Copied', '', 'success')
+        // alert("Copied the text: " + copyText.value);
+    }
+</script>

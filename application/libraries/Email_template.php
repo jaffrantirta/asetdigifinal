@@ -136,11 +136,9 @@ class Email_template {
 		                                            <table align="left" width="280" cellpadding="10" cellspacing="0" border="0" class="collapse-cell">
 		                                                <tr>
 		                                                    <td>
-		                                                        <a href="*|FORWARD|*" target="_blank" style="color:#114eb1; text-decoration:none;">Follow Kami di Sosial Media!</a> <span style="color:#666666;">&#124;</span> <a href="*|LIST:URL|*" target="_blank" style="color:#114eb1; text-decoration:none;">Kontak Kami</a><br />
 		                                                    </td>
 		                                                </tr>
 		                                            </table>
-		                                            <table align="right" width="280" cellpadding="10" cellspacing="0" border="0" class="collapse-cell social-media">
 		                                               
 		                                            </table>
 		                                        </td>
@@ -153,7 +151,7 @@ class Email_template {
 		                                <table width="100%" cellpadding="10" cellspacing="0" border="0">
 		                                    <tr>
 		                                        <td valign="top" style="font-size:11px;">
-		                                            &copy;2021. All rights reserved. This email was sent to '.$data['email'].', by drivebali2016@gmail.com
+		                                            &copy;2021. All rights reserved. This email was sent to '.$data['email'].', by '.$data['email_com'].'
 		                                        </td>
 		                                    </tr>
 		                                        <tr>

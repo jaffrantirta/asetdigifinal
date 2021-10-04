@@ -723,6 +723,54 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_reward()
+    {
+        $columns = array(
+            array(
+                'db' => 'name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'left',  'dt' => 1,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+            array(
+                'db' => 'right',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'achievement',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'bonus',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $y = ($row[3] / 100) * $row[4];
+                    return $y;
+                }
+            ),
+          );
+          $ssptable='rewards';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='id>=0';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_bonus_turnover($hash)
     {
         $split = explode("/", base64_decode($hash));

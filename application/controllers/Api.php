@@ -124,6 +124,7 @@ class Api extends CI_Controller {
     $message = $this->input->post('message');
 
     $data_template = array(
+      'email_com' => $this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content,
       'name'=>$name,
       'email'=>$email,
       'comment'=>$comment,
@@ -499,6 +500,7 @@ class Api extends CI_Controller {
               $this->db->trans_complete();
               if($this->db->trans_status()){
                 $data_template = array(
+                  'email_com' => $this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content,
                   'opening'=> 'Hi '.$name.', Terima kasih telah mendaftar di '.$this->db->query("SELECT * FROM settings a WHERE a.key = 'sistem_name'")->result()[0]->content.' <br>',
                   'email'=>$email,
                   'message'=>'Username : '.$username.' <br> Password : (gunakan password yang diinputkan) <br> Tanggal Registrasi : '.date("l, d M Y H:m:s").'<br> SEGERALAH MEMBELI PAKET LISENSI,
@@ -551,6 +553,7 @@ class Api extends CI_Controller {
       $message = $this->input->post('message');
   
       $data_template = array(
+        'email_com' => $this->db->query("SELECT * FROM settings a WHERE a.key = 'email'")->result()[0]->content,
         'name'=>$name,
         'email'=>$email,
         'comment'=>$comment,
@@ -1619,6 +1622,36 @@ class Api extends CI_Controller {
         }
       }else{
         $this->login();
+      }
+    }
+    public function refferal()
+    {
+      $sponsor_code = $this->input->get('code');
+      $parent_id = $this->api_model->get_data_by_where('sponsor_codes', array('code'=>$sponsor_code))->result();
+      if(count($parent_id) > 0){
+        $turnover = $this->api_model->get_data_by_where('turnovers', array('owner'=>$parent_id[0]->owner))->result();
+        // print_r($turnover);
+        if(count($turnover) > 0){
+          if($turnover[0]->left_belance >= $turnover[0]->right_belance){
+            $position = 1;
+          }else{
+            $position = 2;
+          }
+          $top;
+          $member = $this->api_model->get_data_by_where('positions', array('top'=>$parent_id[0]->owner, 'position'=>$position))->result();
+          while(count($member) > 0){
+            $vmember = $this->api_model->get_data_by_where('positions', array('top'=>$member[0]->bottom, 'position'=>$position))->result();
+            $top = $member[0]->bottom;
+            $member = $vmember;
+          }
+          header("location: ".base_url('customer/register?top='.$top.'&position='.$position));
+        }else{
+          $position = 1;
+          $top = $parent_id[0]->owner;
+          header("location: ".base_url('customer/register?top='.$top.'&position='.$position));
+        }
+      }else{
+        echo "code not found : 404";
       }
     }
 }
