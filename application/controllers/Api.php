@@ -1387,7 +1387,18 @@ class Api extends CI_Controller {
         if($status != null){
           switch($status){
             case 1:
+              $user = $this->db->query("SELECT a.*, c.price AS old_lisensi_price FROM users a LEFT JOIN user_lisensies b ON b.owner=a.id LEFT JOIN lisensies c on c.id=b.lisensi_id WHERE a.id = ".$user_id)->result()[0];
+              $lisensi = $this->api_model->get_data_by_where('lisensies', array('id'=>$lisensi_id))->result()[0];
+              $diff = $lisensi->price - $user->old_lisensi_price;
+              $percentage_bonus_upgrade = $this->api_model->get_data_by_where('settings', array('key'=>'percentage_sponsor_bonus_upgrade'))->result()[0]->content;
+              $bonus = $diff / 100 * $percentage_bonus_upgrade;
+              $owner_sponsor_code = $this->db->query("SELECT a.*, b.owner AS owner_sponsor_code FROM sponsor_code_uses a LEFT JOIN sponsor_codes b ON b.id=a.sponsor_id WHERE a.used_by = $user_id")->result()[0]->owner_sponsor_code;
+              $id_inout = 'BI'.time().'-'.$owner_sponsor_code;
+              $total_bonus_owner = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$owner_sponsor_code))->result()[0];
               $this->db->trans_start();
+              $this->db->query("UPDATE total_bonuses SET balance = balance + $bonus WHERE total_bonuses.id = $total_bonus_owner->id");
+              $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus, 'note'=>'sponsor bonus upgrade', 'total_bonus_id'=>$total_bonus_owner->id));
+              $this->db->query("UPDATE sponsor_code_bonuses SET balance = balance + $bonus WHERE sponsor_code_bonuses.owner_id = $total_bonus_owner->owner_id");
               $this->api_model->update_data(array('id'=>$order_id), 'lisensi_upgrades', array('is_finish'=>1));
               $this->api_model->update_data(array('owner'=>$user_id), 'user_lisensies', array('lisensi_id'=>$lisensi_id));
               $this->db->trans_complete();
@@ -1397,6 +1408,7 @@ class Api extends CI_Controller {
                 $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Gagal', 'english'=>'Failed'));
                 $this->output->set_status_header(500);
               }
+              // print_r($total_bonus_owner);
               break;
             case 2:
               $this->db->trans_start();

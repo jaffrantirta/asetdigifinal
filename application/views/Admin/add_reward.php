@@ -20,13 +20,23 @@
             </div>
             <div class="card-body">
 
+            <form action="<?php echo base_url('admin/add_reward_process') ?>" method="post">
+            <div class="form-group">
+                    <label>Reward Name</label><br>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
+                        </div>
+                        <input name="name" type="text" placeholder="reward name" class="form-control">
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Left</label><br>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                         </div>
-                        <input id="link" type="text" placeholder="amount left" class="form-control">
+                        <input name="left" type="text" placeholder="amount left" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -35,7 +45,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                         </div>
-                        <input id="link" type="text" placeholder="amount Right" class="form-control">
+                        <input name="right" type="text" placeholder="amount Right" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -44,12 +54,14 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                         </div>
-                        <input id="link" type="text" placeholder="Reward Bonus" class="form-control">
+                        <input name="bonus" type="text" placeholder="Reward Bonus" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="col-12 col-md-4 btn btn-danger" onclick="request()">Submit</button>
+                    <button class="col-12 col-md-4 btn btn-danger">Submit</button>
                 </div>
+
+            </form>
 
             </div>
         </div>

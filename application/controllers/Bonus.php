@@ -131,6 +131,14 @@ class Bonus extends CI_Controller {
                 $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
                 $data['id_and_position'] = $token[0];
                 $data['position_turnover'] = $token[1];
+                if($data['position_turnover'] == "LEFT"){
+                    $p = 1;
+                }else{
+                    $p = 2;
+                }
+                $data['diamond'] = $this->db->query("SELECT * FROM turnover_details_complate_data WHERE position = ".$p." AND lisensi_id = 3")->result();
+                $data['gold'] = $this->db->query("SELECT * FROM turnover_details_complate_data WHERE position = ".$p." AND lisensi_id = 1")->result();
+                $data['onyx'] = $this->db->query("SELECT * FROM turnover_details_complate_data WHERE position = ".$p." AND lisensi_id = 2")->result();
                 $data['session'] = $this->session->all_userdata();
                 $data['sistem_name'] = $this->api_model->sistem_name();
                 if($role == 'customer'){
@@ -147,10 +155,19 @@ class Bonus extends CI_Controller {
                 }
             }
 		}else{
+            $id = $this->session->userdata('data')->id;
             $role = base64_decode($hash);
             $token = explode("////", base64_decode($this->input->get('token')));
             $data['id_and_position'] = $token[0];
             $data['position_turnover'] = $token[1];
+            if($data['position_turnover'] == "LEFT"){
+                $p = 1;
+            }else{
+                $p = 2;
+            }
+            $data['diamond'] = $this->db->query("SELECT * FROM turnover_details_complate_data WHERE position = ".$p." AND owner_id = $id AND lisensi_id = 3")->result();
+            $data['gold'] = $this->db->query("SELECT * FROM turnover_details_complate_data WHERE position = ".$p." AND owner_id = $id AND lisensi_id = 1")->result();
+            $data['onyx'] = $this->db->query("SELECT * FROM turnover_details_complate_data WHERE position = ".$p." AND owner_id = $id AND lisensi_id = 2")->result();
             $data['session'] = $this->session->all_userdata();
             $data['icon_wa'] = $this->api_model->get_icon();
             $data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();

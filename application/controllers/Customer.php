@@ -39,6 +39,8 @@ class Customer extends CI_Controller {
 			$turnover_percentage = $this->api_model->get_data_by_where('settings', array('key'=>'turnover_percentage'))->result()[0]->content;
 			$data['video'] = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'dashboard_video_link'))->result()[0]->content);
 			$data['banner'] = $this->api_model->get_data_by_where('banners', array('is_active'=>true))->result();
+			$data['left_diamond'] = $this->db->query("SELECT COUNT(id) AS left_diamond FROM turnover_details_complate_data WHERE position = 1 AND owner_id = $id AND lisensi_id = 3")->result();
+			$data['right_diamond'] = $this->db->query("SELECT COUNT(id) AS right_diamond FROM turnover_details_complate_data WHERE position = 2 AND owner_id = $id AND lisensi_id = 3")->result();
 			if(count($bonus_sponsor = $this->api_model->get_data_by_where('sponsor_code_bonuses', array('owner_id'=>$id))->result()) > 0){
 				$data['bonus_sponsor_code'] = $bonus_sponsor[0]->balance;
 			}else{

@@ -13,7 +13,7 @@
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
-  <p hidden id='link'>datatable/get_pairing/<?php echo $session['data']->id ?></p>
+  <p hidden id='link'>datatable/get_reward</p>
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Reward</h3>
@@ -26,7 +26,6 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Reward List</h3>
-                <p hidden id='link'>datatable/get_reward</p>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive">
@@ -79,7 +78,6 @@
             });
           }
         });
-        table.column(6).visible(false);
         table.column(5).visible(false);
       });
     </script>

@@ -195,6 +195,33 @@ class Admin extends CI_Controller {
 			$this->load->view('Admin/Template/footer', $data);
 		}
 	}
+	public function delete_reward($id)
+	{
+		if($this->db->query("DELETE FROM `rewards` WHERE `rewards`.`id` = $id")){
+			echo "deleted";
+		}else{
+			echo "failed";
+		}
+	}
+	public function add_reward_process()
+	{
+		if (!$this->session->userdata('authenticated_admin')) {
+			$this->login();
+		} else {
+			$input = array(
+				'name'=>$this->input->post('name'),
+				'left'=>$this->input->post('left'),
+				'right'=>$this->input->post('right'),
+				'achievement'=>'-',
+				'bonus'=>$this->input->post('bonus')
+			);
+			if($this->api_model->insert_data('rewards', $input)){
+				echo "success";
+			}else{
+				echo "failed";
+			}
+		}
+	}
 	public function add_reward()
 	{
 		if (!$this->session->userdata('authenticated_admin')) {

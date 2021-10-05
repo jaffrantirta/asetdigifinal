@@ -759,8 +759,14 @@ class Datatable extends CI_Controller {
             array(
                 'db' => 'id',  'dt' => 5,
                 'formatter' => function($d, $row){
-                    $y = ($row[3] / 100) * $row[4];
-                    return $y;
+                    $link = base_url('admin/delete_reward/'.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="delete" class="fa fa-trash"></i>
+                        </a>
+                    </center>
+                    ';
                 }
             ),
           );

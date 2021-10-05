@@ -19,7 +19,7 @@
           <div class="col-lg-4 col-4">
             <div class="small-box" style="background-color:#9c743e;">
               <div class="inner">
-                <h3 class="text-light" id="amount"></h3>
+                <h3 class="text-light" id="amount"><?php echo count($gold) ?></h3>
                 <p class="text-light">GOLD</p>
               </div>
 
@@ -29,7 +29,7 @@
           <div class="col-lg-4 col-4">
             <div class="small-box" style="background-color:#9c743e;">
               <div class="inner">
-                <h3 class="text-light" id="amount"></h3>
+                <h3 class="text-light" id="amount"><?php echo count($onyx) ?></h3>
                 <p class="text-light">ONYK</p>
               </div>
 
@@ -39,7 +39,7 @@
           <div class="col-lg-4 col-4">
             <div class="small-box" style="background-color:#9c743e;">
               <div class="inner">
-                <h3 class="text-light" id="amount"></h3>
+                <h3 class="text-light" id="amount"><?php echo count($diamond) ?></h3>
                 <p class="text-light">DIAMOND</p>
               </div>
 

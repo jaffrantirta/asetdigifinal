@@ -215,6 +215,45 @@
           </div>
         </div>
 
+        <?php 
+        if(count($left_diamond) > 0){
+          $left_d = $left_diamond[0]->left_diamond;
+        }else{
+          $left_d = 0;
+        }
+        if(count($right_diamond) > 0){
+          $right_d = $right_diamond[0]->right_diamond;
+        }else{
+          $right_d = 0;
+        }
+        ?>
+        <div class="row">
+          <div class="col-lg-6 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3><?php echo $left_d ?></h3>
+                <p>LEFT DIAMOND</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3><?php echo $right_d ?></h3>
+                <p>RIGHT DIAMOND</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- <div class="row">
 
           <div class="col-md-4 card card-warning">
