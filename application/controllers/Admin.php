@@ -222,6 +222,19 @@ class Admin extends CI_Controller {
 			}
 		}
 	}
+	public function history()
+	{
+		if (!$this->session->userdata('authenticated_admin')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'History';
+			$this->load->view('Admin/Template/header', $data);
+			$this->load->view('Customer/history_balance', $data);
+			$this->load->view('Admin/Template/footer', $data);
+		}
+	}
 	public function add_reward()
 	{
 		if (!$this->session->userdata('authenticated_admin')) {

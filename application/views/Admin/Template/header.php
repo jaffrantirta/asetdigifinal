@@ -204,6 +204,18 @@
                 </a>
           </li>
           <li class="nav-item">
+            <?php if ($page == 'History') { ?>
+              <a href="<?php echo base_url('admin/history') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('admin/history') ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  History IN-OUT Balance
+                </p>
+                </a>
+          </li>
+          <li class="nav-item">
             <?php if ($page == 'Video Tutorial') { ?>
               <a href="<?php echo base_url('admin/video_tutorial') ?>" class="nav-link active">
               <?php } else { ?>

@@ -777,6 +777,117 @@ class Datatable extends CI_Controller {
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
+    public function get_history_balance()
+    {
+        if($this->session->userdata('authenticated_admin')){
+            $where = 'id>=0';
+        }else{
+            $where = 'user_id = '.$this->session->userdata('data')->id;
+        }
+        $columns = array(
+            array(
+                'db' => 'id_inout',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'date',  'dt' => 1,
+                'formatter' => function($d, $row){
+                    $date = date_create($d);
+                    return date_format($date,"l, d M Y H:m:s");
+                }
+            ),
+            array(
+                'db' => 'type',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    if($d == 1){
+                        return "IN";
+                    }else{
+                        return "OUT";
+                    }
+                }
+            ),
+            array(
+                'db' => 'balance',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'note',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'user_name',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+          );
+          $ssptable='history_balance';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere=$where;
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
+    public function history()
+    {
+        $columns = array(
+            array(
+                'db' => 'name',  'dt' => 0,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'left',  'dt' => 1,
+                'formatter' => function($d, $row){
+                   return $d;
+                }
+            ),
+            array(
+                'db' => 'right',  'dt' => 2,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'achievement',  'dt' => 3,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'bonus',  'dt' => 4,
+                'formatter' => function($d, $row){
+                    return $d;
+                }
+            ),
+            array(
+                'db' => 'id',  'dt' => 5,
+                'formatter' => function($d, $row){
+                    $link = base_url('admin/delete_reward/'.$d);
+                    return '
+                    <center>
+                        <a href="'.$link.'">
+                            <i title="delete" class="fa fa-trash"></i>
+                        </a>
+                    </center>
+                    ';
+                }
+            ),
+          );
+          $ssptable='rewards';
+          $sspprimary='id';
+          $sspjoin='';
+          $sspwhere='id>=0';
+          $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
+          echo json_encode($go);
+    }
     public function get_bonus_turnover($hash)
     {
         $split = explode("/", base64_decode($hash));

@@ -646,6 +646,22 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function history()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
+			$data['icon_wa'] = $this->api_model->get_icon();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'History';
+			$data['banner'] = $this->api_model->get_data_by_where('banners', array('is_active'=>true))->result();
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/history_balance', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
 	public function tutorial()
 	{
 		if (!$this->session->userdata('authenticated_customer')) {

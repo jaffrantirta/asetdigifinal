@@ -493,6 +493,17 @@
                   <p>Total Bonus</p>
                   </a>
             </li>
+            <li class="nav-item">
+              <?php if ($page == 'History') { ?>
+                <a href="<?php echo base_url('customer/history') ?>" class="nav-link active">
+                <?php } else { ?>
+
+                  <a href="<?php echo base_url('customer/history') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>History IN-OUT Balance <span class="right badge badge-primary">New</span></p>
+                  </a>
+            </li>
           </ul>
           </li>
           <li class="nav-item">
