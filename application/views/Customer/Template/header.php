@@ -632,6 +632,15 @@
 
 
           <li class="nav-item">
+            <a href="<?php echo base_url('customer/test') ?>" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                test
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="<?php echo base_url('customer/logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>

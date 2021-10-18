@@ -145,6 +145,21 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function test()
+	{
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
+			$data['icon_wa'] = $this->api_model->get_icon();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Withdraw';
+
+			$this->load->view('Customer/iframe_structure', $data);
+			
+		}
+	}
 	public function login(){
 		$data['sistem_name'] = $this->api_model->sistem_name();
 		$data['icon_wa'] = $this->api_model->get_icon();
@@ -309,9 +324,11 @@ class Customer extends CI_Controller {
 			}
 			//parent1-end
 
-			$this->load->view('Customer/Template/header', $data);
-			$this->load->view('Customer/structure', $data);
-			$this->load->view('Customer/Template/footer', $data);
+			// $this->load->view('Customer/Template/header', $data);
+			// $this->load->view('Customer/structure', $data);
+			// $this->load->view('Customer/Template/footer', $data);
+
+			$this->load->view('Customer/iframe_structure', $data);
 
 			// echo json_encode($data);
 		}
