@@ -1395,7 +1395,17 @@ class Api extends CI_Controller {
               $owner_sponsor_code = $this->db->query("SELECT a.*, b.owner AS owner_sponsor_code FROM sponsor_code_uses a LEFT JOIN sponsor_codes b ON b.id=a.sponsor_id WHERE a.used_by = $user_id")->result()[0]->owner_sponsor_code;
               $id_inout = 'BI'.time().'-'.$owner_sponsor_code;
               $total_bonus_owner = $this->api_model->get_data_by_where('total_bonuses', array('owner_id'=>$owner_sponsor_code))->result()[0];
+
+              $turnover_detail = $this->api_model->get_data_by_where('turnover_details', array('user_id'=>$user_id))->result();
               $this->db->trans_start();
+              foreach($turnover_detail as $x){
+                if($x->position == 1){
+                  $this->db->query("UPDATE turnovers SET left_belance = left_belance+$diff, is_active = '0' WHERE turnovers.id = $x->turnover_id");
+                }else{
+                  $this->db->query("UPDATE turnovers SET right_belance = right_belance+$diff, is_active = '0' WHERE turnovers.id = $x->turnover_id");
+                }
+              }
+              $this->api_model->update_data(array('user_id'=>$user_id), 'turnover_details', array('lisensi_id'=>$lisensi_id, 'price_at_the_time'=>$lisensi->price));
               $this->db->query("UPDATE total_bonuses SET balance = balance + $bonus WHERE total_bonuses.id = $total_bonus_owner->id");
               $this->api_model->insert_data('inout_bonuses', array('id_inout'=>$id_inout, 'type'=>1, 'balance'=>$bonus, 'note'=>'sponsor bonus upgrade', 'total_bonus_id'=>$total_bonus_owner->id));
               $this->db->query("UPDATE sponsor_code_bonuses SET balance = balance + $bonus WHERE sponsor_code_bonuses.owner_id = $total_bonus_owner->owner_id");

@@ -126,3 +126,8 @@ ALTER TABLE `lisensi_upgrades` CHANGE `is_finish` `is_finish` INT(1) NOT NULL DE
 
 INSERT INTO `settings` (`id`, `key`, `content`) VALUES (NULL, 'percentage_sponsor_bonus', '20');
 
+CREATE VIEW history_balance AS
+SELECT a.*, c.id AS user_id, c.name AS user_name FROM inout_bonuses a
+LEFT JOIN total_bonuses b ON b.id=a.total_bonus_id
+LEFT JOIN users c ON c.id=b.owner_id
+
