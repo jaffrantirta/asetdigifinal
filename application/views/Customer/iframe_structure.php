@@ -6,33 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?php echo $sistem_name ?> | <?php echo $page ?></title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/jqvmap/jqvmap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/summernote/summernote-bs4.min.css">
-  <!-- loader -->
-  <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/loader/loader.css') ?>" />
-  <!-- swicth toggle -->
-  <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/toggle.css') ?>" />
-  <!-- lottie player -->
-  <script src="<?php echo base_url('assets/build/js/lottie/LottiePlayer.js') ?>"></script>
-
   <style type="text/css">
     /*Now the CSS*/
     * {
@@ -157,59 +130,48 @@
     .tree li a:hover+ul ul::before {
       border-color: #94a0b4;
     }
+    /* body {
+      transform: scale(0.5);
+      transform-origin: 0 0;
+      // add prefixed versions too.
+    } */
 
-    #container { display:block; }
-    @media only screen and (orientation:portrait){
-    #container {
-    height: 100vw;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
-    }
-    }
-    @media only screen and (orientation:landscape){
-    #container {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
-    }
-    }
+    
   </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
-<body>
-    <strong style="color: red">IF YOU USE PHONE, PLEASE ROTATE YOUR PHONE 90° TO DISPLAY THE FULL NETWORK STRUCTURE</strong>
+<body >
+  <div class="m-2 alert alert-danger">
+  <strong>IF YOU USE PHONE, PLEASE ROTATE YOUR PHONE 90° TO DISPLAY THE FULL NETWORK STRUCTURE</strong>
+  </div>
 
 
-    <div class="tree">
+    <div  class="tree" >
                 <ul>
-                    <li><a class='link' href='#'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['data']!=null){echo $parent_1['data']->username.' - '.$parent_1['data']->lisensi_name;}else{echo 'ADD';} ?></a>
+                    <li class="col-12"><a class='link' href='#'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['data']!=null){echo $parent_1['data']->username.' - '.$parent_1['data']->lisensi_name;}else{echo 'ADD';} ?></a>
                         <ul>
-                            <li>
+                            <li class="col-6">
                                 <a class='link' href='<?php if($parent_1['left']!=null){echo base_url('customer/structure/'.$parent_1['left']->bottom);}else{echo base_url('customer/register?top='.$parent_1['data']->id.'&position=1');} ?>'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['left']!=null){echo $parent_1['left']->bottom_name.' - '.$parent_1['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                 <ul>
-                                    <li>
+                                    <li class="col-6">
                                         <a class='link' href="<?php if($parent_2['left']!=null){echo base_url('customer/structure/'.$parent_2['left']->bottom);}else{if($parent_2['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_2['data']->id.'&position=1');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_2['left']!=null){echo $parent_2['left']->bottom_name.' - '.$parent_2['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                         <ul>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_4['left']!=null){echo base_url('customer/structure/'.$parent_4['left']->bottom);}else{if($parent_4['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_4['data']->id.'&position=1');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_4['left']!=null){echo $parent_4['left']->bottom_name.' - '.$parent_4['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_4['right']!=null){echo base_url('customer/structure/'.$parent_4['right']->bottom);}else{if($parent_4['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_4['data']->id.'&position=2');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_4['right']!=null){echo $parent_4['right']->bottom_name.' - '.$parent_4['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li class="col-6">
                                         <a class='link' href="<?php if($parent_2['right']!=null){echo base_url('customer/structure/'.$parent_2['right']->bottom);}else{if($parent_2['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_2['data']->id.'&position=2');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_2['right']!=null){echo $parent_2['right']->bottom_name.' - '.$parent_2['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                         <ul>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_5['left']!=null){echo base_url('customer/structure/'.$parent_5['left']->bottom);}else{if($parent_5['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_5['data']->id.'&position=1');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_5['left']!=null){echo $parent_5['left']->bottom_name.' - '.$parent_5['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_5['right']!=null){echo base_url('customer/structure/'.$parent_5['right']->bottom);}else{if($parent_5['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_5['data']->id.'&position=2');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_5['right']!=null){echo $parent_5['right']->bottom_name.' - '.$parent_5['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
                                         </ul>
@@ -217,27 +179,27 @@
                                 </ul>
                             </li>
                             
-                            <li>
+                            <li class="col-6">
                                 <a class='link' href='<?php if($parent_1['right']!=null){echo base_url('customer/structure/'.$parent_1['right']->bottom);}else{echo base_url('customer/register?top='.$parent_1['data']->id.'&position=2');} ?>'><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_1['right']!=null){echo $parent_1['right']->bottom_name.' - '.$parent_1['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                 <ul>
-                                    <li>
+                                    <li class="col-6">
                                         <a class='link' href="<?php if($parent_3['left']!=null){echo base_url('customer/structure/'.$parent_3['left']->bottom);}else{if($parent_3['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_3['data']->id.'&position=1');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_3['left']!=null){echo $parent_3['left']->bottom_name.' - '.$parent_3['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                         <ul>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_6['left']!=null){echo base_url('customer/structure/'.$parent_6['left']->bottom);}else{if($parent_6['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_6['data']->id.'&position=1');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_6['left']!=null){echo $parent_6['left']->bottom_name.' - '.$parent_6['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_6['right']!=null){echo base_url('customer/structure/'.$parent_6['right']->bottom);}else{if($parent_6['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_6['data']->id.'&position=2');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_6['right']!=null){echo $parent_6['right']->bottom_name.' - '.$parent_6['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li class="col-6">
                                         <a class='link' href="<?php if($parent_3['right']!=null){echo base_url('customer/structure/'.$parent_3['right']->bottom);}else{if($parent_3['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_3['data']->id.'&position=2');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_3['right']!=null){echo $parent_3['right']->bottom_name.' - '.$parent_3['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                         <ul>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_7['left']!=null){echo base_url('customer/structure/'.$parent_7['left']->bottom);}else{if($parent_7['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_7['data']->id.'&position=1');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_7['left']!=null){echo $parent_7['left']->bottom_name.' - '.$parent_7['left']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
-                                            <li>
+                                            <li class="col-6">
                                                 <a class='link' href="<?php if($parent_7['right']!=null){echo base_url('customer/structure/'.$parent_7['right']->bottom);}else{if($parent_7['data']==null){echo '#';}else{echo base_url('customer/register?top='.$parent_7['data']->id.'&position=2');}} ?>"><br> <img class="img-fluid" style='width:50px; border-radius:40px' src='<?php echo base_url('upload/no_image/profile.gif') ?>'><br><?php if($parent_7['right']!=null){echo $parent_7['right']->bottom_name.' - '.$parent_7['right']->lisensi_name;}else{echo 'ADD';} ?></a>
                                             </li>
                                         </ul>
@@ -251,6 +213,10 @@
     
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
 </body>

@@ -91,11 +91,18 @@
                                       <?php echo form_open_multipart('profile/update '); ?>
                                       <input type="hidden" class="form-control" id="inputName" name="id" value="<?php echo $user[0]->id; ?>" required>
                                       <div class="form-group row">
-                                          <label for="inputName" class="col-sm-2 col-form-label">Nama:</label>
+                                          <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
                                           <div class="col-sm-10">
                                               <input type="text" class="form-control" id="inputName" name="name" value="<?php echo set_value('name', $user[0]->name); ?>" required>
                                           </div>
                                           <?php echo form_error('name', '<div class="text-danger font-weight-bold">', '</div>'); ?>
+                                      </div>
+                                      <div class="form-group row">
+                                          <label for="inputPhone" class="col-sm-2 col-form-label">Phone:</label>
+                                          <div class="col-sm-10">
+                                              <input type="number" class="form-control" id="inputPhone" name="phone" value="<?php echo set_value('phone', $user[0]->phone); ?>" required>
+                                          </div>
+                                          <?php echo form_error('phone', '<div class="text-danger font-weight-bold">', '</div>'); ?>
                                       </div>
                                       <div class="form-group row">
                                           <label for="inputUserName" class="col-sm-2 col-form-label">Username:</label>

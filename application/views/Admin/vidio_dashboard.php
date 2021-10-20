@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Vidio Tutorial</h1>
+            <h1 class="m-0">Video Tutorial</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
           </div><!-- /.col -->
@@ -16,11 +16,11 @@
 
          <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Vidio</h3>
+                <h3 class="card-title">Fill one or all of form to change the video</h3>
               </div>
               <div class="card-body">
                 <div class="form-group">
-                  <label>vidio dashboard right</label><br>
+                  <label>Video dashboard 1</label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
@@ -29,12 +29,21 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>vidio dashboard left</label><br>
+                  <label>video dashboard 2</label><br>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
                     </div>
                     <input autocomplete="off" id="link2" type="text" placeholder="link youtube"  class="form-control" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>video dashboard 3</label><br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-newspaper"></i></span>
+                    </div>
+                    <input autocomplete="off" id="link3" type="text" placeholder="link youtube"  class="form-control" value="">
                   </div>
                 </div>
                 <div class="form-group">
@@ -52,6 +61,7 @@
           var base_url = document.getElementById('base_url').innerHTML;
           var link1 = document.getElementById('link1').value;
           var link2 = document.getElementById('link2').value;
+          var link3 = document.getElementById('link3').value;
 
           $.ajax({
               url: base_url + "api/update_video_dashboard",
@@ -60,6 +70,7 @@
                   'id': id,
                   'link1': link1,
                   'link2': link2,
+                  'link3': link3
               },
               success: function(result) {
                   $('.loader').attr('hidden', true);

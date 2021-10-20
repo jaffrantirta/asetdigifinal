@@ -124,9 +124,25 @@ class Customer extends CI_Controller {
 			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
 			$data['icon_wa'] = $this->api_model->get_icon();
 			$data['session'] = $this->session->all_userdata();
-			$data['page'] = 'Auto Save Property';
+			$data['page'] = 'Auto Save Asset Digital';
 			$this->load->view('Customer/Template/header', $data);
 			$this->load->view('Customer/auto_save_property', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
+	public function galleries(){
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['banner'] = $this->api_model->get_data_by_where('banners', array('is_active'=>true))->result();
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
+			$data['icon_wa'] = $this->api_model->get_icon();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Galleries';
+			// echo json_encode($data);
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/gallery', $data);
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}

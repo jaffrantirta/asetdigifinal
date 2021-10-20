@@ -1,5 +1,6 @@
 function register_customer(){
     var name = document.getElementById('name').value;
+    var phone = document.getElementById('phone').value;
     var email = document.getElementById('email').value;
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
@@ -26,7 +27,7 @@ function register_customer(){
                                 $.ajax({
                                     url: base_url+"api/register_process",
                                     type: "post",
-                                    data: {'top_id':top_id, 'position':position, 'name':name, 'email':email, 'username':username, 'password':password, 'secure_pin':secure_pin, 'pin_register':pin_register, 'sponsor_code':sponsor_code},
+                                    data: {'top_id':top_id, 'position':position, 'name':name, 'phone':phone, 'email':email, 'username':username, 'password':password, 'secure_pin':secure_pin, 'pin_register':pin_register, 'sponsor_code':sponsor_code},
                                     success: function(result){
                                         Swal.close();
                                         // console.log('data : '+result);

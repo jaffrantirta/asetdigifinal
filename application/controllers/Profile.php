@@ -42,6 +42,7 @@ class Profile extends CI_Controller
        
         $id = $this->input->post('id');
         $nama = $this->input->post('name');
+        $phone = $this->input->post('phone');
         $email = $this->input->post('email');
         //$password = $this->input->post('password');
         $usdt_wallet = $this->input->post('usdt_wallet');
@@ -63,6 +64,7 @@ class Profile extends CI_Controller
      
         $data = array(
             'name' => $nama,
+            'phone' => $phone,
             'email' => $email,
             // 'password' => md5($password),
             // 'secure_pin' => md5($secure_pin),

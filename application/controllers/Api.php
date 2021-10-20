@@ -448,6 +448,7 @@ class Api extends CI_Controller {
   public function register_process()
 	{
 			$name = $this->input->post('name');
+      $phone = $this->input->post('phone');
 			$email = $this->input->post('email');
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
@@ -468,6 +469,7 @@ class Api extends CI_Controller {
             if(count($auth) == 0){
               $insert = array(
                 'name' => strtoupper($name),
+                'phone' => $phone,
                 'email' => $email,
                 'username' => $username,
                 'password' => md5($password),
@@ -1124,6 +1126,56 @@ class Api extends CI_Controller {
       }
       echo json_encode($result);
     }
+    public function withdraw_asad()
+    {
+      $id = $this->input->post('id');
+      $amount = $this->input->post('amount');
+      $secure_pin = base64_decode($this->input->post('secure_pin'));
+      $min_withdraw = $this->api_model->get_data_by_where('settings', array('key'=>'minimum_withdraw_asad'))->result()[0]->content;
+      if($id != null){
+        if($amount != null){
+          if($amount >= $min_withdraw){
+            if($secure_pin != null){
+              if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
+                $asad = $this->db->query("SELECT * FROM `auto_save_properties` WHERE user_id = $id ORDER BY date ASC")->result();
+                $sum = 0;
+                for($i=0; $i<$amount; $i++){
+                  $sum = $sum+$asad[$i]->amount;
+                }
+                $insert = array(
+                  'order_number'=>'WA'.time().'-'.$id,
+                  'user_id' => $id,
+                  'amount' => $amount,
+                  'status' => 1
+                );
+                if($this->withdraw->request($insert)){
+                  $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+                }else{
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
+                  $this->output->set_status_header(501);
+                }
+              }else{
+                $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
+                $this->output->set_status_header(401);
+              }
+            }else{
+              $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
+              $this->output->set_status_header(401);
+            }
+          }else{
+            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Minimal Penarikan Sebesar'.$min_withdraw, 'english'=>'Minimum Withdraw is '.$min_withdraw));
+            $this->output->set_status_header(401);
+          }
+        }else{
+          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID jumlah penarikan', 'english'=>'Amount is required'));
+          $this->output->set_status_header(401);
+        }
+      }else{
+        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'ID customer is required'));
+        $this->output->set_status_header(401);
+      }
+      echo json_encode($result);
+    }
     public function withdraw_detail()
     {
       $id = $this->input->post('id');
@@ -1512,26 +1564,31 @@ class Api extends CI_Controller {
     {
       $link1 = $this->input->post('link1');
       $link2 = $this->input->post('link2');
-      if($link1 != null){
-        if($link2 != null){
+      $link3 = $this->input->post('link3');
+      $video = json_decode($this->api_model->get_data_by_where('settings', array('key'=>'dashboard_video_link'))->result()[0]->content);
+      
+      if($link1 == null){
+        $link1 = $video->video_1;
+      }
+      if($link2 == null){
+        $link2 = $video->video_2;
+      }
+      if($link3 == null){
+        $link3 = $video->video_3;
+      }
+      
           $embed1 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link1);
           $embed2 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link2);
+          $embed3 = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","https://www.youtube.com/embed/$1",$link3);
           $json['video_1'] = $embed1;
           $json['video_2'] = $embed2;
+          $json['video_3'] = $embed3;
           if($this->api_model->update_data(array('key'=>'dashboard_video_link'), 'settings', array('content'=>json_encode($json)))){
             $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Update Berhasil', 'english'=>'Updated'));
           }else{
             $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Update Gagal', 'english'=>'Update Failed'));
             $this->output->set_status_header(401);
           }
-        }else{
-          $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Link 2 Kosong', 'english'=>'Link 2 Required'));
-          $this->output->set_status_header(401);
-        }
-      }else{
-        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Link 1 Kosong', 'english'=>'Link 1 Required'));
-        $this->output->set_status_header(401);
-      }
       echo json_encode($result);
     }
     public function add_banner()

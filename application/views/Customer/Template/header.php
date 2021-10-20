@@ -288,6 +288,26 @@
                 </p>
                 </a>
           </li>
+          <li class="nav-item">
+            <?php if ($page == 'Galleries') { ?>
+              <a href="<?php echo base_url('customer/galleries') ?>" class="nav-link active">
+              <?php } else { ?>
+                <a href="<?php echo base_url('customer/galleries') ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-images"></i>
+                <p>
+                  Galleries
+                </p>
+                </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+                <i class="nav-icon fas fa-robot"></i>
+                <p>
+                  WinBOT <span class="right badge badge-primary">Soon</span>
+                </p>
+            </a>
+          </li>
 
 
           <li class="nav-item">
@@ -519,14 +539,14 @@
                 </a>
           </li>
           <li class="nav-item">
-            <?php if ($page == 'Auto Save Property') { ?>
+            <?php if ($page == 'Auto Save Asset Digital') { ?>
               <a href="<?php echo base_url('customer/properties') ?>" class="nav-link active">
               <?php } else { ?>
                 <a href="<?php echo base_url('customer/properties') ?>" class="nav-link">
                 <?php } ?>
                 <i class="nav-icon fa fa-tags"></i>
                 <p>
-                  Auto Save Property
+                  Auto Save Asset Digital
                 </p>
                 </a>
           </li>
@@ -628,16 +648,6 @@
                   Video Tutorial
                 </p>
                 </a>
-          </li>
-
-
-          <li class="nav-item">
-            <a href="<?php echo base_url('customer/test') ?>" class="nav-link">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>
-                test
-              </p>
-            </a>
           </li>
 
           <li class="nav-item">
