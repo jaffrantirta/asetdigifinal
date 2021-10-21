@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Auto Save Property</h1>
+                    <h1 class="m-0">Auto Save Asset Digital</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <button onclick="withdraw_asset()" class="btn btn-primary col-12">Withdraw</button>
@@ -16,7 +16,7 @@
     <p hidden id='link'>datatable/get_properties/<?php echo $session['data']->id ?></p>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Auto Save Property</h3>
+            <h3 class="card-title">Auto Save Asset Digital</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive">
@@ -89,7 +89,7 @@
     }
     function withdraw_now(){
                 $.ajax({
-                    url: base_url+"api/withdraw_auto_save_asset_digital",
+                    url: base_url+"api/withdraw_asad",
                     type: "post",
                     data: {'type':'lisensi', 'secure_pin':secure_pin, 'id':id, 'lisensi_id':lisensi_id, 'recipient_username':recipient_username},
                     success: function(result){

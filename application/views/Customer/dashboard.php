@@ -296,17 +296,17 @@
         </div> -->
         <div class="row">
           <div class="col-12">
-              <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
+              <div class="embed-responsive embed-responsive-21by9 m-1">
                 <iframe class="rounded-lg" width="560" height="315" src="<?php echo $video->video_1 ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
           </div>
           <div class="col-12">
-              <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
+              <div class="embed-responsive embed-responsive-21by9 m-1">
                 <iframe class="rounded-lg" width="560" height="315" src="<?php echo $video->video_2 ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
           </div>
           <div class="col-12">
-              <div class="embed-responsive embed-responsive-21by9 mt-5 mb-5">
+              <div class="embed-responsive embed-responsive-21by9 m-1">
                 <iframe class="rounded-lg" width="560" height="315" src="<?php echo $video->video_3 ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
           </div>

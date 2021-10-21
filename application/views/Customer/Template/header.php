@@ -526,18 +526,45 @@
             </li>
           </ul>
           </li>
+
           <li class="nav-item">
-            <?php if ($page == 'Withdraw') { ?>
-              <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link active">
-              <?php } else { ?>
-                <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link">
-                <?php } ?>
-                <i class="nav-icon fa fa-star"></i>
-                <p>
-                  Withdraw Bonus
-                </p>
-                </a>
+            <?php if ($page == 'Withdraw' || $page == 'Withdraw Auto Save') { ?>
+          <li class="nav-item menu-is-opening menu-open">
+          <?php } else { ?>
+          <li class="nav-item">
+          <?php } ?>
+          <a id="nav-daerah" href="#" class="nav-link">
+            <i class="nav-icon fas fa-money-bill-wave"></i>
+            <p>
+              Withdraw
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <?php if ($page == 'Withdraw') { ?>
+                <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/withdraw') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Withdraw Bonus</p>
+                  </a>
+            </li>
+            <li class="nav-item">
+              <?php if ($page == 'Withdraw Auto Save') { ?>
+                <a href="<?php echo base_url('customer/withdraw_auto_save') ?>" class="nav-link active">
+                <?php } else { ?>
+                  <a href="<?php echo base_url('customer/withdraw_auto_save') ?>" class="nav-link">
+                  <?php } ?>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Withdraw Auto Save</p>
+                  </a>
+            </li>
+          </ul>
           </li>
+
           <li class="nav-item">
             <?php if ($page == 'Auto Save Asset Digital') { ?>
               <a href="<?php echo base_url('customer/properties') ?>" class="nav-link active">

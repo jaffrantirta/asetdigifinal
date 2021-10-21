@@ -67,6 +67,10 @@
                 </div>
                 <!-- /.col -->
 
+                <div class="col-12" id="detail_withdraw_auto">
+
+                </div>
+
                 <!-- /.col -->
             </div>
             <!-- /.row -->

@@ -116,6 +116,20 @@ class Customer extends CI_Controller {
 			$this->load->view('Customer/Template/footer', $data);
 		}
 	}
+	public function withdraw_auto_save(){
+		if (!$this->session->userdata('authenticated_customer')) {
+			$this->login();
+		} else {
+			$data['sistem_name'] = $this->api_model->sistem_name();
+			$data['user'] = $this->api_model->get_data_by_where('users', array('id'=>$this->session->userdata('data')->id))->result();
+			$data['icon_wa'] = $this->api_model->get_icon();
+			$data['session'] = $this->session->all_userdata();
+			$data['page'] = 'Withdraw Auto Save';
+			$this->load->view('Customer/Template/header', $data);
+			$this->load->view('Customer/withdraw_auto_save', $data);
+			$this->load->view('Customer/Template/footer', $data);
+		}
+	}
 	public function properties(){
 		if (!$this->session->userdata('authenticated_customer')) {
 			$this->login();

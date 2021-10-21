@@ -1134,25 +1134,46 @@ class Api extends CI_Controller {
       $min_withdraw = $this->api_model->get_data_by_where('settings', array('key'=>'minimum_withdraw_asad'))->result()[0]->content;
       if($id != null){
         if($amount != null){
-          if($amount >= $min_withdraw){
             if($secure_pin != null){
               if($this->secure_pin->check(array('id'=>$id, 'secure_pin'=>md5($secure_pin)))){
-                $asad = $this->db->query("SELECT * FROM `auto_save_properties` WHERE user_id = $id ORDER BY date ASC")->result();
-                $sum = 0;
-                for($i=0; $i<$amount; $i++){
-                  $sum = $sum+$asad[$i]->amount;
-                }
-                $insert = array(
-                  'order_number'=>'WA'.time().'-'.$id,
-                  'user_id' => $id,
-                  'amount' => $amount,
-                  'status' => 1
-                );
-                if($this->withdraw->request($insert)){
-                  $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+                $asad = $this->db->query("SELECT * FROM `auto_save_properties` WHERE user_id = $id AND is_withdraw = false ORDER BY date ASC")->result();
+                if(count($asad) > 0){
+                  if(count($asad) >= $amount){
+                    $sum = 0;
+                    for($i=0; $i<$amount; $i++){
+                      $sum = $sum+$asad[$i]->amount;
+                    }
+                    if($sum >= $min_withdraw){
+                      $insert = array(
+                        'order_number'=>'WA'.time().'-'.$id,
+                        'user_id' => $id,
+                        'amount' => $sum,
+                        'status' => 1
+                      );
+                      $this->db->trans_start();
+                      $last_id = $this->withdraw->request($insert);
+                      for($i=0; $i<$amount; $i++){
+                        $this->api_model->update_data(array('id'=>$asad[$i]->id), 'auto_save_properties', array('is_withdraw'=>2));
+                        $this->api_model->insert_data('detail_auto_save_withdraw', array('withdraw_id'=>$last_id, 'auto_save_id'=>$asad[$i]->id, 'amount'=>$asad[$i]->amount));
+                      }
+                      $this->db->trans_complete();
+                      if($this->db->trans_status()){
+                        $result['response'] = $this->response(array('status'=>true, 'indonesia'=>'Permintaan terkirim', 'english'=>'Request successful'));
+                      }else{
+                        $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
+                        $this->output->set_status_header(501);
+                      }
+                    }else{
+                      $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Minimal Penarikan Sebesar'.$min_withdraw, 'english'=>'Minimum Withdraw is '.$min_withdraw));
+                      $this->output->set_status_header(401);
+                    }
+                  }else{
+                    $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Anda Tidak Memiliki Jumlah Auto Save Asset Digital Sebanyak'.$amount, 'english'=>'You Not Have '.$amount.' Auto Save Asset Digital'));
+                    $this->output->set_status_header(401);
+                  }
                 }else{
-                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Permintaan gagal', 'english'=>'Request failed'));
-                  $this->output->set_status_header(501);
+                  $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Anda Tidak Memiliki Auto Save Asset Digital', 'english'=>'You Not Have of Auto Save Asset Digital'));
+                  $this->output->set_status_header(401);
                 }
               }else{
                 $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Secure PIN salah', 'english'=>'Secure PIN is wrong'));
@@ -1162,10 +1183,6 @@ class Api extends CI_Controller {
               $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID customer', 'english'=>'Secure PIN is required'));
               $this->output->set_status_header(401);
             }
-          }else{
-            $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Minimal Penarikan Sebesar'.$min_withdraw, 'english'=>'Minimum Withdraw is '.$min_withdraw));
-            $this->output->set_status_header(401);
-          }
         }else{
           $result['response'] = $this->response(array('status'=>false, 'indonesia'=>'Memerlukan ID jumlah penarikan', 'english'=>'Amount is required'));
           $this->output->set_status_header(401);

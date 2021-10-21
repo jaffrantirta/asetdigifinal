@@ -472,7 +472,7 @@ class Datatable extends CI_Controller {
           $ssptable='auto_save_properties';
           $sspprimary='id';
           $sspjoin='';
-          $sspwhere='user_id='.$id;
+          $sspwhere='is_withdraw = 0 AND user_id='.$id;
           $go=SSP::simpleCustom($_GET,$this->datatable_config(),$ssptable,$sspprimary,$columns,$sspwhere,$sspjoin);
           echo json_encode($go);
     }
