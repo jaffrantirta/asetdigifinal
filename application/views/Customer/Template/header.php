@@ -157,6 +157,18 @@
     .tree li a:hover+ul ul::before {
       border-color: #94a0b4;
     }
+
+    @font-face {
+        font-family: 'FontMoreAwesome';
+        src: url('<?php echo base_url() ?>assets/vendor/assetsdigital.otf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .fa-assets-digital:before {
+        font-family: FontMoreAwesome;
+        content: "C";
+    }
+    
   </style>
 </head>
 
@@ -282,7 +294,7 @@
               <?php } else { ?>
                 <a href="<?php echo base_url('customer/profile/' . $id) ?>" class="nav-link">
                 <?php } ?>
-                <i class="nav-icon fas fa-user"></i>
+                <i class="nav-icon fa fa-user"></i>
                 <p>
                   Profile
                 </p>
@@ -304,7 +316,27 @@
             <a class="nav-link">
                 <i class="nav-icon fas fa-robot"></i>
                 <p>
-                  WinBOT <span class="right badge badge-primary">Soon</span>
+                  WinBOT 
+                  <?php
+                  if(date("Y/m/d") < '2021/11/10'){
+                    echo '<span class="right badge badge-primary">Soon</span>';
+                  }
+                  ?>
+                  
+                </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="https://windax.id" class="nav-link">
+                <i class="nav-icon fa fa-assets-digital"></i>
+                <p>
+                  WINDAX EXCHANCE 
+                  <?php
+                  if(date("Y/m/d") < '2021/11/10'){
+                    echo '<span class="right badge badge-primary">new</span>';
+                  }
+                  ?>
                 </p>
             </a>
           </li>
@@ -521,7 +553,13 @@
                   <a href="<?php echo base_url('customer/history') ?>" class="nav-link">
                   <?php } ?>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>History IN-OUT Balance <span class="right badge badge-primary">New</span></p>
+                  <p>History IN-OUT Balance 
+                  <?php
+                  if(date("Y/m/d") < '2021/11/10'){
+                    echo '<span class="right badge badge-primary">new</span>';
+                  }
+                  ?>
+                  </p>
                   </a>
             </li>
           </ul>
