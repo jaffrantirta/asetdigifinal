@@ -66,7 +66,7 @@ class Withdraw {
             if($front_char == "WA"){
                 return $this->update_withdraw_auto_save($withdraw, $data);
             }else{
-                return $this->update_withdraw($data);
+                return $this->update_withdraw($withdraw, $data);
             }
         }else{
             return false;
@@ -114,8 +114,9 @@ class Withdraw {
                 }
         }
     }
-    public function update_withdraw($data)
+    public function update_withdraw($v_withdraw, $data)
     {
+        $withdraw = $v_withdraw;
         if($data['status'] == 3){
             $update =$this->ci->api_model->update_data(array('id'=>$data['id']), 'withdraws', array('status'=>3));
             if($update){
